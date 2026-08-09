@@ -19,11 +19,25 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install Capacitor
+        run: |
+          npm install
+          npm install @capacitor/core @capacitor/cli @capacitor/android
 
-      - name: Build web app
-        run: npm run build --if-present
+      - name: Prepare web app
+        run: |
+          mkdir -p dist
+          cp REBAZ_TV_Strong_Player_TS.html dist/index.html
+
+      - name: Create Capacitor config
+        run: |
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "com.rebaz.tv",
+            "appName": "REBAZ TV",
+            "webDir": "dist"
+          }
+          EOF
 
       - name: Add Android platform
         run: npx cap add android
@@ -42,7 +56,7 @@ jobs:
 
       - name: Build APK
         working-directory: android
-        run: ./gradlew assembleDebug --stacktrace
+        run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
