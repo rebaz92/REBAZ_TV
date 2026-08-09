@@ -27,7 +27,7 @@ jobs:
       - name: Prepare web app
         run: |
           mkdir -p dist
-          cp REBAZ_TV_Strong_Player_TS.html dist/index.html
+          cp index.html dist/index.html
 
       - name: Create Capacitor config
         run: |
@@ -35,7 +35,11 @@ jobs:
           {
             "appId": "com.rebaz.tv",
             "appName": "REBAZ TV",
-            "webDir": "dist"
+            "webDir": "dist",
+            "server": {
+              "cleartext": true,
+              "allowNavigation": ["*"]
+            }
           }
           EOF
 
