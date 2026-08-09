@@ -24,10 +24,13 @@ jobs:
 
       - name: Build web app
         run: npm run build --if-present
+        
+- - name: Add Android platform
+  run: npx cap add android
 
-      - name: Sync Capacitor Android
-        run: npx cap sync android
-
+- name: Sync Capacitor Android
+  run: npx cap sync android
+  
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
