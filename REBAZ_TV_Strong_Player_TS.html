@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REBAZ TV</title>
-    <!-- کتێبخانەی HLS بۆ کارپێکردنی لینکەکان لە ناو شاشە ناوەکیەکەدا -->
+    <!-- کتێبخانەی HLS بۆ کارپێکردنی لینکەکان -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- کتێبخانەی mpegts بۆ کارپێکردنی پەخشی TS -->
+    <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.js"></script>
     <style>
         body {
             background-image: url('https://i.pinimg.com/236x/3a/91/0f/3a910f5a86e47610668ad580e0401715.jpg');
@@ -351,7 +353,7 @@
     <!-- شاشەی پەخش کە لۆگۆکەی تێدایە -->
     <div class="player-container" id="playerContainer">
         <div id="watermarkLogo" class="watermark-logo">REBAZ | TV</div>
-        <video id="videoPlayer" controls autoplay></video>
+        <video id="videoPlayer" controls autoplay playsinline></video>
     </div>
 
     <div class="categories-container" id="categoriesBar">
@@ -534,9 +536,6 @@
             </div>
         </div>
 
-
-
-
        <!-- کەناڵی کوردی ناوخۆیی / واڵا چەمچەماڵ -->
         <div class="card" data-category="kurdish" data-name="واڵا تیڤی wala tv">
             <div class="card-header">
@@ -550,12 +549,6 @@
                 <a href="#" onclick="playChannel('https://cdn.karwan.tv/wallatv/index.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
             </div>
         </div>
-
-
-
-
-
-
 
         <!-- =================== سەردێڕی Alwan Sport =================== -->
         <div class="section-title-alwan" data-category="sport">Alwan Sport</div>
@@ -762,8 +755,6 @@
             </div>
         </div>
 
-
-
         <!-- کەناڵی وەرزشی / ئێن ئاڕتی سپۆرت -->
         <div class="card" data-category="sport" data-name="ئێن ئاڕتی سپۆرت nrt spitr">
             <div class="card-header">
@@ -777,8 +768,6 @@
                 <a href="#" onclick="playChannel('https://live.kurdtips.uno/proxy.php?stream=aHR0cDovL2xpbmUuMTI3LWNsb3VkZnJvbnQueHl6L2xpdmUvYWViNGRmMjUyMi9kY2VlMzliNTUxLzE4NTg5ODUubTN1OA&ext=.m3u8', 'sport', this); return false;" class="play-link-btn">پەخش</a>
             </div>
         </div>
-
-
 
         <!-- کەناڵی منداڵان ئافەرین -->
         <div class="card" data-category="kids" data-name="ئافەرین afarin">
@@ -807,9 +796,6 @@
             </div>
         </div>
 
-
-
-
         <!-- کەناڵی ئاینی واڵا قورئان -->
         <div class="card" data-category="islamic" data-name="واڵا قورئان wala quran">
             <div class="card-header">
@@ -824,15 +810,13 @@
             </div>
         </div>
 
-
-
-
-
     </div>
 </div>
 
 <script>
     let currentCategory = 'news';
+    let hlsInstance = null;
+    let tsPlayer = null;
 
     window.onload = function() {
         updateVisibility();
@@ -841,11 +825,27 @@
     function updateVisibility() {
         document.querySelectorAll('.card, .section-title-alwan, .section-title-bein, .section-title-kurdish-sports').forEach(item => {
             if (item.getAttribute('data-category') === currentCategory) {
-                item.style.display = item.classList.contains('section-title-alwan') || item.classList.contains('section-title-bein') || item.classList.contains('section-title-kurdish-sports') ? 'inline-block' : 'block';
+                item.style.display = (item.classList.contains('section-title-alwan') || item.classList.contains('section-title-bein') || item.classList.contains('section-title-kurdish-sports')) ? 'inline-block' : 'block';
             } else {
                 item.style.display = 'none';
             }
         });
+    }
+
+    function destroyPlayers() {
+        if (hlsInstance) {
+            try { hlsInstance.destroy(); } catch (e) {}
+            hlsInstance = null;
+        }
+        if (tsPlayer) {
+            try {
+                tsPlayer.pause();
+                tsPlayer.unload();
+                tsPlayer.detachMediaElement();
+                tsPlayer.destroy();
+            } catch (e) {}
+            tsPlayer = null;
+        }
     }
 
     function playChannel(url, category, btnElement) {
@@ -872,24 +872,47 @@
             watermarkLogo.style.display = 'none';
         }
 
-        if (window.hlsInstance) {
-            window.hlsInstance.destroy();
+        destroyPlayers();
+
+        let lowerUrl = url.toLowerCase();
+
+        // 1. پشکنین بۆ لینکەکانی TS
+        if (lowerUrl.includes('.ts') || lowerUrl.includes('mpegts')) {
+            if (typeof mpegts !== 'undefined' && mpegts.isSupported()) {
+                try {
+                    tsPlayer = mpegts.createPlayer({
+                        type: 'mpegts',
+                        isLive: true,
+                        url: url
+                    }, {
+                        enableWorker: true,
+                        lazyLoad: false,
+                        stashInitialSize: 384 * 1024
+                    });
+                    tsPlayer.attachMediaElement(video);
+                    tsPlayer.load();
+                    tsPlayer.play().catch(e => {});
+                    return;
+                } catch (e) {}
+            }
         }
 
+        // 2. پشکنین بۆ HLS
         if (Hls.isSupported()) {
             var hls = new Hls({
                 maxBufferLength: 30,
                 maxMaxBufferLength: 60,
                 liveSyncDurationCount: 3,
-                lowLatencyMode: true
+                lowLatencyMode: true,
+                enableWorker: true
             });
             
-            window.hlsInstance = hls;
+            hlsInstance = hls;
             hls.loadSource(url);
             hls.attachMedia(video);
             
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play().catch(e => console.log("Auto-play blocked"));
+                video.play().catch(e => {});
             });
 
             hls.on(Hls.Events.ERROR, function(event, data) {
@@ -903,23 +926,20 @@
                             break;
                         default:
                             hls.destroy();
-                            playChannel(url, category, btnElement);
                             break;
                     }
                 }
             });
-
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = url;
             video.addEventListener('loadedmetadata', function() {
-                video.play();
+                video.play().catch(e => {});
             });
+        } else {
+            video.src = url;
+            video.play().catch(e => {});
         }
     }
-
-    document.getElementById('videoPlayer').addEventListener('stalled', function() {
-        this.play().catch(e => {});
-    });
 
     function filterCategory(category, btn) {
         currentCategory = category;
