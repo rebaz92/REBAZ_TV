@@ -19,10 +19,10 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install Capacitor
+      - name: Install Capacitor and ExoPlayer
         run: |
-          npm install
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npm init -y
+          npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor-community/video-player
 
       - name: Prepare web app
         run: |
@@ -39,6 +39,9 @@ jobs:
             "server": {
               "cleartext": true,
               "allowNavigation": ["*"]
+            },
+            "android": {
+              "allowMixedContent": true
             }
           }
           EOF
