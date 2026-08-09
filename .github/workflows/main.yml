@@ -17,12 +17,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
 
-      - name: Install Capacitor and ExoPlayer
+      - name: Install Capacitor
         run: |
           npm init -y
-          npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor-community/video-player
+          npm install @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Prepare web app
         run: |
