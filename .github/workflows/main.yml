@@ -1,4 +1,4 @@
-name: Build REBAZ TV APK
+name: Build REBAZ TV AP
 
 on:
   push:
