@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>REBAZ TV</title>
-    <!-- بەستەری کتێبخانەکانی Capacitor و HLS -->
-    <script src="capacitor.js"></script>
+    <!-- کتێبخانەکانی HLS و MPEG-TS بۆ پەخشی ts و m3u8 -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mpegts.js@latest/dist/mpegts.js"></script>
     <style>
         body {
             background-image: url('https://i.pinimg.com/236x/3a/91/0f/3a910f5a86e47610668ad580e0401715.jpg');
@@ -559,28 +559,7 @@
         });
     }
 
-    async function playChannel(url, category, btnElement) {
-        document.querySelectorAll('.card').forEach(card => card.classList.remove('active-channel'));
-        let selectedCard = btnElement.closest('.card');
-        if (selectedCard) selectedCard.classList.add('active-channel');
-
-        // ئایا ئەپەکە لەسەر ئەندرۆیدە و ExoPlayer بەردەستە؟
-        if (window.Capacitor && window.Capacitor.isPluginAvailable('CapacitorVideoPlayer')) {
-            const { CapacitorVideoPlayer } = window.Capacitor.Plugins;
-            try {
-                await CapacitorVideoPlayer.initPlayer({
-                    mode: "fullscreen",
-                    url: url,
-                    playerId: "fullscreen",
-                    componentTag: "div"
-                });
-                return;
-            } catch (e) {
-                console.log("ExoPlayer error, falling back to web player", e);
-            }
-        }
-
-        // بەشی دووەم: بۆ وێب یان ئەگەر ExoPlayer کێشەی هەبوو
+    function playChannel(url, category, btnElement) {
         var playerContainer = document.getElementById('playerContainer');
         var scrollableContent = document.getElementById('scrollableContent');
         var video = document.getElementById('videoPlayer');
@@ -595,11 +574,30 @@
             watermarkLogo.style.display = 'none';
         }
 
+        // پاککردنەوەی پلەیەرەکانی پێشوو
         if (window.hlsInstance) {
             window.hlsInstance.destroy();
+            window.hlsInstance = null;
+        }
+        if (window.mpegtsPlayer) {
+            window.mpegtsPlayer.destroy();
+            window.mpegtsPlayer = null;
         }
 
-        if (Hls.isSupported()) {
+        // کارپێکردنی لینکەکانی .ts
+        if (url.includes('.ts') && mpegts.isSupported()) {
+            var mpegtsPlayer = mpegts.createPlayer({
+                type: 'mse',
+                isLive: true,
+                url: url
+            });
+            window.mpegtsPlayer = mpegtsPlayer;
+            mpegtsPlayer.attachMediaElement(video);
+            mpegtsPlayer.load();
+            mpegtsPlayer.play().catch(e => console.log("Direct TS play error", e));
+        } 
+        // کارپێکردنی لینکەکانی .m3u8
+        else if (Hls.isSupported()) {
             var hls = new Hls({
                 maxBufferLength: 30,
                 maxMaxBufferLength: 60,
@@ -612,7 +610,8 @@
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
                 video.play().catch(e => console.log("Auto-play blocked"));
             });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        } 
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = url;
             video.play();
         }
