@@ -171,10 +171,10 @@
             box-shadow: 0 4px 10px rgba(0,102,255,0.4);
         }
         
-        /* لیستی کەناڵەکان */
+        /* لیستی کەناڵەکان - چاککردنی شوێنی دەستپێک بۆ 220px */
         .scrollable-content {
             position: absolute;
-            top: 215px; 
+            top: 220px; 
             bottom: 0;
             right: 0;
             left: 0;
@@ -847,7 +847,8 @@
         // 🟢 پشکنین: ئەگەر لەناو ئەپەکەی ئەندرۆید (AndroidBridge / ExoPlayer) کرایەوە
         if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
             playerContainer.style.display = 'none';
-            scrollableContent.style.top = '170px';
+            // ڕێکخستنی شوێنی لیستەکە تا نەنوسپێت بە پۆلەکانەوە (220px)
+            scrollableContent.style.top = '220px';
             
             if (video) { video.pause(); video.src = ""; }
             if (window.hlsInstance) { window.hlsInstance.destroy(); window.hlsInstance = null; }
@@ -859,7 +860,7 @@
 
         // 🌐 ئەگەر لەسەر وێبی ئاسایی ئیش بپڕێنێتەوە
         playerContainer.style.display = 'flex';
-        scrollableContent.style.top = '430px';
+        scrollableContent.style.top = '410px';
 
         if (category === 'sport') {
             watermarkLogo.style.display = 'block';
