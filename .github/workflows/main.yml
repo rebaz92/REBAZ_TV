@@ -293,7 +293,11 @@ jobs:
                 wv.requestFocus();
                 playerContainer.setVisibility(View.GONE);
 
-                DefaultLoadControl loadControl = new DefaultLoadControl.Builder().setBufferDurationsMs(1000, 4000, 800, 1000).build();
+                // ڕێکخستنی نوێی بافەر بۆ ڕێگریکردن لە شوێنکەوتنی بافەر و وەستانی پەخش
+                DefaultLoadControl loadControl = new DefaultLoadControl.Builder()
+                    .setBufferDurationsMs(15000, 50000, 2500, 5000)
+                    .build();
+
                 player = new ExoPlayer.Builder(this).setLoadControl(loadControl).build();
                 playerView.setPlayer(player);
                 player.setPlayWhenReady(true); 
@@ -434,7 +438,7 @@ jobs:
                 });
                 
                 wv.setWebChromeClient(new WebChromeClient());
-                wv.loadUrl("file:///android_asset/index.html");
+                wv.loadUrl("https://rebaz92.github.io/REBAZ_TV/");
             }
 
             private boolean isSecurityActive() {
