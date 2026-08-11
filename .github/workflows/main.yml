@@ -1,4 +1,4 @@
-name: Build REBAZ TV APK
+name: Build Xurmatw TV APK
 
 on:
   push:
@@ -22,10 +22,10 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
-    - name: Setup Android Project for REBAZ TV
+    - name: Setup Android Project for Xurmatw TV
       run: |
         mkdir -p app/src/main/assets
-        mkdir -p app/src/main/java/com/rebaztv/app
+        mkdir -p app/src/main/java/com/rebaz/xurmatw
         mkdir -p app/src/main/res/values
         mkdir -p app/src/main/res/layout
         mkdir -p app/src/main/res/drawable
@@ -41,8 +41,6 @@ jobs:
             <path android:fillColor="#FFFFFFFF" android:pathData="M7,14H5v5h5v-2H7V14z M5,10h2V7h3V5H5V10z M17,17h-3v2h5v-5h-2V17z M14,5v2h3v3h2V5H14z"/>
         </vector>
         EOF
-        
-        cp index.html app/src/main/assets/index.html || echo "<html><body><h1>REBAZ TV</h1></body></html>" > app/src/main/assets/index.html
         
         if [ -f "logo.png" ]; then cp logo.png app/src/main/res/drawable/ic_launcher.png
         elif [ -f "logo.jpg" ]; then cp logo.jpg app/src/main/res/drawable/ic_launcher.png
@@ -63,14 +61,14 @@ jobs:
         cat << 'EOF' > app/build.gradle
         plugins { id 'com.android.application' }
         android {
-            namespace 'com.rebaztv.app'
+            namespace 'com.rebaz.xurmatw'
             compileSdk 34
             defaultConfig {
-                applicationId "com.rebaztv.app"
+                applicationId "com.rebaz.xurmatw"
                 minSdk 21
                 targetSdk 34
-                versionCode 1
-                versionName "1.0.0"
+                versionCode 3
+                versionName "1.0.2"
             }
             compileOptions {
                 sourceCompatibility JavaVersion.VERSION_17
@@ -81,6 +79,7 @@ jobs:
             implementation 'androidx.appcompat:appcompat:1.6.1'
             implementation 'com.google.android.material:material:1.11.0'
             implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
+            implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
         }
         EOF
         
@@ -119,12 +118,18 @@ jobs:
                     android:visibility="gone" />
             </FrameLayout>
 
-            <WebView
-                android:id="@+id/main_web_view"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/player_container"
-                android:background="@android:color/transparent"/>
+                android:layout_below="@id/player_container">
+                
+                <WebView
+                    android:id="@+id/main_web_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"/>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <LinearLayout
                 android:id="@+id/security_alert_layout"
@@ -137,53 +142,9 @@ jobs:
                 android:visibility="gone"
                 android:clickable="true"
                 android:focusable="true">
-
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@android:drawable/ic_dialog_alert"
-                    android:layout_marginBottom="25dp"
-                    android:contentDescription="Security Alert" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SECURITY ALERT"
-                    android:textColor="#EF4444"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp"
-                    android:letterSpacing="0.1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Security Alert: Please disable VPN or Proxy to watch."
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:layout_marginBottom="15dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="To protect our content streams, please ensure no VPN or proxy tools are running on your device."
-                    android:textColor="#9CA3AF"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_marginBottom="40dp"
-                    android:lineSpacingMultiplier="1.2" />
-
-                <Button
-                    android:id="@+id/security_exit_btn"
-                    android:layout_width="160dp"
-                    android:layout_height="50dp"
-                    android:text="EXIT"
-                    android:textColor="#FFFFFF"
-                    android:backgroundTint="#EF4444"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
+                <ImageView android:layout_width="100dp" android:layout_height="100dp" android:src="@android:drawable/ic_dialog_alert" android:layout_marginBottom="25dp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SECURITY ALERT" android:textColor="#EF4444" android:textSize="24sp" android:textStyle="bold" android:layout_marginBottom="12dp" />
+                <Button android:id="@+id/security_exit_btn" android:layout_width="160dp" android:layout_height="50dp" android:text="EXIT" android:textColor="#FFFFFF" android:backgroundTint="#EF4444" android:textStyle="bold" />
             </LinearLayout>
         </RelativeLayout>
         EOF
@@ -194,9 +155,8 @@ jobs:
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#30000000">
-            <ImageButton android:id="@+id/custom_close_btn" android:layout_width="45dp" android:layout_height="45dp" android:layout_alignParentTop="true" android:layout_alignParentEnd="true" android:layout_marginTop="12dp" android:layout_marginEnd="12dp" android:background="@android:color/transparent" android:src="@drawable/ic_close" android:tint="#EF4444" android:contentDescription="Close" />
-            <ImageButton android:id="@+id/exo_fullscreen" android:layout_width="45dp" android:layout_height="45dp" android:layout_alignParentBottom="true" android:layout_alignParentStart="true" android:layout_marginStart="12dp" android:layout_marginBottom="12dp" android:background="@android:color/transparent" android:src="@drawable/ic_fullscreen" android:tint="#FFFFFF" android:contentDescription="Fullscreen" />
-            <TextView android:id="@+id/live_indicator_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_alignParentEnd="true" android:layout_marginEnd="12dp" android:layout_marginBottom="18dp" android:text="LIVE 🔴" android:textColor="#EF4444" android:textStyle="bold" android:textSize="11sp" />
+            <ImageButton android:id="@+id/custom_close_btn" android:layout_width="45dp" android:layout_height="45dp" android:layout_alignParentTop="true" android:layout_alignParentEnd="true" android:layout_marginTop="12dp" android:layout_marginEnd="12dp" android:background="@android:color/transparent" android:src="@drawable/ic_close" android:tint="#EF4444" />
+            <ImageButton android:id="@+id/exo_fullscreen" android:layout_width="45dp" android:layout_height="45dp" android:layout_alignParentBottom="true" android:layout_alignParentStart="true" android:layout_marginStart="12dp" android:layout_marginBottom="12dp" android:background="@android:color/transparent" android:src="@drawable/ic_fullscreen" android:tint="#FFFFFF" />
         </RelativeLayout>
         EOF
         
@@ -205,30 +165,19 @@ jobs:
         <manifest xmlns:android="http://schemas.android.com/apk/res/android">
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-            
-            <queries>
-                <package android:name="com.guoshi.httpcanary" />
-                <package android:name="com.guoshi.httpcanary.premium" />
-                <package android:name="com.reqable.android" />
-                <package android:name="com.minhui.networkcapture" />
-            </queries>
-
-            <uses-feature android:name="android.software.leanback" android:required="false" />
-            <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
-            <application android:allowBackup="true" android:label="REBAZ TV" android:icon="@drawable/ic_launcher" android:roundIcon="@drawable/ic_launcher" android:theme="@style/Theme.AppCompat.Light.NoActionBar" android:usesCleartextTraffic="true" android:hardwareAccelerated="true">
+            <application android:allowBackup="true" android:label="Xurmatw TV" android:icon="@drawable/ic_launcher" android:theme="@style/Theme.AppCompat.Light.NoActionBar" android:usesCleartextTraffic="true" android:hardwareAccelerated="true">
                 <activity android:name=".MainActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden|layoutDirection">
                     <intent-filter>
                         <action android:name="android.intent.action.MAIN" />
                         <category android:name="android.intent.category.LAUNCHER" />
-                        <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
                     </intent-filter>
                 </activity>
             </application>
         </manifest>
         EOF
         
-        cat << 'EOF' > app/src/main/java/com/rebaztv/app/MainActivity.java
-        package com.rebaztv.app;
+        cat << 'EOF' > app/src/main/java/com/rebaz/xurmatw/MainActivity.java
+        package com.rebaz.xurmatw;
         import android.content.Intent;
         import android.content.pm.PackageManager;
         import android.content.pm.ActivityInfo;
@@ -251,7 +200,7 @@ jobs:
         import android.widget.Button;
         import android.widget.Toast;
         import androidx.appcompat.app.AppCompatActivity;
-        import androidx.appcompat.app.AlertDialog;
+        import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
         import com.google.android.exoplayer2.DefaultLoadControl;
         import com.google.android.exoplayer2.ExoPlayer;
@@ -266,15 +215,9 @@ jobs:
             private StyledPlayerView playerView;
             private FrameLayout playerContainer; 
             private ProgressBar loadingSpinner;
+            private SwipeRefreshLayout swipeRefresh;
             private boolean isFullscreen = false;
             private boolean isTvMode = false;
-
-            private int retryCount = 0;
-            private final int MAX_RETRIES = 10;
-            private final Handler retryHandler = new Handler();
-            private final Runnable retryRunnable = new Runnable() {
-                @Override public void run() { if (player != null) { player.prepare(); player.play(); } }
-            };
 
             @Override
             protected void onCreate(Bundle savedInstanceState) {
@@ -285,22 +228,13 @@ jobs:
                 playerContainer = findViewById(R.id.player_container);
                 wv = findViewById(R.id.main_web_view);
                 loadingSpinner = findViewById(R.id.native_loading_spinner);
+                swipeRefresh = findViewById(R.id.swipe_refresh);
 
-                wv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
                 wv.setBackgroundColor(Color.TRANSPARENT);
-                wv.setFocusable(true);
-                wv.setFocusableInTouchMode(true);
-                wv.requestFocus();
                 playerContainer.setVisibility(View.GONE);
 
-                // ڕێکخستنی نوێی بافەر بۆ ڕێگریکردن لە شوێنکەوتنی بافەر و وەستانی پەخش
-                DefaultLoadControl loadControl = new DefaultLoadControl.Builder()
-                    .setBufferDurationsMs(15000, 50000, 2500, 5000)
-                    .build();
-
-                player = new ExoPlayer.Builder(this).setLoadControl(loadControl).build();
+                player = new ExoPlayer.Builder(this).build();
                 playerView.setPlayer(player);
-                player.setPlayWhenReady(true); 
 
                 View closeBtn = playerView.findViewById(R.id.custom_close_btn);
                 if (closeBtn != null) closeBtn.setOnClickListener(v -> stopAndHidePlayer());
@@ -308,248 +242,91 @@ jobs:
 
                 Button exitBtn = findViewById(R.id.security_exit_btn);
                 if (exitBtn != null) {
-                    exitBtn.setOnClickListener(v -> {
-                        finishAffinity();
-                        System.exit(0);
-                    });
+                    exitBtn.setOnClickListener(v -> { finishAffinity(); System.exit(0); });
                 }
 
-                player.addListener(new Player.Listener() {
-                    @Override public void onPlaybackStateChanged(int state) {
-                        if (state == Player.STATE_BUFFERING) { if (loadingSpinner != null) loadingSpinner.setVisibility(View.VISIBLE); } 
-                        else if (state == Player.STATE_READY) { if (loadingSpinner != null) loadingSpinner.setVisibility(View.GONE); retryCount = 0; retryHandler.removeCallbacks(retryRunnable); } 
-                        else if (state == Player.STATE_ENDED) { if (loadingSpinner != null) loadingSpinner.setVisibility(View.GONE); }
-                    }
-                    @Override public void onPlayerError(PlaybackException error) {
-                        if (loadingSpinner != null) loadingSpinner.setVisibility(View.VISIBLE);
-                        if (retryCount < MAX_RETRIES) { retryCount++; retryHandler.removeCallbacks(retryRunnable); retryHandler.postDelayed(retryRunnable, 3000); } 
-                        else { if (loadingSpinner != null) loadingSpinner.setVisibility(View.GONE); Toast.makeText(MainActivity.this, "ئاریشە د پەخشی دا هەیە!", Toast.LENGTH_SHORT).show(); }
-                    }
+                swipeRefresh.setOnRefreshListener(() -> {
+                    wv.clearCache(true);
+                    wv.reload();
                 });
 
-                if (isSnifferActive()) {
-                    findViewById(R.id.security_alert_layout).setVisibility(View.VISIBLE);
-                    wv.setVisibility(View.GONE);
-                } else {
-                    findViewById(R.id.security_alert_layout).setVisibility(View.GONE);
-                    initWebViewAndLoad();
-                }
+                initWebViewAndLoad();
             }
 
             private void initWebViewAndLoad() {
                 WebSettings ws = wv.getSettings();
                 ws.setJavaScriptEnabled(true); 
                 ws.setDomStorageEnabled(true); 
-                ws.setAllowFileAccess(true);
-                ws.setUseWideViewPort(true); 
-                ws.setLoadWithOverviewMode(true); 
-                ws.setSupportZoom(false);
-                ws.setBuiltInZoomControls(false); 
-                ws.setDisplayZoomControls(false); 
+                
                 ws.setCacheMode(WebSettings.LOAD_NO_CACHE);
-                ws.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+                wv.clearCache(true);
                 
                 wv.addJavascriptInterface(new Object() {
-                    
                     @JavascriptInterface
                     public void playInExo(final String url, final String name) {
                         runOnUiThread(() -> {
                             if (url != null && !url.isEmpty()) {
-                                
                                 isTvMode = false;
-                                playerView.setUseController(true); 
+                                swipeRefresh.setEnabled(false); 
                                 
-                                if (!isFullscreen) {
-                                    int heightPx = (int) (240 * getResources().getDisplayMetrics().density);
-                                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, heightPx);
-                                    params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                                    playerContainer.setLayoutParams(params);
-                                    
-                                    RelativeLayout.LayoutParams webParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                                    webParams.addRule(RelativeLayout.BELOW, R.id.player_container);
-                                    wv.setLayoutParams(webParams);
-                                }
+                                int heightPx = (int) (240 * getResources().getDisplayMetrics().density);
+                                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, heightPx);
+                                params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                                playerContainer.setLayoutParams(params);
                                 
-                                retryCount = 0; retryHandler.removeCallbacks(retryRunnable);
-                                if (playerContainer != null) playerContainer.setVisibility(View.VISIBLE);
-                                playerView.setVisibility(View.VISIBLE);
-                                if (loadingSpinner != null) loadingSpinner.setVisibility(View.VISIBLE);
-
-                                player.setMediaItem(MediaItem.fromUri(Uri.parse(url)));
-                                player.prepare(); player.play();
-                            }
-                        });
-                    }
-
-                    @JavascriptInterface
-                    public void stopExo() { runOnUiThread(() -> stopAndHidePlayer()); }
-
-                    @JavascriptInterface
-                    public void playTvExo(final String url) {
-                        runOnUiThread(() -> {
-                            if (url != null && !url.isEmpty()) {
-                                
-                                isTvMode = true;
-                                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-                                getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-                                RelativeLayout.LayoutParams playerParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                                playerContainer.setLayoutParams(playerParams);
                                 playerContainer.setVisibility(View.VISIBLE);
                                 playerView.setVisibility(View.VISIBLE);
 
-                                RelativeLayout.LayoutParams webParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                                webParams.removeRule(RelativeLayout.BELOW);
-                                wv.setLayoutParams(webParams);
-                                wv.bringToFront();
-                                wv.setBackgroundColor(Color.TRANSPARENT);
-
-                                playerView.setUseController(false); 
-
-                                retryCount = 0; retryHandler.removeCallbacks(retryRunnable);
-                                if (loadingSpinner != null) loadingSpinner.setVisibility(View.VISIBLE);
-                                
-                                player.setMediaItem(MediaItem.fromUri(Uri.parse(url)));
-                                player.prepare(); player.play();
+                                MediaItem mediaItem = MediaItem.fromUri(Uri.parse(url));
+                                player.setMediaItem(mediaItem);
+                                player.prepare(); 
+                                player.play();
                             }
                         });
                     }
-
-                    @JavascriptInterface
-                    public void exitTvMode() {
-                        runOnUiThread(() -> { stopAndHidePlayer(); });
-                    }
-
                 }, "AndroidBridge");
 
                 wv.setWebViewClient(new WebViewClient() {
-                    @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) { return handleCustomUri(view, request.getUrl().toString()); }
-                    @SuppressWarnings("deprecation") @Override public boolean shouldOverrideUrlLoading(WebView view, String url) { return handleCustomUri(view, url); }
-                    private boolean handleCustomUri(WebView view, String url) {
-                        if (url == null || url.startsWith("http://") || url.startsWith("https://")) return false; 
-                        try {
-                            if (url.startsWith("intent://")) {
-                                Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
-                                if (intent != null) { view.stopLoading(); PackageManager pm = view.getContext().getPackageManager(); if (intent.resolveActivity(pm) != null) { view.getContext().startActivity(intent); return true; } }
-                            } else { Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url)); view.getContext().startActivity(intent); return true; }
-                        } catch (Exception e) {}
-                        return true;
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        if (swipeRefresh != null) {
+                            swipeRefresh.setRefreshing(false);
+                        }
                     }
+                    @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) { return false; }
                 });
                 
                 wv.setWebChromeClient(new WebChromeClient());
-                wv.loadUrl("https://rebaz92.github.io/REBAZ_TV/");
-            }
-
-            private boolean isSecurityActive() {
-                return isVpnActive() || isProxyActive();
-            }
-
-            private boolean isVpnActive() {
-                try {
-                    android.net.ConnectivityManager cm = (android.net.ConnectivityManager) getSystemService(android.content.Context.CONNECTIVITY_SERVICE);
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                        android.net.Network activeNetwork = cm.getActiveNetwork();
-                        android.net.NetworkCapabilities caps = cm.getNetworkCapabilities(activeNetwork);
-                        return caps != null && caps.hasTransport(android.net.NetworkCapabilities.TRANSPORT_VPN);
-                    } else {
-                        return cm.getNetworkInfo(android.net.ConnectivityManager.TYPE_VPN).isConnected();
-                    }
-                } catch (Exception e) {
-                    return false;
-                }
-            }
-
-            private boolean isProxyActive() {
-                try {
-                    String proxyHost = System.getProperty("http.proxyHost");
-                    String proxyPort = System.getProperty("http.proxyPort");
-                    return (proxyHost != null && !proxyHost.isEmpty()) || (proxyPort != null && !proxyPort.isEmpty());
-                } catch (Exception e) {
-                    return false;
-                }
-            }
-
-            private boolean isSnifferActive() {
-                return isPackageInstalled("com.guoshi.httpcanary") || 
-                       isPackageInstalled("com.guoshi.httpcanary.premium") || 
-                       isPackageInstalled("com.reqable.android") || 
-                       isPackageInstalled("com.minhui.networkcapture");
-            }
-
-            private boolean isPackageInstalled(String packageName) {
-                try {
-                    getPackageManager().getPackageInfo(packageName, 0);
-                    return true;
-                } catch (PackageManager.NameNotFoundException e) {
-                    return false;
-                }
-            }
-
-            @Override
-            protected void onResume() {
-                super.onResume();
-                if (isSecurityActive()) {
-                    findViewById(R.id.security_alert_layout).setVisibility(View.VISIBLE);
-                    wv.setVisibility(View.GONE);
-                    if (player != null) {
-                        player.stop();
-                    }
-                    playerContainer.setVisibility(View.GONE);
-                } else {
-                    if (findViewById(R.id.security_alert_layout).getVisibility() == View.VISIBLE) {
-                        findViewById(R.id.security_alert_layout).setVisibility(View.GONE);
-                        wv.setVisibility(View.VISIBLE);
-                        if (wv.getUrl() == null) {
-                            initWebViewAndLoad();
-                        }
-                    }
-                }
+                
+                // لێرەدا لینکەکەتم بۆ داناوە کە ڕاستەوخۆ دەچێتە سەر فایلی ئینتەرنێتەکەت
+                wv.loadUrl("https://rebaz92.github.io/REBAZ_TV/index.html"); 
             }
 
             private void stopAndHidePlayer() {
-                retryHandler.removeCallbacks(retryRunnable);
                 if (player != null) { player.stop(); player.clearMediaItems(); }
-                if (loadingSpinner != null) loadingSpinner.setVisibility(View.GONE);
                 if (playerContainer != null) playerContainer.setVisibility(View.GONE);
                 playerView.setVisibility(View.GONE);
+                swipeRefresh.setEnabled(true);
 
-                RelativeLayout.LayoutParams webParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                webParams.addRule(RelativeLayout.BELOW, R.id.player_container);
-                wv.setLayoutParams(webParams);
-                wv.setVisibility(View.VISIBLE);
-                
-                playerView.setUseController(true);
-
-                if (isFullscreen || isTvMode) {
+                if (isFullscreen) {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    
-                    int heightPx = (int) (240 * getResources().getDisplayMetrics().density);
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, heightPx);
-                    params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                    playerContainer.setLayoutParams(params);
-                    
                     isFullscreen = false;
                 }
-                isTvMode = false;
             }
 
             private void toggleFullscreen(boolean fullscreen) {
-                if (isTvMode) return; 
                 isFullscreen = fullscreen;
                 if (fullscreen) {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    wv.setVisibility(View.GONE);
-                    
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    playerContainer.setLayoutParams(params);
+                    swipeRefresh.setVisibility(View.GONE);
+                    playerContainer.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 } else {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    wv.setVisibility(View.VISIBLE);
-                    
+                    swipeRefresh.setVisibility(View.VISIBLE);
                     int heightPx = (int) (240 * getResources().getDisplayMetrics().density);
                     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, heightPx);
                     params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -558,15 +335,9 @@ jobs:
             }
 
             @Override public void onBackPressed() {
-                if (isFullscreen || isTvMode) { stopAndHidePlayer(); wv.evaluateJavascript("if(typeof closeTvMode === 'function') closeTvMode();", null); }
+                if (isFullscreen) stopAndHidePlayer();
                 else if (playerView.getVisibility() == View.VISIBLE) stopAndHidePlayer();
-                else if (wv.canGoBack()) wv.goBack();
                 else super.onBackPressed();
-            }
-
-            @Override protected void onDestroy() {
-                super.onDestroy(); retryHandler.removeCallbacks(retryRunnable);
-                if (player != null) { player.release(); player = null; }
             }
         }
         EOF
@@ -574,11 +345,11 @@ jobs:
         gradle wrapper --gradle-version 8.5
         chmod +x gradlew
 
-    - name: Build REBAZ TV APK
+    - name: Build Xurmatw TV APK
       run: ./gradlew assembleDebug --stacktrace
 
-    - name: Upload Finished REBAZ TV APK
+    - name: Upload Finished Xurmatw TV APK
       uses: actions/upload-artifact@v4
       with:
-        name: REBAZ-TV-APK
+        name: Xurmatw-TV-APK
         path: app/build/outputs/apk/debug/app-debug.apk
