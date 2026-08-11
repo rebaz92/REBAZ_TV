@@ -29,6 +29,8 @@ jobs:
         mkdir -p app/src/main/res/values
         mkdir -p app/src/main/res/layout
         mkdir -p app/src/main/res/drawable
+        mkdir -p app/src/main/res/drawable-anydpi-v26
+        mkdir -p app/src/main/res/drawable-nodpi
         
         cat << 'EOF' > app/src/main/res/drawable/ic_close.xml
         <vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
@@ -42,9 +44,20 @@ jobs:
         </vector>
         EOF
         
-        if [ -f "logo.png" ]; then cp logo.png app/src/main/res/drawable/ic_launcher.png
-        elif [ -f "logo.jpg" ]; then cp logo.jpg app/src/main/res/drawable/ic_launcher.png
-        else curl -L -o app/src/main/res/drawable/ic_launcher.png "https://upload.wikimedia.org/wikipedia/commons/c/cf/ExoPlayer_logo.png"; fi
+        # ڕێکخستنی ئایکۆن بۆ ئەوەی بۆشایی سپی نەمێنێت
+        if [ -f "logo.png" ]; then cp logo.png app/src/main/res/drawable-nodpi/logo_full.png
+        elif [ -f "logo.jpg" ]; then cp logo.jpg app/src/main/res/drawable-nodpi/logo_full.png
+        else curl -L -o app/src/main/res/drawable-nodpi/logo_full.png "https://upload.wikimedia.org/wikipedia/commons/c/cf/ExoPlayer_logo.png"; fi
+        
+        cp app/src/main/res/drawable-nodpi/logo_full.png app/src/main/res/drawable/ic_launcher.png
+        
+        cat << 'EOF' > app/src/main/res/drawable-anydpi-v26/ic_launcher.xml
+        <?xml version="1.0" encoding="utf-8"?>
+        <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+            <background android:drawable="@drawable/logo_full"/>
+            <foreground android:color="@android:color/transparent"/>
+        </adaptive-icon>
+        EOF
         
         echo "android.useAndroidX=true" > gradle.properties
         echo "android.enableJetifier=true" >> gradle.properties
