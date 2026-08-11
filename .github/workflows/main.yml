@@ -42,6 +42,12 @@ jobs:
         </vector>
         EOF
         
+        if [ -f "splash.png" ]; then cp splash.png app/src/main/res/drawable/splash_img.png
+        elif [ -f "splash.jpg" ]; then cp splash.jpg app/src/main/res/drawable/splash_img.png
+        elif [ -f "logo.png" ]; then cp logo.png app/src/main/res/drawable/splash_img.png
+        elif [ -f "logo.jpg" ]; then cp logo.jpg app/src/main/res/drawable/splash_img.png
+        else curl -L -o app/src/main/res/drawable/splash_img.png "https://upload.wikimedia.org/wikipedia/commons/c/cf/ExoPlayer_logo.png"; fi
+
         if [ -f "logo.png" ]; then cp logo.png app/src/main/res/drawable/ic_launcher.png
         elif [ -f "logo.jpg" ]; then cp logo.jpg app/src/main/res/drawable/ic_launcher.png
         else curl -L -o app/src/main/res/drawable/ic_launcher.png "https://upload.wikimedia.org/wikipedia/commons/c/cf/ExoPlayer_logo.png"; fi
@@ -115,6 +121,21 @@ jobs:
                 android:layout_height="match_parent"
                 android:layout_below="@id/player_container"
                 android:background="@android:color/transparent"/>
+
+            <RelativeLayout
+                android:id="@+id/splash_screen"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#0A0E17"
+                android:elevation="30dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/splash_img" />
+            </RelativeLayout>
         </RelativeLayout>
         EOF
 
@@ -150,6 +171,8 @@ jobs:
         import android.graphics.Color;
         import android.net.Uri;
         import android.os.Bundle;
+        import android.os.Handler;
+        import android.os.Looper;
         import android.view.View;
         import android.view.ViewGroup;
         import android.view.WindowManager;
@@ -170,6 +193,7 @@ jobs:
             private ExoPlayer player;
             private StyledPlayerView playerView;
             private FrameLayout playerContainer; 
+            private View splashScreen;
             private boolean isFullscreen = false;
 
             @Override
@@ -180,8 +204,15 @@ jobs:
                 playerView = findViewById(R.id.main_player_view);
                 playerContainer = findViewById(R.id.player_container);
                 wv = findViewById(R.id.main_web_view);
+                splashScreen = findViewById(R.id.splash_screen);
 
                 wv.setBackgroundColor(Color.TRANSPARENT);
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    if (splashScreen != null) {
+                        splashScreen.setVisibility(View.GONE);
+                    }
+                }, 3000);
 
                 player = new ExoPlayer.Builder(this).build();
                 playerView.setPlayer(player);
