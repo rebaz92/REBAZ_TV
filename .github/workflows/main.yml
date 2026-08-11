@@ -108,14 +108,6 @@ jobs:
                     app:use_controller="true"
                     app:show_timeout="3000"
                     app:controller_layout_id="@layout/custom_exo_controls"/>
-
-                <ProgressBar
-                    android:id="@+id/native_loading_spinner"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_gravity="center"
-                    android:indeterminateTint="#4da6ff"
-                    android:visibility="gone" />
             </FrameLayout>
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -130,22 +122,6 @@ jobs:
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"/>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-            <LinearLayout
-                android:id="@+id/security_alert_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#0B0B0E"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="30dp"
-                android:visibility="gone"
-                android:clickable="true"
-                android:focusable="true">
-                <ImageView android:layout_width="100dp" android:layout_height="100dp" android:src="@android:drawable/ic_dialog_alert" android:layout_marginBottom="25dp" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SECURITY ALERT" android:textColor="#EF4444" android:textSize="24sp" android:textStyle="bold" android:layout_marginBottom="12dp" />
-                <Button android:id="@+id/security_exit_btn" android:layout_width="160dp" android:layout_height="50dp" android:text="EXIT" android:textColor="#FFFFFF" android:backgroundTint="#EF4444" android:textStyle="bold" />
-            </LinearLayout>
         </RelativeLayout>
         EOF
 
@@ -164,7 +140,6 @@ jobs:
         <?xml version="1.0" encoding="utf-8"?>
         <manifest xmlns:android="http://schemas.android.com/apk/res/android">
             <uses-permission android:name="android.permission.INTERNET" />
-            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
             <application android:allowBackup="true" android:label="REBAZ TV" android:icon="@drawable/ic_launcher" android:theme="@style/Theme.AppCompat.Light.NoActionBar" android:usesCleartextTraffic="true" android:hardwareAccelerated="true">
                 <activity android:name=".MainActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden|layoutDirection">
                     <intent-filter>
@@ -178,13 +153,10 @@ jobs:
         
         cat << 'EOF' > app/src/main/java/com/rebaz/rebaztv/MainActivity.java
         package com.rebaz.rebaztv;
-        import android.content.Intent;
-        import android.content.pm.PackageManager;
         import android.content.pm.ActivityInfo;
         import android.graphics.Color;
         import android.net.Uri;
         import android.os.Bundle;
-        import android.os.Handler;
         import android.view.View;
         import android.view.ViewGroup;
         import android.view.WindowManager;
@@ -196,17 +168,10 @@ jobs:
         import android.webkit.WebResourceRequest;
         import android.widget.FrameLayout; 
         import android.widget.RelativeLayout; 
-        import android.widget.ProgressBar;
-        import android.widget.Button;
-        import android.widget.Toast;
         import androidx.appcompat.app.AppCompatActivity;
         import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-        import com.google.android.exoplayer2.DefaultLoadControl;
         import com.google.android.exoplayer2.ExoPlayer;
         import com.google.android.exoplayer2.MediaItem;
-        import com.google.android.exoplayer2.Player;
-        import com.google.android.exoplayer2.PlaybackException;
         import com.google.android.exoplayer2.ui.StyledPlayerView;
 
         public class MainActivity extends AppCompatActivity {
@@ -214,7 +179,6 @@ jobs:
             private ExoPlayer player;
             private StyledPlayerView playerView;
             private FrameLayout playerContainer; 
-            private ProgressBar loadingSpinner;
             private SwipeRefreshLayout swipeRefresh;
             private boolean isFullscreen = false;
 
@@ -226,11 +190,14 @@ jobs:
                 playerView = findViewById(R.id.main_player_view);
                 playerContainer = findViewById(R.id.player_container);
                 wv = findViewById(R.id.main_web_view);
-                loadingSpinner = findViewById(R.id.native_loading_spinner);
                 swipeRefresh = findViewById(R.id.swipe_refresh);
 
                 wv.setBackgroundColor(Color.TRANSPARENT);
-                playerContainer.setVisibility(View.GONE);
+                
+                // اصلاحی: ڕێگریکردن لەوەی ڕێفرێش لە هەموو شوێنێک کاربکات
+                wv.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                    swipeRefresh.setEnabled(scrollY == 0);
+                });
 
                 player = new ExoPlayer.Builder(this).build();
                 playerView.setPlayer(player);
@@ -238,11 +205,6 @@ jobs:
                 View closeBtn = playerView.findViewById(R.id.custom_close_btn);
                 if (closeBtn != null) closeBtn.setOnClickListener(v -> stopAndHidePlayer());
                 playerView.setFullscreenButtonClickListener(isFullScreen -> toggleFullscreen(isFullScreen));
-
-                Button exitBtn = findViewById(R.id.security_exit_btn);
-                if (exitBtn != null) {
-                    exitBtn.setOnClickListener(v -> { finishAffinity(); System.exit(0); });
-                }
 
                 swipeRefresh.setOnRefreshListener(() -> {
                     wv.clearCache(true);
@@ -256,7 +218,6 @@ jobs:
                 WebSettings ws = wv.getSettings();
                 ws.setJavaScriptEnabled(true); 
                 ws.setDomStorageEnabled(true); 
-                
                 ws.setCacheMode(WebSettings.LOAD_NO_CACHE);
                 wv.clearCache(true);
                 
@@ -266,15 +227,12 @@ jobs:
                         runOnUiThread(() -> {
                             if (url != null && !url.isEmpty()) {
                                 swipeRefresh.setEnabled(false); 
-                                
                                 int heightPx = (int) (240 * getResources().getDisplayMetrics().density);
                                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, heightPx);
                                 params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                                 playerContainer.setLayoutParams(params);
-                                
                                 playerContainer.setVisibility(View.VISIBLE);
                                 playerView.setVisibility(View.VISIBLE);
-
                                 MediaItem mediaItem = MediaItem.fromUri(Uri.parse(url));
                                 player.setMediaItem(mediaItem);
                                 player.prepare(); 
@@ -288,23 +246,17 @@ jobs:
                     @Override
                     public void onPageFinished(WebView view, String url) {
                         super.onPageFinished(view, url);
-                        if (swipeRefresh != null) {
-                            swipeRefresh.setRefreshing(false);
-                        }
+                        if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
                     }
-                    @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) { return false; }
                 });
-                
                 wv.setWebChromeClient(new WebChromeClient());
                 wv.loadUrl("https://rebaz92.github.io/REBAZ_TV/index.html"); 
             }
 
             private void stopAndHidePlayer() {
                 if (player != null) { player.stop(); player.clearMediaItems(); }
-                if (playerContainer != null) playerContainer.setVisibility(View.GONE);
-                playerView.setVisibility(View.GONE);
+                playerContainer.setVisibility(View.GONE);
                 swipeRefresh.setEnabled(true);
-
                 if (isFullscreen) {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -317,12 +269,10 @@ jobs:
                 if (fullscreen) {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    swipeRefresh.setVisibility(View.GONE);
                     playerContainer.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 } else {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    swipeRefresh.setVisibility(View.VISIBLE);
                     int heightPx = (int) (240 * getResources().getDisplayMetrics().density);
                     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, heightPx);
                     params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
@@ -332,7 +282,7 @@ jobs:
 
             @Override public void onBackPressed() {
                 if (isFullscreen) stopAndHidePlayer();
-                else if (playerView.getVisibility() == View.VISIBLE) stopAndHidePlayer();
+                else if (playerContainer.getVisibility() == View.VISIBLE) stopAndHidePlayer();
                 else super.onBackPressed();
             }
         }
