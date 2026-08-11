@@ -29,8 +29,8 @@ jobs:
         mkdir -p app/src/main/res/values
         mkdir -p app/src/main/res/layout
         mkdir -p app/src/main/res/drawable
-        mkdir -p app/src/main/res/drawable-anydpi-v26
-        mkdir -p app/src/main/res/drawable-nodpi
+        mkdir -p app/src/main/res/mipmap-xxxhdpi
+        mkdir -p app/src/main/res/mipmap-anydpi-v26
         
         cat << 'EOF' > app/src/main/res/drawable/ic_close.xml
         <vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
@@ -44,18 +44,31 @@ jobs:
         </vector>
         EOF
         
-        # ڕێکخستنی ئایکۆن بۆ ئەوەی بۆشایی سپی نەمێنێت
-        if [ -f "logo.png" ]; then cp logo.png app/src/main/res/drawable-nodpi/logo_full.png
-        elif [ -f "logo.jpg" ]; then cp logo.jpg app/src/main/res/drawable-nodpi/logo_full.png
-        else curl -L -o app/src/main/res/drawable-nodpi/logo_full.png "https://upload.wikimedia.org/wikipedia/commons/c/cf/ExoPlayer_logo.png"; fi
+        # ڕێکخستنی ستانداردی لۆگۆ
+        if [ -f "logo.png" ]; then 
+            cp logo.png app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+            cp logo.png app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+        elif [ -f "logo.jpg" ]; then 
+            cp logo.jpg app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+            cp logo.jpg app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+        else 
+            curl -L -o app/src/main/res/mipmap-xxxhdpi/ic_launcher.png "https://upload.wikimedia.org/wikipedia/commons/c/cf/ExoPlayer_logo.png"
+            cp app/src/main/res/mipmap-xxxhdpi/ic_launcher.png app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+        fi
         
-        cp app/src/main/res/drawable-nodpi/logo_full.png app/src/main/res/drawable/ic_launcher.png
-        
-        cat << 'EOF' > app/src/main/res/drawable-anydpi-v26/ic_launcher.xml
+        cat << 'EOF' > app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
         <?xml version="1.0" encoding="utf-8"?>
         <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-            <background android:drawable="@drawable/logo_full"/>
-            <foreground android:color="@android:color/transparent"/>
+            <background android:drawable="@mipmap/ic_launcher"/>
+            <foreground android:drawable="@android:color/transparent"/>
+        </adaptive-icon>
+        EOF
+        
+        cat << 'EOF' > app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+        <?xml version="1.0" encoding="utf-8"?>
+        <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+            <background android:drawable="@mipmap/ic_launcher"/>
+            <foreground android:drawable="@android:color/transparent"/>
         </adaptive-icon>
         EOF
         
@@ -178,7 +191,7 @@ jobs:
         <manifest xmlns:android="http://schemas.android.com/apk/res/android">
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-            <application android:allowBackup="true" android:label="REBAZ TV" android:icon="@drawable/ic_launcher" android:theme="@style/Theme.AppCompat.Light.NoActionBar" android:usesCleartextTraffic="true" android:hardwareAccelerated="true">
+            <application android:allowBackup="true" android:label="REBAZ TV" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:theme="@style/Theme.AppCompat.Light.NoActionBar" android:usesCleartextTraffic="true" android:hardwareAccelerated="true">
                 <activity android:name=".MainActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden|layoutDirection">
                     <intent-filter>
                         <action android:name="android.intent.action.MAIN" />
