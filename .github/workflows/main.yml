@@ -80,6 +80,10 @@ jobs:
                 sourceCompatibility JavaVersion.VERSION_17
                 targetCompatibility JavaVersion.VERSION_17
             }
+            packagingOptions {
+                pickFirst '**/libc++_shared.so'
+                pickFirst '**/libvlc.so'
+            }
         }
         dependencies {
             implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -87,7 +91,7 @@ jobs:
             implementation 'org.videolan.android:libvlc-all:3.5.1'
         }
         EOF
-        
+
         cat << 'EOF' > app/src/main/res/layout/activity_main.xml
         <?xml version="1.0" encoding="utf-8"?>
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
