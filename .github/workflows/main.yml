@@ -75,14 +75,21 @@ jobs:
                 targetSdk 34
                 versionCode 1
                 versionName "1.0.0"
+                ndk {
+                    abiFilters 'armeabi-v7a', 'arm64-v8a'
+                }
             }
             compileOptions {
                 sourceCompatibility JavaVersion.VERSION_17
                 targetCompatibility JavaVersion.VERSION_17
             }
-            packagingOptions {
-                pickFirst '**/libc++_shared.so'
-                pickFirst '**/libvlc.so'
+            packaging {
+                resources {
+                    excludes += ['META-INF/DEPENDENCIES', 'META-INF/LICENSE', 'META-INF/NOTICE', 'META-INF/*.kotlin_module']
+                }
+                jniLibs {
+                    pickFirsts += ['**/*.so']
+                }
             }
         }
         dependencies {
