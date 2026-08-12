@@ -186,6 +186,8 @@ jobs:
         import androidx.appcompat.app.AppCompatActivity;
         import com.google.android.exoplayer2.ExoPlayer;
         import com.google.android.exoplayer2.MediaItem;
+        import com.google.android.exoplayer2.DefaultRenderersFactory;
+        import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
         import com.google.android.exoplayer2.ui.StyledPlayerView;
 
         public class MainActivity extends AppCompatActivity {
@@ -214,7 +216,18 @@ jobs:
                     }
                 }, 3000);
 
-                player = new ExoPlayer.Builder(this).build();
+                // زیادکردنی سیستمەکانی چاکسازی دەنگ بۆ ExoPlayer
+                DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(this)
+                        .setEnableDecoderFallback(true)
+                        .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
+
+                DefaultTrackSelector trackSelector = new DefaultTrackSelector(this);
+
+                player = new ExoPlayer.Builder(this)
+                        .setRenderersFactory(renderersFactory)
+                        .setTrackSelector(trackSelector)
+                        .build();
+                        
                 playerView.setPlayer(player);
 
                 View closeBtn = playerView.findViewById(R.id.custom_close_btn);
