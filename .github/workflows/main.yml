@@ -84,14 +84,13 @@ jobs:
         dependencies {
             implementation 'androidx.appcompat:appcompat:1.6.1'
             implementation 'com.google.android.material:material:1.11.0'
-            implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
+            implementation 'org.videolan.android:libvlc-all:3.5.1'
         }
         EOF
         
         cat << 'EOF' > app/src/main/res/layout/activity_main.xml
         <?xml version="1.0" encoding="utf-8"?>
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#0A0E17">
@@ -101,18 +100,15 @@ jobs:
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
                 android:layout_alignParentTop="true"
-                android:visibility="gone">
+                android:visibility="gone"
+                android:background="#000000">
 
-                <com.google.android.exoplayer2.ui.StyledPlayerView
-                    android:id="@+id/main_player_view"
+                <org.videolan.libvlc.util.VLCVideoLayout
+                    android:id="@+id/vlc_video_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#000000"
-                    app:surface_type="texture_view"
-                    app:resize_mode="fit"
-                    app:use_controller="true"
-                    app:show_timeout="3000"
-                    app:controller_layout_id="@layout/custom_exo_controls"/>
+                    android:layout_height="match_parent"/>
+
+                <include layout="@layout/custom_exo_controls" />
             </FrameLayout>
             
             <WebView
@@ -144,7 +140,7 @@ jobs:
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#30000000">
+            android:background="#00000000">
             <ImageButton android:id="@+id/custom_close_btn" android:layout_width="45dp" android:layout_height="45dp" android:layout_alignParentTop="true" android:layout_alignParentEnd="true" android:layout_marginTop="12dp" android:layout_marginEnd="12dp" android:background="@android:color/transparent" android:src="@drawable/ic_close" android:tint="#EF4444" />
             <ImageButton android:id="@+id/exo_fullscreen" android:layout_width="45dp" android:layout_height="45dp" android:layout_alignParentBottom="true" android:layout_alignParentStart="true" android:layout_marginStart="12dp" android:layout_marginBottom="12dp" android:background="@android:color/transparent" android:src="@drawable/ic_fullscreen" android:tint="#FFFFFF" />
         </RelativeLayout>
@@ -184,16 +180,18 @@ jobs:
         import android.widget.FrameLayout; 
         import android.widget.RelativeLayout; 
         import androidx.appcompat.app.AppCompatActivity;
-        import com.google.android.exoplayer2.ExoPlayer;
-        import com.google.android.exoplayer2.MediaItem;
-        import com.google.android.exoplayer2.DefaultRenderersFactory;
-        import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-        import com.google.android.exoplayer2.ui.StyledPlayerView;
+        
+        import org.videolan.libvlc.LibVLC;
+        import org.videolan.libvlc.Media;
+        import org.videolan.libvlc.MediaPlayer;
+        import org.videolan.libvlc.util.VLCVideoLayout;
+        import java.util.ArrayList;
 
         public class MainActivity extends AppCompatActivity {
             private WebView wv;
-            private ExoPlayer player;
-            private StyledPlayerView playerView;
+            private LibVLC libVLC;
+            private MediaPlayer mediaPlayer;
+            private VLCVideoLayout vlcVideoLayout;
             private FrameLayout playerContainer; 
             private View splashScreen;
             private boolean isFullscreen = false;
@@ -203,8 +201,8 @@ jobs:
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_main);
 
-                playerView = findViewById(R.id.main_player_view);
                 playerContainer = findViewById(R.id.player_container);
+                vlcVideoLayout = findViewById(R.id.vlc_video_layout);
                 wv = findViewById(R.id.main_web_view);
                 splashScreen = findViewById(R.id.splash_screen);
 
@@ -216,23 +214,19 @@ jobs:
                     }
                 }, 3000);
 
-                // زیادکردنی سیستمەکانی چاکسازی دەنگ بۆ ExoPlayer
-                DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(this)
-                        .setEnableDecoderFallback(true)
-                        .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
+                ArrayList<String> options = new ArrayList<>();
+                options.add("--aout=opensles");
+                options.add("--audio-time-stretch");
+                options.add("-vvv");
+                libVLC = new LibVLC(this, options);
+                mediaPlayer = new MediaPlayer(libVLC);
+                mediaPlayer.attachViews(vlcVideoLayout, null, false, false);
 
-                DefaultTrackSelector trackSelector = new DefaultTrackSelector(this);
-
-                player = new ExoPlayer.Builder(this)
-                        .setRenderersFactory(renderersFactory)
-                        .setTrackSelector(trackSelector)
-                        .build();
-                        
-                playerView.setPlayer(player);
-
-                View closeBtn = playerView.findViewById(R.id.custom_close_btn);
+                View closeBtn = findViewById(R.id.custom_close_btn);
                 if (closeBtn != null) closeBtn.setOnClickListener(v -> stopAndHidePlayer());
-                playerView.setFullscreenButtonClickListener(isFullScreen -> toggleFullscreen(isFullScreen));
+                
+                View fullscreenBtn = findViewById(R.id.exo_fullscreen);
+                if (fullscreenBtn != null) fullscreenBtn.setOnClickListener(v -> toggleFullscreen(!isFullscreen));
 
                 initWebViewAndLoad();
             }
@@ -256,11 +250,13 @@ jobs:
                                 params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                                 playerContainer.setLayoutParams(params);
                                 playerContainer.setVisibility(View.VISIBLE);
-                                playerView.setVisibility(View.VISIBLE);
-                                MediaItem mediaItem = MediaItem.fromUri(Uri.parse(url));
-                                player.setMediaItem(mediaItem);
-                                player.prepare(); 
-                                player.play();
+                                
+                                mediaPlayer.stop();
+                                Media media = new Media(libVLC, Uri.parse(url));
+                                media.setHWDecoderEnabled(true, false);
+                                mediaPlayer.setMedia(media);
+                                media.release();
+                                mediaPlayer.play();
                             }
                         });
                     }
@@ -272,7 +268,7 @@ jobs:
             }
 
             private void stopAndHidePlayer() {
-                if (player != null) { player.stop(); player.clearMediaItems(); }
+                if (mediaPlayer != null) { mediaPlayer.stop(); }
                 playerContainer.setVisibility(View.GONE);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 
@@ -304,6 +300,17 @@ jobs:
                 else if (playerContainer.getVisibility() == View.VISIBLE) stopAndHidePlayer();
                 else super.onBackPressed();
             }
+
+            @Override
+            protected void onDestroy() {
+                super.onDestroy();
+                if (mediaPlayer != null) {
+                    mediaPlayer.release();
+                }
+                if (libVLC != null) {
+                    libVLC.release();
+                }
+            }
         }
         EOF
         
@@ -311,10 +318,12 @@ jobs:
         chmod +x gradlew
 
     - name: Build REBAZ TV APK
-      run: ./gradlew assembleDebug --stacktrace
+      run: |
+        ./gradlew assembleDebug --stacktrace
+        mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/rebaz.tv.apk
 
     - name: Upload Finished REBAZ TV APK
       uses: actions/upload-artifact@v4
       with:
         name: REBAZ-TV-APK
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: app/build/outputs/apk/debug/rebaz.tv.apk
