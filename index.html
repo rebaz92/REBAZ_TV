@@ -9,7 +9,6 @@
     <meta http-equiv="Expires" content="0" />
 
     <title>REBAZ TV</title>
-    <!-- کتێبخانەکانی HLS و MPEG-TS بۆ کارپێکردنی هەموو جۆرە لینکەکان -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/mpegts.js@latest/dist/mpegts.js"></script>
     <style>
@@ -161,7 +160,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.4);
             outline: none;
         }
-        /* 🔵 کاتی فوکەسکردن لەسەر دوگمەی پۆلەکان بە کۆنترۆڵ */
         .cat-btn:focus {
             border: 2px solid #ffcc00;
             background-color: #2e2a42;
@@ -293,19 +291,15 @@
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.4);
             white-space: nowrap;
-            pointer-events: none; /* وادەکات کلیکەکە بۆ کارتی سەرەکی بێت */
+            pointer-events: none;
         }
 
-        /* 📱 لە باری درێژدا شوێنە نویـییەکانی TV بشارەوە */
         @media (orientation: portrait) {
             .tv-header, .tv-player-panel, .tv-category-header {
                 display: none !important;
             }
         }
 
-        /* ==========================================================================
-           📺 دیزاینی تایبەت بۆ باری پان (ANDROID TV / LANDSCAPE)
-           ========================================================================== */
         @media (orientation: landscape) {
             body {
                 background-color: #171622 !important;
@@ -383,7 +377,6 @@
                 position: relative;
             }
 
-            /* 1️⃣ ستوونی ڕاست: پۆلەکان (Categories) */
             .fixed-top-section {
                 position: relative !important;
                 top: 0 !important;
@@ -442,7 +435,6 @@
                 font-weight: bold !important;
             }
 
-            /* 2️⃣ ستوونی ناوەڕاست: لیستی کەناڵەکان */
             .scrollable-content {
                 position: relative !important;
                 top: 0 !important;
@@ -450,7 +442,7 @@
                 left: 0 !important;
                 bottom: 0 !important;
                 flex-grow: 0 !important;
-                width: 320px !important; /* 🟢 قیاسی نوێی ستوونی کەناڵەکان (بچووک کراوەتەوە) */
+                width: 320px !important;
                 height: 100% !important;
                 background: #171622 !important;
                 border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
@@ -472,12 +464,6 @@
                 box-shadow: none !important;
             }
 
-            .card.active-channel, .card:focus {
-                animation: none !important;
-                border: 1px solid #ffcc00 !important;
-                background: #2e2a42 !important;
-            }
-
             .card-header { padding: 8px 12px !important; }
 
             .card-header img {
@@ -493,15 +479,12 @@
                 white-space: normal !important;
             }
 
-            .card.active-channel .card-header h3, .card:focus .card-header h3 { color: #ffcc00 !important; }
-
             .play-link-btn, .cat-tag { display: none !important; }
 
-            /* 3️⃣ ستوونی چەپ: شاشەی پەخش و زانیاری */
             .tv-player-panel {
                 display: flex !important;
                 flex-direction: column !important;
-                flex-grow: 1 !important; /* 🟢 وادەکات تەواوی بۆشایی لای چەپ بگرێت */
+                flex-grow: 1 !important;
                 width: auto !important;
                 height: 100% !important;
                 background: #191826 !important;
@@ -513,7 +496,7 @@
             .player-container {
                 position: relative !important;
                 width: 100% !important;
-                height: 50vh !important; /* 🟢 شاشەی ڤیدیۆکە گەورەتر کرا */
+                height: 50vh !important;
                 background: #000000 !important;
                 border-radius: 10px !important;
                 border: 1px solid rgba(255, 255, 255, 0.15) !important;
@@ -524,7 +507,7 @@
 
             .tv-channel-title {
                 color: #ffffff;
-                font-size: 24px; /* تۆزێک گەورەتر کرا بۆ گونجان لەگەڵ شاشەکە */
+                font-size: 24px;
                 font-weight: bold;
                 margin: 10px 0;
             }
@@ -568,7 +551,6 @@
 
 <div class="tv-main-layout">
 
-    <!-- 1️⃣ ستوونی پۆلەکان -->
     <div class="fixed-top-section">
         <div class="search-box" id="searchBoxContainer">
             <span style="color: #aaa; margin-left: 10px; font-size: 18px;">🔍</span>
@@ -584,7 +566,6 @@
 
         <div class="tv-category-header">گەڕان لە پۆلەکاندا...</div>
 
-        <!-- 🟢 tabindex="0" زیاد کرا بۆ ئەوەی بە کۆنترۆڵ دیاریبکرێن -->
         <div class="categories-container" id="categoriesBar">
             <button class="cat-btn active" tabindex="0" onclick="filterCategory('news', this)">هەواڵ</button>
             <button class="cat-btn" tabindex="0" onclick="filterCategory('kurdish', this)">کوردی ناوخۆیی</button>
@@ -595,7 +576,6 @@
         </div>
     </div>
 
-    <!-- 2️⃣ ستوونی ناوەڕاست: کەناڵەکان -->
     <div class="scrollable-content" id="scrollableContent">
         <div class="channels-container" id="channelsList">
 
@@ -1086,343 +1066,4 @@
                 </div>
             </div>
 
-            <div class="card" data-category="documentary" data-name="کوردستان 24 دۆکومێنتاری k24 documentary" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429650', 'documentary', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/429650')">
-                <div class="card-header">
-                    <div class="channel-info">
-                        <div class="logo-wrapper">
-                            <span class="cat-tag">Documentary</span>
-                            <img src="https://yt3.googleusercontent.com/opbbttvUjd80w7GYRDXTpNYhKn2ZubB9e4Ve67sVUeMFP431nR3g5__Ddec1yK_VJTVVPVMmvw=s900-c-k-c0x00ffffff-no-rj" alt="Logo">
-                        </div>
-                        <h3>K24 Documentary</h3>
-                    </div>
-                    <a class="play-link-btn">پەخش</a>
-                </div>
-            </div>
-
-            <div class="card" data-category="documentary" data-name="شنە دۆکومێنتاری shna documentary" tabindex="0" onfocus="handleChannelFocus('https://lbgo.bozztv.com/ssh101/ssh101/shna12345/chunks.m3u8', 'documentary', this)" onclick="handleChannelClick(this, 'https://lbgo.bozztv.com/ssh101/ssh101/shna12345/chunks.m3u8')">
-                <div class="card-header">
-                    <div class="channel-info">
-                        <div class="logo-wrapper">
-                            <span class="cat-tag">Documentary</span>
-                            <img src="https://imglink.cc/cdn/O4zh3vsnLX.png" alt="Logo">
-                        </div>
-                        <h3>Shna Documentary</h3>
-                    </div>
-                    <a class="play-link-btn">پەخش</a>
-                </div>
-            </div>
-
-            <div class="card" data-category="documentary" data-name="سیما دۆکومێنتاری sima documentary" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429828', 'documentary', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/429828')">
-                <div class="card-header">
-                    <div class="channel-info">
-                        <div class="logo-wrapper">
-                            <span class="cat-tag">Documentary</span>
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRTtwF27nlYGup8COQPwiALXtMgSO-fW-wubktSeV3F51pwTCJTjHd39Q&s=10" alt="Logo">
-                        </div>
-                        <h3>Sima Documentary</h3>
-                    </div>
-                    <a class="play-link-btn">پەخش</a>
-                </div>
-            </div>
-
-            <div class="card" data-category="documentary" data-name="ئێم ئێم ئێن دۆکومێنتاری" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429769', 'documentary', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/429769')">
-                <div class="card-header">
-                    <div class="channel-info">
-                        <div class="logo-wrapper">
-                            <span class="cat-tag">Documentary</span>
-                            <img src="https://imglink.cc/cdn/tbDqC9x9w4.png" alt="Logo">
-                        </div>
-                        <h3>MMN Documentary</h3>
-                    </div>
-                    <a class="play-link-btn">پەخش</a>
-                </div>
-            </div>
-
-            <div class="card" data-category="kids" data-name="ئافەرین afarin" tabindex="0" onfocus="handleChannelFocus('https://5dcabf026b188.streamlock.net/afarinTV/livestream/playlist.m3u8', 'kids', this)" onclick="handleChannelClick(this, 'https://5dcabf026b188.streamlock.net/afarinTV/livestream/playlist.m3u8')">
-                <div class="card-header">
-                    <div class="channel-info">
-                        <div class="logo-wrapper">
-                            <span class="cat-tag">KIDS</span>
-                            <img src="https://tv.sarcheshmeh.us/index_files/channels/baxchaiafarin.png" alt="Logo">
-                        </div>
-                        <h3>Afarin Baxcha</h3>
-                    </div>
-                    <a class="play-link-btn">پەخش</a>
-                </div>
-            </div>
-
-            <div class="card" data-category="kids" data-name="ئافەرین afarin" tabindex="0" onfocus="handleChannelFocus('https://65f16f0fdfc51.streamlock.net/afarinTV/livestream/playlist.m3u8', 'kids', this)" onclick="handleChannelClick(this, 'https://65f16f0fdfc51.streamlock.net/afarinTV/livestream/playlist.m3u8')">
-                <div class="card-header">
-                    <div class="channel-info">
-                        <div class="logo-wrapper">
-                            <span class="cat-tag">KIDS</span>
-                            <img src="https://m.media-amazon.com/images/I/418LGWKdk3L._UXNaN_FMjpg_QL85_.jpg" alt="Logo">
-                        </div>
-                        <h3>Afarin Kids</h3>
-                    </div>
-                    <a class="play-link-btn">پەخش</a>
-                </div>
-            </div>
-
-            <div class="card" data-category="kids" data-name="ئۆن کیدز one kids" tabindex="0" onfocus="handleChannelFocus('https://lbgo.bozztv.com/ssh101/ssh101/onekids4k/chunks.m3u8', 'kids', this)" onclick="handleChannelClick(this, 'https://lbgo.bozztv.com/ssh101/ssh101/onekids4k/chunks.m3u8')">
-                <div class="card-header">
-                    <div class="channel-info">
-                        <div class="logo-wrapper">
-                            <span class="cat-tag">KIDS</span>
-                            <img src="https://imglink.cc/cdn/OE0EhNtYEU.jpg" alt="Logo">
-                        </div>
-                        <h3>One Kids</h3>
-                    </div>
-                    <a class="play-link-btn">پەخش</a>
-                </div>
-            </div>
-
-            <div class="card" data-category="islamic" data-name="واڵا قورئان wala quran" tabindex="0" onfocus="handleChannelFocus('https://cdn.karwan.tv/WALAQURAN/index.m3u8', 'islamic', this)" onclick="handleChannelClick(this, 'https://cdn.karwan.tv/WALAQURAN/index.m3u8')">
-                <div class="card-header">
-                    <div class="channel-info">
-                        <div class="logo-wrapper">
-                            <span class="cat-tag">islamic</span>
-                            <img src="https://imglink.cc/cdn/MDWYxhlwiK.jpg" alt="Wala Quran">
-                        </div>
-                        <h3>Wala Quran</h3>
-                    </div>
-                    <a class="play-link-btn">پەخش</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- 3️⃣ ستوونی چەپ: شاشەی پەخش و زانیاری -->
-    <div class="tv-player-panel">
-        <div class="player-container" id="playerContainer">
-            <div id="watermarkLogo" class="watermark-logo">REBAZ | TV</div>
-            <!-- 🟢 لابردنی وشەی controls تا نیشانەی وێبگەڕەکە نەیەتە سەر ڤیدیۆکە -->
-            <video id="videoPlayer" autoplay muted playsinline></video>
-        </div>
-        <div class="tv-channel-title" id="tvChannelNameDisplay">1. RUDAW TV</div>
-        
-        <div class="tv-action-bar">
-            <div class="tv-action-btn">
-                <span>♡</span> دڵخوازەکان
-            </div>
-            <div class="tv-action-btn">
-                <span>🕒</span> ئەرشیف
-            </div>
-            <div class="tv-action-btn">
-                <span>▷</span> پەخشی دەرەکی
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<script>
-    let currentCategory = 'news';
-    let hlsInstance = null;
-    let mpegtsPlayer = null;
-    let currentPreviewUrl = '';
-    let currentPreviewCategory = '';
-
-    window.onload = function() {
-        updateVisibility();
-    };
-
-    function updateVisibility() {
-        document.querySelectorAll('.card, .section-title-alwan, .section-title-bein, .section-title-kurdish-sports').forEach(item => {
-            if (item.getAttribute('data-category') === currentCategory) {
-                item.style.display = item.classList.contains('section-title-alwan') || item.classList.contains('section-title-bein') || item.classList.contains('section-title-kurdish-sports') ? 'inline-block' : 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
-
-    // 🟢 لۆجیکی جێبەجێکردنی Enter بە کۆنترۆڵی TV بۆ تەواوی پۆل و کەناڵەکان
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.keyCode === 13) {
-            let activeEl = document.activeElement;
-            if (activeEl) {
-                // ئەگەر لەسەر کەناڵێکە
-                if (activeEl.classList.contains('card')) {
-                    activeEl.click();
-                } 
-                // ئەگەر لەسەر پۆلێکە
-                else if (activeEl.classList.contains('cat-btn')) {
-                    activeEl.click();
-                }
-            }
-        }
-    });
-
-    // 🔴 نوێکراوەتەوە: کاتی فوکەسکردن لەسەر کارت
-    function handleChannelFocus(url, category, cardElement) {
-        if (window.matchMedia("(orientation: landscape)").matches) {
-            currentPreviewUrl = url;
-            currentPreviewCategory = category;
-            
-            document.querySelectorAll('.card').forEach(card => card.classList.remove('active-channel'));
-            if (cardElement) cardElement.classList.add('active-channel');
-
-            let channelName = cardElement ? cardElement.querySelector('h3').innerText : 'REBAZ TV';
-            let tvDisplay = document.getElementById('tvChannelNameDisplay');
-            if (tvDisplay) tvDisplay.innerText = channelName;
-
-            // 🟢 بەکارهێنانی وێب پلەیەر بۆ شاشە بچووکەکە (بۆ ئەوەی بە جوانی کار بکات)
-            const video = document.getElementById('videoPlayer');
-            if (video) {
-                loadVideoSource(url, video);
-            }
-        }
-    }
-
-    // کاتی کلیک کردن (Enter لێدان) 
-    function handleChannelClick(cardElement, url) {
-        const targetUrl = url || currentPreviewUrl;
-        const video = document.getElementById('videoPlayer');
-        
-        let channelName = cardElement ? cardElement.querySelector('h3').innerText : 'REBAZ TV';
-
-        // کاتێک کلیک کرا، ئەگەر ئەپەکەت پشتگیری بکات ئەوا بە شاشە گەورە لە ئەپەکە دەکرێتەوە
-        if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
-            AndroidBridge.playInExo(targetUrl, channelName);
-            return;
-        }
-
-        // بۆ براوزەر (ئەگەر لە دەرەوەی ئەپ بوو)
-        if (video) {
-            video.muted = false;
-            if (video.requestFullscreen) {
-                video.requestFullscreen();
-            } else if (video.webkitRequestFullscreen) {
-                video.webkitRequestFullscreen();
-            } else if (video.msRequestFullscreen) {
-                video.msRequestFullscreen();
-            }
-        }
-    }
-
-    function filterCategory(category, btn) {
-        currentCategory = category;
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('searchInput').value = '';
-        var tvSearch = document.getElementById('tvSearchInput');
-        if (tvSearch) tvSearch.value = '';
-
-        updateVisibility();
-    }
-
-    function syncSearch(val) {
-        document.getElementById('searchInput').value = val;
-        searchChannels();
-    }
-
-    function searchChannels() {
-        let query = document.getElementById('searchInput').value.toLowerCase();
-        document.querySelectorAll('.card').forEach(card => {
-            let channelName = card.getAttribute('data-name').toLowerCase();
-            let cardCat = card.getAttribute('data-category');
-            
-            let matchesSearch = channelName.includes(query);
-            let matchesCategory = (cardCat === currentCategory);
-
-            card.style.display = (matchesSearch && matchesCategory) ? 'block' : 'none';
-        });
-    }
-
-    // لۆجیکی کارپێکردنی ڤیدیۆ لە براوزەردا (بۆ شاشە بچووکەکەی Preview)
-    function loadVideoSource(url, videoElement) {
-        if (!url || !videoElement) return;
-
-        if (hlsInstance) {
-            try { hlsInstance.destroy(); } catch(e){}
-            hlsInstance = null;
-        }
-        if (mpegtsPlayer) {
-            try {
-                mpegtsPlayer.pause();
-                mpegtsPlayer.unload();
-                mpegtsPlayer.detachMediaElement();
-                mpegtsPlayer.destroy();
-            } catch(e){}
-            mpegtsPlayer = null;
-        }
-
-        videoElement.muted = true;
-        videoElement.pause();
-
-        function tryDirectSrc() {
-            videoElement.src = url;
-            let p = videoElement.play();
-            if (p !== undefined) {
-                p.catch(err => console.log("Direct play catch:", err));
-            }
-        }
-
-        const isM3U8 = url.toLowerCase().includes('.m3u8');
-        const isTS = url.toLowerCase().includes('.ts') || url.includes(':8080') || url.includes(':80');
-
-        if (isM3U8 && typeof Hls !== 'undefined' && Hls.isSupported()) {
-            hlsInstance = new Hls({
-                enableWorker: true,
-                lowLatencyMode: true,
-                maxBufferLength: 10
-            });
-            
-            hlsInstance.loadSource(url);
-            hlsInstance.attachMedia(videoElement);
-            
-            hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-                let p = videoElement.play();
-                if (p !== undefined) { p.catch(e => console.log(e)); }
-            });
-
-            hlsInstance.on(Hls.Events.ERROR, function(event, data) {
-                if (data.fatal) {
-                    if (hlsInstance) {
-                        try { hlsInstance.destroy(); } catch(e){}
-                        hlsInstance = null;
-                    }
-                    tryDirectSrc();
-                }
-            });
-        } 
-        else if (isTS && typeof mpegts !== 'undefined' && mpegts.isSupported()) {
-            try {
-                mpegtsPlayer = mpegts.createPlayer({
-                    type: 'mse',
-                    isLive: true,
-                    url: url
-                }, {
-                    enableStashBuffer: false,
-                    liveBufferLatencyChasing: true
-                });
-                mpegtsPlayer.attachMediaElement(videoElement);
-                mpegtsPlayer.load();
-                let p = mpegtsPlayer.play();
-                if (p !== undefined) {
-                    p.catch(e => {
-                        tryDirectSrc();
-                    });
-                }
-
-                mpegtsPlayer.on(mpegts.Events.ERROR, function() {
-                    if (mpegtsPlayer) {
-                        try { mpegtsPlayer.destroy(); } catch(e){}
-                        mpegtsPlayer = null;
-                    }
-                    tryDirectSrc();
-                });
-            } catch(e) {
-                tryDirectSrc();
-            }
-        } 
-        else {
-            tryDirectSrc();
-        }
-    }
-</script>
-
-</body>
-</html>
+            <div class="card" data-category="documentary" data-name="کوردستان 24 دۆکومێنتاری k24 documentary" tabindex="0" onfocus="handleChannel
