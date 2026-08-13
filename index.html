@@ -294,7 +294,7 @@
         }
 
         /* ==========================================================================
-           📺 دیزاینی تایبەت بۆ باری پان (ANDROID TV / LANDSCAPE) - ڕێک وەک وێنەکە
+           📺 دیزاینی تایبەت بۆ باری پان (ANDROID TV / LANDSCAPE)
            ========================================================================== */
         @media (orientation: landscape) {
             body {
@@ -542,7 +542,7 @@
 </head>
 <body>
 
-<!-- 📺 بارگەی سەرەوەی تایبەت بە TV (تەنها لە باری پاندا دەردەکەوێت) -->
+<!-- 📺 بارگەی سەرەوەی تایبەت بە TV -->
 <div class="tv-header">
     <div class="tv-title">
         <span style="font-size: 18px;">‹</span> REBAZ TV
@@ -590,9 +590,9 @@
     <div class="scrollable-content" id="scrollableContent">
         <div class="channels-container" id="channelsList">
 
-            <!-- کەناڵەکان (⚠️TabIndex و OnFocus زیادکران بۆ Preview) -->
+            <!-- کەناڵەکان -->
             
-            <div class="card" data-category="news" data-name="rudaw tv ڕووداو" tabindex="0" onfocus="handleChannelFocus('https://live.rudaw.net/hls/rudaw-tv/master.m3u8', 'news', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="news" data-name="rudaw tv ڕووداو" tabindex="0" onfocus="handleChannelFocus('https://live.rudaw.net/hls/rudaw-tv/master.m3u8', 'news', this)" onclick="handleChannelClick(this, 'https://live.rudaw.net/hls/rudaw-tv/master.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -605,7 +605,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="news" data-name="ئاڤا نیوز ava news" tabindex="0" onfocus="handleChannelFocus('http://hlspackager.akamaized.net/live/DB/AVA_TV/HLS/AVA_TV.m3u8', 'news', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="news" data-name="ئاڤا نیوز ava news" tabindex="0" onfocus="handleChannelFocus('http://hlspackager.akamaized.net/live/DB/AVA_TV/HLS/AVA_TV.m3u8', 'news', this)" onclick="handleChannelClick(this, 'http://hlspackager.akamaized.net/live/DB/AVA_TV/HLS/AVA_TV.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -618,7 +618,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="news" data-name="ئێن ئاڕتی نیوز nrt news" tabindex="0" onfocus="handleChannelFocus('https://live20.bozztv.com/giatv/giatv-nrt/nrt/chunks.m3u8', 'news', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="news" data-name="ئێن ئاڕتی نیوز nrt news" tabindex="0" onfocus="handleChannelFocus('https://live20.bozztv.com/giatv/giatv-nrt/nrt/chunks.m3u8', 'news', this)" onclick="handleChannelClick(this, 'https://live20.bozztv.com/giatv/giatv-nrt/nrt/chunks.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -631,7 +631,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="news" data-name="کوردستان 24 k24 news" tabindex="0" onfocus="handleChannelFocus('https://d1x82nydcxndze.cloudfront.net/live/index.m3u8', 'news', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="news" data-name="کوردستان 24 k24 news" tabindex="0" onfocus="handleChannelFocus('https://d1x82nydcxndze.cloudfront.net/live/index.m3u8', 'news', this)" onclick="handleChannelClick(this, 'https://d1x82nydcxndze.cloudfront.net/live/index.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -644,7 +644,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="news" data-name="کەناڵ 8 channel 8" tabindex="0" onfocus="handleChannelFocus('https://live.channel8.com/Channel8-Kurdish/index.m3u8', 'news', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="news" data-name="کەناڵ 8 channel 8" tabindex="0" onfocus="handleChannelFocus('https://live.channel8.com/Channel8-Kurdish/index.m3u8', 'news', this)" onclick="handleChannelClick(this, 'https://live.channel8.com/Channel8-Kurdish/index.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -657,7 +657,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="news" data-name="کوردسات نیوز kurdsat news" tabindex="0" onfocus="handleChannelFocus('https://hlspackager.akamaized.net/live/DB/KURDSAT_NEWS/HLS/KURDSAT_NEWS.m3u8', 'news', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="news" data-name="کوردسات نیوز kurdsat news" tabindex="0" onfocus="handleChannelFocus('https://hlspackager.akamaized.net/live/DB/KURDSAT_NEWS/HLS/KURDSAT_NEWS.m3u8', 'news', this)" onclick="handleChannelClick(this, 'https://hlspackager.akamaized.net/live/DB/KURDSAT_NEWS/HLS/KURDSAT_NEWS.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -670,7 +670,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="news" data-name="کوردسات kurdsat" tabindex="0" onfocus="handleChannelFocus('https://hlspackager.akamaized.net/live/DB/KURDSAT_HD/HLS/KURDSAT_HD-avc1_2500000=10002.m3u8', 'news', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="news" data-name="کوردسات kurdsat" tabindex="0" onfocus="handleChannelFocus('https://hlspackager.akamaized.net/live/DB/KURDSAT_HD/HLS/KURDSAT_HD-avc1_2500000=10002.m3u8', 'news', this)" onclick="handleChannelClick(this, 'https://hlspackager.akamaized.net/live/DB/KURDSAT_HD/HLS/KURDSAT_HD-avc1_2500000=10002.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -683,7 +683,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="news" data-name="کوردستان تیڤی kurdistan tv" tabindex="0" onfocus="handleChannelFocus('https://5a3ed7a72ed4b.streamlock.net/live/SMIL:myStream.smil/chunklist.m3u8', 'news', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="news" data-name="کوردستان تیڤی kurdistan tv" tabindex="0" onfocus="handleChannelFocus('https://5a3ed7a72ed4b.streamlock.net/live/SMIL:myStream.smil/chunklist.m3u8', 'news', this)" onclick="handleChannelClick(this, 'https://5a3ed7a72ed4b.streamlock.net/live/SMIL:myStream.smil/chunklist.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -696,7 +696,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="news" data-name="گەلی کوردستان gali kurdistan" tabindex="0" onfocus="handleChannelFocus('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/324582.ts', 'news', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="news" data-name="گەلی کوردستان gali kurdistan" tabindex="0" onfocus="handleChannelFocus('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/324582.ts', 'news', this)" onclick="handleChannelClick(this, 'http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/324582.ts')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -709,7 +709,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="news" data-name="کەرکوک kirkuk" tabindex="0" onfocus="handleChannelFocus('https://live.kirkuklive.live/hls/stream/index.m3u8', 'news', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="news" data-name="کەرکوک kirkuk" tabindex="0" onfocus="handleChannelFocus('https://live.kirkuklive.live/hls/stream/index.m3u8', 'news', this)" onclick="handleChannelClick(this, 'https://live.kirkuklive.live/hls/stream/index.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -722,7 +722,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="news" data-name="پەیام payam" tabindex="0" onfocus="handleChannelFocus('https://media2.streambrothers.com:1936/8218/8218/playlist.m3u8', 'news', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="news" data-name="پەیام payam" tabindex="0" onfocus="handleChannelFocus('https://media2.streambrothers.com:1936/8218/8218/playlist.m3u8', 'news', this)" onclick="handleChannelClick(this, 'https://media2.streambrothers.com:1936/8218/8218/playlist.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -735,7 +735,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="news" data-name="سپێدە speda" tabindex="0" onfocus="handleChannelFocus('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/324587.ts', 'news', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="news" data-name="سپێدە speda" tabindex="0" onfocus="handleChannelFocus('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/324587.ts', 'news', this)" onclick="handleChannelClick(this, 'http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/324587.ts')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -748,7 +748,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="kurdish" data-name="واڵا تیڤی wala tv" tabindex="0" onfocus="handleChannelFocus('https://cdn.karwan.tv/wallatv/index.m3u8', 'kurdish', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="kurdish" data-name="واڵا تیڤی wala tv" tabindex="0" onfocus="handleChannelFocus('https://cdn.karwan.tv/wallatv/index.m3u8', 'kurdish', this)" onclick="handleChannelClick(this, 'https://cdn.karwan.tv/wallatv/index.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -761,7 +761,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="kurdish" data-name="سۆران ئینتەر تامێنت  soran entrtainment" tabindex="0" onfocus="handleChannelFocus('http://avrstream.com:1935/live/SoranEntertainment/tracks-v1a1/mono.m3u8', 'kurdish', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="kurdish" data-name="سۆران ئینتەر تامێنت soran entrtainment" tabindex="0" onfocus="handleChannelFocus('http://avrstream.com:1935/live/SoranEntertainment/tracks-v1a1/mono.m3u8', 'kurdish', this)" onclick="handleChannelClick(this, 'http://avrstream.com:1935/live/SoranEntertainment/tracks-v1a1/mono.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -776,7 +776,7 @@
 
             <div class="section-title-alwan" data-category="sport">Alwan Sport 4K & HD</div>
 
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418111', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418111', 'sport', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/418111')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -789,7 +789,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418114', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418114', 'sport', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/418114')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -802,7 +802,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418117', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418117', 'sport', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/418117')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -815,7 +815,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418120', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418120', 'sport', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/418120')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -828,7 +828,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418123', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418123', 'sport', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/418123')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -841,7 +841,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418126', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418126', 'sport', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/418126')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -854,7 +854,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://line.8kultradnscloud.ru:80/24nn6nw3tx/me6z58cu5m/1859092', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://line.8kultradnscloud.ru:80/24nn6nw3tx/me6z58cu5m/1859092', 'sport', this)" onclick="handleChannelClick(this, 'http://line.8kultradnscloud.ru:80/24nn6nw3tx/me6z58cu5m/1859092')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -867,7 +867,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418115', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418115', 'sport', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/418115')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -880,7 +880,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418118', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/418118', 'sport', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/418118')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -895,7 +895,7 @@
 
             <div class="section-title-bein" data-category="sport">Bein Sport</div>
 
-            <div class="card" data-category="sport" data-name="بی ان سپۆرت bein sport uhd" tabindex="0" onfocus="handleChannelFocus('http://96235-sand.tx-4kott.com:80/live/2493f21902/6b9f460f66/2034168.m3u8', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="بی ان سپۆرت bein sport uhd" tabindex="0" onfocus="handleChannelFocus('http://96235-sand.tx-4kott.com:80/live/2493f21902/6b9f460f66/2034168.m3u8', 'sport', this)" onclick="handleChannelClick(this, 'http://96235-sand.tx-4kott.com:80/live/2493f21902/6b9f460f66/2034168.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -908,7 +908,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="beinsport news بی ان اخبارية سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142770', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="beinsport news بی ان اخبارية سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142770', 'sport', this)" onclick="handleChannelClick(this, 'http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142770')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -921,7 +921,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="beinsport 1 بی ان سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142774', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="beinsport 1 بی ان سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142774', 'sport', this)" onclick="handleChannelClick(this, 'http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142774')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -934,7 +934,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="beinsport 2 بی ان سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142775', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="beinsport 2 بی ان سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142775', 'sport', this)" onclick="handleChannelClick(this, 'http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142775')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -947,7 +947,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="beinsport 3 بی ان سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142776', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="beinsport 3 بی ان سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142776', 'sport', this)" onclick="handleChannelClick(this, 'http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142776')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -960,7 +960,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="beinsport 4 بی ان سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142777', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="beinsport 4 بی ان سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142777', 'sport', this)" onclick="handleChannelClick(this, 'http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142777')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -973,7 +973,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="beinsport 5 بی ان سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142778', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="beinsport 5 بی ان سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142778', 'sport', this)" onclick="handleChannelClick(this, 'http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142778')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -986,7 +986,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="beinsport 6 بی ان سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142779', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="beinsport 6 بی ان سبۆرت" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142779', 'sport', this)" onclick="handleChannelClick(this, 'http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142779')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1001,7 +1001,7 @@
 
             <div class="section-title-kurdish-sports" data-category="sport">Kurdish Sports</div>
 
-            <div class="card" data-category="sport" data-name="ئاڤا سپۆرت ava sport" tabindex="0" onfocus="handleChannelFocus('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/1858987.ts', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="ئاڤا سپۆرت ava sport" tabindex="0" onfocus="handleChannelFocus('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/1858987.ts', 'sport', this)" onclick="handleChannelClick(this, 'http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/1858987.ts')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1014,7 +1014,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="ئێن ئاڕتی سپۆرت nrt sport" tabindex="0" onfocus="handleChannelFocus('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/1858985.ts', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="ئێن ئاڕتی سپۆرت nrt sport" tabindex="0" onfocus="handleChannelFocus('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/1858985.ts', 'sport', this)" onclick="handleChannelClick(this, 'http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/1858985.ts')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1027,7 +1027,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="sport" data-name="ئەستێرە سپۆرت" tabindex="0" onfocus="handleChannelFocus('http://sans7.org:88/02095188864772/jsmuKOEvzgSTt0M/190026', 'sport', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="sport" data-name="ئەستێرە سپۆرت" tabindex="0" onfocus="handleChannelFocus('http://sans7.org:88/02095188864772/jsmuKOEvzgSTt0M/190026', 'sport', this)" onclick="handleChannelClick(this, 'http://sans7.org:88/02095188864772/jsmuKOEvzgSTt0M/190026')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1040,7 +1040,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="documentary" data-name="ڕەنگ دۆکومێنتاری reng documentary" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429814', 'documentary', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="documentary" data-name="ڕەنگ دۆکومێنتاری reng documentary" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429814', 'documentary', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/429814')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1053,7 +1053,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="documentary" data-name="فۆر ئێڤەر دۆکومێنتاری forever documentary" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429876', 'documentary', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="documentary" data-name="فۆر ئێڤەر دۆکومێنتاری forever documentary" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429876', 'documentary', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/429876')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1066,7 +1066,7 @@
                 </div>
             </div>
             
-            <div class="card" data-category="documentary" data-name="ئەستێرە دۆکومێنتاری astera documentary" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/16729', 'documentary', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="documentary" data-name="ئەستێرە دۆکومێنتاری astera documentary" tabindex="0" onfocus="handleChannelFocus('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/16729', 'documentary', this)" onclick="handleChannelClick(this, 'http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/16729')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1079,7 +1079,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="documentary" data-name="کوردستان 24 دۆکومێنتاری k24 documentary" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429650', 'documentary', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="documentary" data-name="کوردستان 24 دۆکومێنتاری k24 documentary" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429650', 'documentary', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/429650')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1092,7 +1092,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="documentary" data-name="شنە دۆکومێنتاری shna documentary" tabindex="0" onfocus="handleChannelFocus('https://lbgo.bozztv.com/ssh101/ssh101/shna12345/chunks.m3u8', 'documentary', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="documentary" data-name="شنە دۆکومێنتاری shna documentary" tabindex="0" onfocus="handleChannelFocus('https://lbgo.bozztv.com/ssh101/ssh101/shna12345/chunks.m3u8', 'documentary', this)" onclick="handleChannelClick(this, 'https://lbgo.bozztv.com/ssh101/ssh101/shna12345/chunks.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1105,7 +1105,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="documentary" data-name="سیما دۆکومێنتاری sima documentary" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429828', 'documentary', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="documentary" data-name="سیما دۆکومێنتاری sima documentary" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429828', 'documentary', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/429828')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1118,7 +1118,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="documentary" data-name="ئێم ئێم ئێن دۆکومێنتاری" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429769', 'documentary', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="documentary" data-name="ئێم ئێم ئێن دۆکومێنتاری" tabindex="0" onfocus="handleChannelFocus('http://xlion.net:8080/15034094901029/18800196589372/429769', 'documentary', this)" onclick="handleChannelClick(this, 'http://xlion.net:8080/15034094901029/18800196589372/429769')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1131,7 +1131,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="kids" data-name="ئافەرین afarin" tabindex="0" onfocus="handleChannelFocus('https://5dcabf026b188.streamlock.net/afarinTV/livestream/playlist.m3u8', 'kids', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="kids" data-name="ئافەرین afarin" tabindex="0" onfocus="handleChannelFocus('https://5dcabf026b188.streamlock.net/afarinTV/livestream/playlist.m3u8', 'kids', this)" onclick="handleChannelClick(this, 'https://5dcabf026b188.streamlock.net/afarinTV/livestream/playlist.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1144,7 +1144,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="kids" data-name="ئافەرین afarin" tabindex="0" onfocus="handleChannelFocus('https://65f16f0fdfc51.streamlock.net/afarinTV/livestream/playlist.m3u8', 'kids', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="kids" data-name="ئافەرین afarin" tabindex="0" onfocus="handleChannelFocus('https://65f16f0fdfc51.streamlock.net/afarinTV/livestream/playlist.m3u8', 'kids', this)" onclick="handleChannelClick(this, 'https://65f16f0fdfc51.streamlock.net/afarinTV/livestream/playlist.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1157,7 +1157,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="kids" data-name="ئۆن کیدز one kids" tabindex="0" onfocus="handleChannelFocus('https://lbgo.bozztv.com/ssh101/ssh101/onekids4k/chunks.m3u8', 'kids', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="kids" data-name="ئۆن کیدز one kids" tabindex="0" onfocus="handleChannelFocus('https://lbgo.bozztv.com/ssh101/ssh101/onekids4k/chunks.m3u8', 'kids', this)" onclick="handleChannelClick(this, 'https://lbgo.bozztv.com/ssh101/ssh101/onekids4k/chunks.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1170,7 +1170,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="islamic" data-name="واڵا قورئان wala quran" tabindex="0" onfocus="handleChannelFocus('https://cdn.karwan.tv/WALAQURAN/index.m3u8', 'islamic', this)" onclick="handleChannelClick(this)">
+            <div class="card" data-category="islamic" data-name="واڵا قورئان wala quran" tabindex="0" onfocus="handleChannelFocus('https://cdn.karwan.tv/WALAQURAN/index.m3u8', 'islamic', this)" onclick="handleChannelClick(this, 'https://cdn.karwan.tv/WALAQURAN/index.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1189,7 +1189,6 @@
     <div class="tv-player-panel">
         <div class="player-container" id="playerContainer">
             <div id="watermarkLogo" class="watermark-logo">REBAZ | TV</div>
-            <!-- ⚠️ Autoplay و Muted زیادکران بۆ شاشە بچوکەکە -->
             <video id="videoPlayer" controls autoplay muted playsinline></video>
         </div>
         <div class="tv-channel-title" id="tvChannelNameDisplay">1. RUDAW TV</div>
@@ -1211,11 +1210,13 @@
 
 <script>
     let currentCategory = 'news';
-    let hlsInstance = null; // پاراستنی نیشانەی HLS بۆ نوێکردنەوەی
+    let hlsInstance = null;
+    let mpegtsPlayer = null;
+    let currentPreviewUrl = '';
+    let currentPreviewCategory = '';
 
     window.onload = function() {
         updateVisibility();
-        // تێبینی: ئێمە ڤیدیۆی یەکەم بە شێوەیەکی ئۆتۆماتیکی بار ناکەین بۆ ئەوەی ڕێگری لە کێشەی Autoplay بکەین
     };
 
     function updateVisibility() {
@@ -1228,59 +1229,54 @@
         });
     }
 
-    /* 
-     * ⚠️ نوێکردنەوەی لۆجیکی کارکردنی TV بۆ Preview و Fullscreen
-     */
-
     // فەرمانی نوێ بۆ کاتی فوکەس (Preview بێ دەنگ)
     function handleChannelFocus(url, category, cardElement) {
-        // تەنها ئەگەر باری پان (TV) بێت Preview دەکەین
         if (window.matchMedia("(orientation: landscape)").matches) {
             currentPreviewUrl = url;
             currentPreviewCategory = category;
             
-            // دیاری کردنی کارتی چالاک (بۆ دیزاین)
             document.querySelectorAll('.card').forEach(card => card.classList.remove('active-channel'));
             if (cardElement) cardElement.classList.add('active-channel');
 
-            // نیشاندانی ناو
             let channelName = cardElement ? cardElement.querySelector('h3').innerText : 'REBAZ TV';
             let tvDisplay = document.getElementById('tvChannelNameDisplay');
             if (tvDisplay) tvDisplay.innerText = channelName;
 
-            // بارکردنی ڤیدیۆ بە بێدەنگی
             const video = document.getElementById('videoPlayer');
-            video.muted = true; // دڵنیابوون لە بێدەنگی
-            loadVideoSource(url, video);
+            if (video) {
+                video.muted = true;
+                loadVideoSource(url, video);
+            }
         }
     }
 
     // فەرمانی نوێ بۆ کاتی کلیک (Fullscreen لەگەڵ دەنگ)
-    function handleChannelClick(cardElement) {
+    function handleChannelClick(cardElement, url) {
+        const targetUrl = url || currentPreviewUrl;
         const video = document.getElementById('videoPlayer');
         
-        // کردنەوەی دەنگ
-        video.muted = false;
+        if (video) {
+            video.muted = false;
+        }
 
-        // ئەگەر لە ناو ئەپەکە بوو، ExoPlayer بەکاربهێنە
+        let channelName = cardElement ? cardElement.querySelector('h3').innerText : 'REBAZ TV';
+
         if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
-            let channelName = cardElement.querySelector('h3').innerText;
-            // ئێمە ناونیشانی یەکەم کارت دەگرین کە فوکەسی لەسەرە (isPreviewUrl)
-            AndroidBridge.playInExo(currentPreviewUrl, channelName);
+            AndroidBridge.playInExo(targetUrl, channelName);
             return;
         }
 
-        // فول سکرین کردن
-        if (video.requestFullscreen) {
-            video.requestFullscreen();
-        } else if (video.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-            video.webkitRequestFullscreen();
+        if (video) {
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) {
+                video.webkitRequestFullscreen();
+            } else if (video.msRequestFullscreen) {
+                video.msRequestFullscreen();
+            }
         }
     }
 
-    /* 
-     * کۆدە کۆنەکان بۆ گەڕان و پۆلەکان (وەک خۆیان ماونەتەوە)
-     */
     function filterCategory(category, btn) {
         currentCategory = category;
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -1310,35 +1306,78 @@
         });
     }
 
-    // لۆجیکی جیهانی بارکردنی ڤیدیۆ (HLS پشتیبانی دەکات)
+    // لۆجیکی نوێی بارکردنی ڤیدیۆ (پشتیوانی HLS و MPEG-TS و لایڤەکان)
     function loadVideoSource(url, videoElement) {
+        // سڕینەوە و پاککردنەوەی پلەیەرەکانی پێشوو
         if (hlsInstance) {
             hlsInstance.destroy();
             hlsInstance = null;
         }
+        if (mpegtsPlayer) {
+            try {
+                mpegtsPlayer.pause();
+                mpegtsPlayer.unload();
+                mpegtsPlayer.detachMediaElement();
+                mpegtsPlayer.destroy();
+            } catch(e) {}
+            mpegtsPlayer = null;
+        }
 
-        if (Hls.isSupported() && url.includes('.m3u8')) {
-            hlsInstance = new Hls();
-            hlsInstance.loadSource(url);
-            hlsInstance.attachMedia(videoElement);
-            hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-                videoElement.play().catch(function(error) {
-                    console.log("Autoplay blocked:", error);
+        if (!url) return;
+
+        const isM3U8 = url.includes('.m3u8');
+
+        if (isM3U8) {
+            if (Hls.isSupported()) {
+                hlsInstance = new Hls({
+                    enableWorker: true,
+                    lowLatencyMode: true
                 });
-            });
-        } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-            // بۆ وێبگەڕەکان کە HLS بە شێوەیەکی ڕەسەن پشتیبانی دەکەن (وەک Safari)
-            videoElement.src = url;
-            videoElement.addEventListener('loadedmetadata', function() {
-                videoElement.play().catch(function(error) {
-                    console.log("Autoplay blocked:", error);
+                hlsInstance.loadSource(url);
+                hlsInstance.attachMedia(videoElement);
+                hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
+                    videoElement.play().catch(function(e) {
+                        console.log("Autoplay blocked:", e);
+                    });
                 });
-            });
+            } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+                videoElement.src = url;
+                videoElement.play().catch(function(e) {
+                    console.log("Autoplay blocked:", e);
+                });
+            } else {
+                videoElement.src = url;
+                videoElement.play().catch(function(e) {
+                    console.log("Autoplay blocked:", e);
+                });
+            }
+        } else if (typeof mpegts !== 'undefined' && mpegts.isSupported()) {
+            // بەکارهێنانی mpegts.js بۆ کەناڵەکانی .ts و سێرڤەرەکان
+            try {
+                mpegtsPlayer = mpegts.createPlayer({
+                    type: 'mse',
+                    isLive: true,
+                    url: url
+                }, {
+                    enableStashBuffer: false,
+                    liveBufferLatencyChasing: true
+                });
+                mpegtsPlayer.attachMediaElement(videoElement);
+                mpegtsPlayer.load();
+                mpegtsPlayer.play().catch(function(e) {
+                    console.log("Autoplay blocked:", e);
+                });
+            } catch(err) {
+                console.log("mpegts error, fallback to direct src:", err);
+                videoElement.src = url;
+                videoElement.play().catch(function(e) {
+                    console.log("Autoplay blocked:", e);
+                });
+            }
         } else {
-            // بۆ لینکەکانی .ts یان ئەوانەی تر
             videoElement.src = url;
-            videoElement.play().catch(function(error) {
-                console.log("Autoplay blocked:", error);
+            videoElement.play().catch(function(e) {
+                console.log("Autoplay blocked:", e);
             });
         }
     }
