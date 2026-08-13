@@ -136,7 +136,6 @@
             height: 100%;
             object-fit: contain;
             outline: none;
-            background-color: #000;
         }
 
         .categories-container {
@@ -159,12 +158,6 @@
             white-space: nowrap;
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-            outline: none;
-        }
-        /* 🔵 کاتی فوکەسکردن لەسەر دوگمەی پۆلەکان بە کۆنترۆڵ */
-        .cat-btn:focus {
-            border: 2px solid #ffcc00;
-            background-color: #2e2a42;
         }
         .cat-btn.active {
             background-color: #0044cc;
@@ -216,8 +209,6 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             transition: all 0.3s ease;
-            outline: none;
-            cursor: pointer;
         }
 
         @keyframes softRedGlow {
@@ -293,7 +284,6 @@
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.4);
             white-space: nowrap;
-            pointer-events: none; /* وادەکات کلیکەکە بۆ کارتی سەرەکی بێت */
         }
 
         /* 📱 لە باری درێژدا شوێنە نویـییەکانی TV بشارەوە */
@@ -317,6 +307,7 @@
                 overflow: hidden !important;
             }
 
+            /* بارگەی سەرەوە (TV Header Bar) */
             .tv-header {
                 display: flex !important;
                 align-items: center;
@@ -375,6 +366,7 @@
                 color: #ccc;
             }
 
+            /* نەخشەی گشتی ٣ ستوونی TV */
             .tv-main-layout {
                 display: flex !important;
                 flex-direction: row !important;
@@ -435,7 +427,7 @@
                 box-shadow: none !important;
             }
 
-            .cat-btn.active, .cat-btn:focus {
+            .cat-btn.active {
                 background: #2e2a42 !important;
                 border: 1px solid #ffcc00 !important;
                 color: #ffcc00 !important;
@@ -449,8 +441,7 @@
                 right: 0 !important;
                 left: 0 !important;
                 bottom: 0 !important;
-                flex-grow: 0 !important;
-                width: 320px !important; /* 🟢 قیاسی نوێی ستوونی کەناڵەکان (بچووک کراوەتەوە) */
+                flex-grow: 1 !important;
                 height: 100% !important;
                 background: #171622 !important;
                 border-left: 1px solid rgba(255, 255, 255, 0.12) !important;
@@ -465,14 +456,16 @@
                 padding-bottom: 20px !important;
             }
 
+            /* کەناڵ بە شێوازی ڕیزێکی تەنک وەک IPTV App */
             .card {
                 background: #232132 !important;
                 border: 1px solid rgba(255, 255, 255, 0.08) !important;
                 border-radius: 8px !important;
                 box-shadow: none !important;
+                cursor: pointer !important;
             }
 
-            .card.active-channel, .card:focus {
+            .card.active-channel {
                 animation: none !important;
                 border: 1px solid #ffcc00 !important;
                 background: #2e2a42 !important;
@@ -488,12 +481,11 @@
             }
 
             .card-header h3 {
-                font-size: 16px !important;
+                font-size: 15px !important;
                 color: #ffffff !important;
-                white-space: normal !important;
             }
 
-            .card.active-channel .card-header h3, .card:focus .card-header h3 { color: #ffcc00 !important; }
+            .card.active-channel .card-header h3 { color: #ffcc00 !important; }
 
             .play-link-btn, .cat-tag { display: none !important; }
 
@@ -501,8 +493,7 @@
             .tv-player-panel {
                 display: flex !important;
                 flex-direction: column !important;
-                flex-grow: 1 !important; /* 🟢 وادەکات تەواوی بۆشایی لای چەپ بگرێت */
-                width: auto !important;
+                width: 420px !important;
                 height: 100% !important;
                 background: #191826 !important;
                 padding: 15px !important;
@@ -513,7 +504,7 @@
             .player-container {
                 position: relative !important;
                 width: 100% !important;
-                height: 50vh !important; /* 🟢 شاشەی ڤیدیۆکە گەورەتر کرا */
+                height: 230px !important;
                 background: #000000 !important;
                 border-radius: 10px !important;
                 border: 1px solid rgba(255, 255, 255, 0.15) !important;
@@ -524,7 +515,7 @@
 
             .tv-channel-title {
                 color: #ffffff;
-                font-size: 24px; /* تۆزێک گەورەتر کرا بۆ گونجان لەگەڵ شاشەکە */
+                font-size: 20px;
                 font-weight: bold;
                 margin: 10px 0;
             }
@@ -551,6 +542,7 @@
 </head>
 <body>
 
+<!-- 📺 بارگەی سەرەوەی تایبەت بە TV -->
 <div class="tv-header">
     <div class="tv-title">
         <span style="font-size: 18px;">‹</span> REBAZ TV
@@ -584,18 +576,17 @@
 
         <div class="tv-category-header">گەڕان لە پۆلەکاندا...</div>
 
-        <!-- 🟢 tabindex="0" زیاد کرا بۆ ئەوەی بە کۆنترۆڵ دیاریبکرێن -->
         <div class="categories-container" id="categoriesBar">
-            <button class="cat-btn active" tabindex="0" onclick="filterCategory('news', this)">هەواڵ</button>
-            <button class="cat-btn" tabindex="0" onclick="filterCategory('kurdish', this)">کوردی ناوخۆیی</button>
-            <button class="cat-btn" tabindex="0" onclick="filterCategory('sport', this)">وەرزش</button>
-            <button class="cat-btn" tabindex="0" onclick="filterCategory('documentary', this)">دۆکومێنتاری</button>
-            <button class="cat-btn" tabindex="0" onclick="filterCategory('kids', this)">منداڵان</button>
-            <button class="cat-btn" tabindex="0" onclick="filterCategory('islamic', this)">ئاینی</button>
+            <button class="cat-btn active" onclick="filterCategory('news', this)">هەواڵ</button>
+            <button class="cat-btn" onclick="filterCategory('kurdish', this)">کوردی ناوخۆیی</button>
+            <button class="cat-btn" onclick="filterCategory('sport', this)">وەرزش</button>
+            <button class="cat-btn" onclick="filterCategory('documentary', this)">دۆکومێنتاری</button>
+            <button class="cat-btn" onclick="filterCategory('kids', this)">منداڵان</button>
+            <button class="cat-btn" onclick="filterCategory('islamic', this)">ئاینی</button>
         </div>
     </div>
 
-    <!-- 2️⃣ ستوونی ناوەڕاست: کەناڵەکان -->
+    <!-- 2️⃣ ستوونی ناوەڕاست: کەناڵەکان (45 کەناڵ بە تەواوی ماونەتەوە) -->
     <div class="scrollable-content" id="scrollableContent">
         <div class="channels-container" id="channelsList">
 
@@ -608,7 +599,7 @@
                         </div>
                         <h3>RUDAW TV</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -621,7 +612,7 @@
                         </div>
                         <h3>AVA TV</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -634,7 +625,7 @@
                         </div>
                         <h3>NRT News</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -647,7 +638,7 @@
                         </div>
                         <h3>K24 News</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -660,7 +651,7 @@
                         </div>
                         <h3>Channel 8</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -673,7 +664,7 @@
                         </div>
                         <h3>KURDsat News</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -686,7 +677,7 @@
                         </div>
                         <h3>KURDsat TV</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -699,7 +690,7 @@
                         </div>
                         <h3>Kurdistan TV</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -712,7 +703,7 @@
                         </div>
                         <h3>Gali Kurdistan</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -725,7 +716,7 @@
                         </div>
                         <h3>Kirkuk TV</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -738,7 +729,7 @@
                         </div>
                         <h3>Payam TV</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -751,7 +742,7 @@
                         </div>
                         <h3>Speda TV</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -764,7 +755,7 @@
                         </div>
                         <h3>Wala TV Chamchamal</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -777,7 +768,7 @@
                         </div>
                         <h3>Soran Entrtainment</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -792,7 +783,7 @@
                         </div>
                         <h3>Alwan Sport 1 4K</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -805,7 +796,7 @@
                         </div>
                         <h3>Alwan Sport 2 4K</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -818,7 +809,7 @@
                         </div>
                         <h3>Alwan Sport 3 4K</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -831,7 +822,7 @@
                         </div>
                         <h3>Alwan Sport 4 4K</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -844,7 +835,7 @@
                         </div>
                         <h3>Alwan Sport 5 4K</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -857,7 +848,7 @@
                         </div>
                         <h3>Alwan Sport 6 4K</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -870,7 +861,7 @@
                         </div>
                         <h3>Alwan Sport 1 HD</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -883,7 +874,7 @@
                         </div>
                         <h3>Alwan Sport 2 HD</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -896,7 +887,7 @@
                         </div>
                         <h3>Alwan Sport 3 HD</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -911,7 +902,7 @@
                         </div>
                         <h3>Bein Sport UHD 4K</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -924,7 +915,7 @@
                         </div>
                         <h3>Bein Sport news</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -937,7 +928,7 @@
                         </div>
                         <h3>Bein Sport 1</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -950,7 +941,7 @@
                         </div>
                         <h3>Bein Sport 2</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -963,7 +954,7 @@
                         </div>
                         <h3>Bein Sport 3</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -976,7 +967,7 @@
                         </div>
                         <h3>Bein Sport 4</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -989,7 +980,7 @@
                         </div>
                         <h3>Bein Sport 5</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1002,7 +993,7 @@
                         </div>
                         <h3>Bein Sport 6</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1017,7 +1008,7 @@
                         </div>
                         <h3>AVA Sport</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1030,7 +1021,7 @@
                         </div>
                         <h3>NRT Sport</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1043,7 +1034,7 @@
                         </div>
                         <h3>Astera Sport</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1056,7 +1047,7 @@
                         </div>
                         <h3>Reng Documentary</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1069,7 +1060,7 @@
                         </div>
                         <h3>Kurdbin-KURDsat documentary</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
             
@@ -1082,7 +1073,7 @@
                         </div>
                         <h3>Astera Documentary</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1095,7 +1086,7 @@
                         </div>
                         <h3>K24 Documentary</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1108,7 +1099,7 @@
                         </div>
                         <h3>Shna Documentary</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1121,7 +1112,7 @@
                         </div>
                         <h3>Sima Documentary</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1134,7 +1125,7 @@
                         </div>
                         <h3>MMN Documentary</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1147,7 +1138,7 @@
                         </div>
                         <h3>Afarin Baxcha</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1160,7 +1151,7 @@
                         </div>
                         <h3>Afarin Kids</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1173,7 +1164,7 @@
                         </div>
                         <h3>One Kids</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
@@ -1186,19 +1177,17 @@
                         </div>
                         <h3>Wala Quran</h3>
                     </div>
-                    <a class="play-link-btn">پەخش</a>
+                    <a href="#" class="play-link-btn">پەخش</a>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <!-- 3️⃣ ستوونی چەپ: شاشەی پەخش و زانیاری -->
     <div class="tv-player-panel">
         <div class="player-container" id="playerContainer">
             <div id="watermarkLogo" class="watermark-logo">REBAZ | TV</div>
-            <!-- 🟢 لابردنی وشەی controls تا نیشانەی وێبگەڕەکە نەیەتە سەر ڤیدیۆکە -->
-            <video id="videoPlayer" autoplay muted playsinline></video>
+            <video id="videoPlayer" controls autoplay muted playsinline></video>
         </div>
         <div class="tv-channel-title" id="tvChannelNameDisplay">1. RUDAW TV</div>
         
@@ -1238,24 +1227,7 @@
         });
     }
 
-    // 🟢 لۆجیکی جێبەجێکردنی Enter بە کۆنترۆڵی TV بۆ تەواوی پۆل و کەناڵەکان
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.keyCode === 13) {
-            let activeEl = document.activeElement;
-            if (activeEl) {
-                // ئەگەر لەسەر کەناڵێکە
-                if (activeEl.classList.contains('card')) {
-                    activeEl.click();
-                } 
-                // ئەگەر لەسەر پۆلێکە
-                else if (activeEl.classList.contains('cat-btn')) {
-                    activeEl.click();
-                }
-            }
-        }
-    });
-
-    // 🔴 نوێکراوەتەوە: کاتی فوکەسکردن لەسەر کارت
+    // کاتی فوکەسکردن لەسەر کارت (بۆ باری Landscape)
     function handleChannelFocus(url, category, cardElement) {
         if (window.matchMedia("(orientation: landscape)").matches) {
             currentPreviewUrl = url;
@@ -1268,7 +1240,6 @@
             let tvDisplay = document.getElementById('tvChannelNameDisplay');
             if (tvDisplay) tvDisplay.innerText = channelName;
 
-            // 🟢 بەکارهێنانی وێب پلەیەر بۆ شاشە بچووکەکە (بۆ ئەوەی بە جوانی کار بکات)
             const video = document.getElementById('videoPlayer');
             if (video) {
                 loadVideoSource(url, video);
@@ -1276,22 +1247,23 @@
         }
     }
 
-    // کاتی کلیک کردن (Enter لێدان) 
+    // کاتی کلیک کردن (کۆنترۆڵکردنی ExoPlayer و Fullscreen)
     function handleChannelClick(cardElement, url) {
         const targetUrl = url || currentPreviewUrl;
         const video = document.getElementById('videoPlayer');
         
+        if (video) {
+            video.muted = false;
+        }
+
         let channelName = cardElement ? cardElement.querySelector('h3').innerText : 'REBAZ TV';
 
-        // کاتێک کلیک کرا، ئەگەر ئەپەکەت پشتگیری بکات ئەوا بە شاشە گەورە لە ئەپەکە دەکرێتەوە
         if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
             AndroidBridge.playInExo(targetUrl, channelName);
             return;
         }
 
-        // بۆ براوزەر (ئەگەر لە دەرەوەی ئەپ بوو)
         if (video) {
-            video.muted = false;
             if (video.requestFullscreen) {
                 video.requestFullscreen();
             } else if (video.webkitRequestFullscreen) {
@@ -1331,10 +1303,11 @@
         });
     }
 
-    // لۆجیکی کارپێکردنی ڤیدیۆ لە براوزەردا (بۆ شاشە بچووکەکەی Preview)
+    // 🛠️ لۆجیکی نوێ و فریاگوزاری بۆ کارپێکردنی هەموو کەناڵەکان لە شاشە بچوکەکەدا
     function loadVideoSource(url, videoElement) {
         if (!url || !videoElement) return;
 
+        // ١. پاککردنەوەی هەموو پلەیەر و هەوڵەکانی پێشوو
         if (hlsInstance) {
             try { hlsInstance.destroy(); } catch(e){}
             hlsInstance = null;
@@ -1349,9 +1322,11 @@
             mpegtsPlayer = null;
         }
 
+        // بێدەنگکردن بۆ دڵنیابوون لە Autoplay
         videoElement.muted = true;
         videoElement.pause();
 
+        // فەنکشنی فریاگوزاری بۆ لێدانی ڕاستەوخۆ کاتێک JS Blocked دەبێت بەهۆی CORS
         function tryDirectSrc() {
             videoElement.src = url;
             let p = videoElement.play();
@@ -1363,6 +1338,7 @@
         const isM3U8 = url.toLowerCase().includes('.m3u8');
         const isTS = url.toLowerCase().includes('.ts') || url.includes(':8080') || url.includes(':80');
 
+        // ٢. تاقیکردنەوەی HLS
         if (isM3U8 && typeof Hls !== 'undefined' && Hls.isSupported()) {
             hlsInstance = new Hls({
                 enableWorker: true,
@@ -1378,6 +1354,7 @@
                 if (p !== undefined) { p.catch(e => console.log(e)); }
             });
 
+            // کاتێک CORS یان تێکچوون ڕوویدا، ڕاستەوخۆ دەیداتە خودی تاگی ڤیدیۆکە
             hlsInstance.on(Hls.Events.ERROR, function(event, data) {
                 if (data.fatal) {
                     if (hlsInstance) {
@@ -1388,6 +1365,7 @@
                 }
             });
         } 
+        // ٣. تاقیکردنەوەی MPEGTS بۆ ڕەوتەکانی .ts
         else if (isTS && typeof mpegts !== 'undefined' && mpegts.isSupported()) {
             try {
                 mpegtsPlayer = mpegts.createPlayer({
@@ -1418,6 +1396,7 @@
                 tryDirectSrc();
             }
         } 
+        // ٤. ئەگەر هیچکامیان نەبوو، یەکسەر بە شێوەی ڕاستەوخۆ دایبێنە
         else {
             tryDirectSrc();
         }
