@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache"    
+    <meta http-equiv="Pragma" content="no-cache" />   
     <meta http-equiv="Expires" content="0" />
 
     <title>REBAZ TV</title>
@@ -69,14 +69,17 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             margin-bottom: 8px;
         }
-        .vip-card h2 {
-            color: #ffcc00;
-            margin: 0 0 4px 0;
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-shadow: 0 3px 6px rgba(0,0,0,0.8);
+
+        /* دیزاینی وێنەی لۆگۆی سەرەوە */
+        .vip-card .header-logo {
+            max-width: 80%;
+            max-height: 55px;
+            height: auto;
+            display: block;
+            margin: 0 auto 6px auto;
+            object-fit: contain;
         }
+
         .vip-card p {
             color: #ccc;
             margin: 0;
@@ -346,7 +349,7 @@
     </div>
 
     <div class="vip-card" id="vipCardContainer">
-        <h2>REBAZ TV</h2>
+        <img src="https://imglink.cc/cdn/u4Kyu4xK3Z.png" alt="REBAZ TV" class="header-logo">
         <div class="ticker-wrapper">
             <span class="ticker-text">اللّهُمَّ صَلِّ عَلَىٰ مُحَمَّد وَعَلَىٰ آلِ مُحَمَّد</span>
         </div>
@@ -849,7 +852,7 @@
             </div>
         </div>
 
-<!-- کەناڵی وەرزشی / ئەستێرە سپۆرت -->
+        <!-- کەناڵی وەرزشی / ئەستێرە سپۆرت -->
         <div class="card" data-category="sport" data-name="ئەستێرە سپۆرت">
             <div class="card-header">
                 <div class="channel-info">
@@ -881,7 +884,7 @@
         
 
 
-<!-- کەناڵی دۆکومێنتاری فۆرئێڤەر -->
+        <!-- کەناڵی دۆکومێنتاری فۆرئێڤەر -->
         <div class="card" data-category="documentary" data-name="فۆر ئێڤەر دۆکومێنتاری forever documentary">
             <div class="card-header">
                 <div class="channel-info">
@@ -895,7 +898,7 @@
             </div>
         </div>
         
-<!-- کەناڵی دۆکومێنتاری ئەستێرە دۆکومێنتاری -->
+        <!-- کەناڵی دۆکومێنتاری ئەستێرە دۆکومێنتاری -->
         <div class="card" data-category="documentary" data-name="ئەستێرە دۆکومێنتاری astera documentary">
             <div class="card-header">
                 <div class="channel-info">
@@ -910,7 +913,7 @@
         </div>
         
 
-<!-- کەناڵی دۆکومێنتاری کوردستان 24 دۆکومێنتاری -->
+        <!-- کەناڵی دۆکومێنتاری کوردستان 24 دۆکومێنتاری -->
         <div class="card" data-category="documentary" data-name="کوردستان 24 دۆکومێنتاری k24 documentary">
             <div class="card-header">
                 <div class="channel-info">
@@ -925,7 +928,7 @@
         </div>
 
 
-<!-- کەناڵی دۆکومێنتاری شنە دۆکومێنتاری -->
+        <!-- کەناڵی دۆکومێنتاری شنە دۆکومێنتاری -->
         <div class="card" data-category="documentary" data-name="شنە دۆکومێنتاری shna documentary">
             <div class="card-header">
                 <div class="channel-info">
@@ -940,7 +943,7 @@
         </div>
 
         
-<!-- کەناڵی دۆکومێنتاری سیما؟دۆکومێنتاری -->
+        <!-- کەناڵی دۆکومێنتاری سیما دۆکومێنتاری -->
         <div class="card" data-category="documentary" data-name="سیما دۆکومێنتاری sima documentary">
             <div class="card-header">
                 <div class="channel-info">
@@ -955,7 +958,7 @@
         </div>
 
         
-<!-- کەناڵی دۆکومێنتاری ئێم ئێم ئێن دۆکومێنتاری -->
+        <!-- کەناڵی دۆکومێنتاری ئێم ئێم ئێن دۆکومێنتاری -->
         <div class="card" data-category="documentary" data-name="ئێم ئێم ئێن دۆکومێنتاری">
             <div class="card-header">
                 <div class="channel-info">
@@ -963,7 +966,8 @@
                         <span class="cat-tag">Documentary</span>
                         <img src="https://imglink.cc/cdn/tbDqC9x9w4.png" alt="Logo">
                     </div>
-                    <h3>MMN Documentary</div>
+                    <h3>MMN Documentary</h3>
+                </div>
                 <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/429769', 'documentary', this); return false;" class="play-link-btn">پەخش</a>
             </div>
         </div>
