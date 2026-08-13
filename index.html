@@ -586,7 +586,7 @@
         </div>
     </div>
 
-    <!-- 2️⃣ ستوونی ناوەڕاست: کەناڵەکان (45 کەناڵ بە تەواوی ماونەتەوە) -->
+    <!-- 2️⃣ ستوونی ناوەڕاست: کەناڵەکان (هەموو 45 کەناڵەکە بە تەواوی) -->
     <div class="scrollable-content" id="scrollableContent">
         <div class="channels-container" id="channelsList">
 
@@ -1184,6 +1184,7 @@
         </div>
     </div>
 
+    <!-- 3️⃣ ستوونی چەپ: شاشەی پەخش و زانیاری -->
     <div class="tv-player-panel">
         <div class="player-container" id="playerContainer">
             <div id="watermarkLogo" class="watermark-logo">REBAZ | TV</div>
@@ -1227,7 +1228,7 @@
         });
     }
 
-    // کاتی فوکەسکردن لەسەر کارت (بۆ باری Landscape)
+    // 🔴 نوێکراوەتەوە: کاتی فوکەسکردن لەسەر کارت (بۆ باری Landscape / TV)
     function handleChannelFocus(url, category, cardElement) {
         if (window.matchMedia("(orientation: landscape)").matches) {
             currentPreviewUrl = url;
@@ -1240,9 +1241,20 @@
             let tvDisplay = document.getElementById('tvChannelNameDisplay');
             if (tvDisplay) tvDisplay.innerText = channelName;
 
-            const video = document.getElementById('videoPlayer');
-            if (video) {
-                loadVideoSource(url, video);
+            // ١. هەوڵدان بۆ ناردنی کەناڵەکە بۆ ExoPlayer لە ڕێگەی AndroidBridge (ئەگەر هەبێت)
+            if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playPreviewInExo) {
+                AndroidBridge.playPreviewInExo(url, channelName);
+            } 
+            else if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
+                // ئەگەر جۆری playPreviewInExo نەبوو، هەر playInExo بەکاربێنە
+                AndroidBridge.playInExo(url, channelName);
+            } 
+            else {
+                // ٢. Fallback بۆ وێبگەڕ کاتێک لە ناو ئاندرۆیددا نییە (تاقیکردنەوە لە کۆمپیوتەر/براوزەر)
+                const video = document.getElementById('videoPlayer');
+                if (video) {
+                    loadVideoSource(url, video);
+                }
             }
         }
     }
@@ -1303,11 +1315,10 @@
         });
     }
 
-    // 🛠️ لۆجیکی نوێ و فریاگوزاری بۆ کارپێکردنی هەموو کەناڵەکان لە شاشە بچوکەکەدا
+    // لۆجیکی کارپێکردنی ڤیدیۆ لە براوزەردا (Fallback)
     function loadVideoSource(url, videoElement) {
         if (!url || !videoElement) return;
 
-        // ١. پاککردنەوەی هەموو پلەیەر و هەوڵەکانی پێشوو
         if (hlsInstance) {
             try { hlsInstance.destroy(); } catch(e){}
             hlsInstance = null;
@@ -1322,11 +1333,9 @@
             mpegtsPlayer = null;
         }
 
-        // بێدەنگکردن بۆ دڵنیابوون لە Autoplay
         videoElement.muted = true;
         videoElement.pause();
 
-        // فەنکشنی فریاگوزاری بۆ لێدانی ڕاستەوخۆ کاتێک JS Blocked دەبێت بەهۆی CORS
         function tryDirectSrc() {
             videoElement.src = url;
             let p = videoElement.play();
@@ -1338,7 +1347,6 @@
         const isM3U8 = url.toLowerCase().includes('.m3u8');
         const isTS = url.toLowerCase().includes('.ts') || url.includes(':8080') || url.includes(':80');
 
-        // ٢. تاقیکردنەوەی HLS
         if (isM3U8 && typeof Hls !== 'undefined' && Hls.isSupported()) {
             hlsInstance = new Hls({
                 enableWorker: true,
@@ -1354,7 +1362,6 @@
                 if (p !== undefined) { p.catch(e => console.log(e)); }
             });
 
-            // کاتێک CORS یان تێکچوون ڕوویدا، ڕاستەوخۆ دەیداتە خودی تاگی ڤیدیۆکە
             hlsInstance.on(Hls.Events.ERROR, function(event, data) {
                 if (data.fatal) {
                     if (hlsInstance) {
@@ -1365,7 +1372,6 @@
                 }
             });
         } 
-        // ٣. تاقیکردنەوەی MPEGTS بۆ ڕەوتەکانی .ts
         else if (isTS && typeof mpegts !== 'undefined' && mpegts.isSupported()) {
             try {
                 mpegtsPlayer = mpegts.createPlayer({
@@ -1396,7 +1402,6 @@
                 tryDirectSrc();
             }
         } 
-        // ٤. ئەگەر هیچکامیان نەبوو، یەکسەر بە شێوەی ڕاستەوخۆ دایبێنە
         else {
             tryDirectSrc();
         }
