@@ -586,12 +586,10 @@
         </div>
     </div>
 
-    <!-- 2️⃣ ستوونی ناوەڕاست: کەناڵەکان -->
+    <!-- 2️⃣ ستوونی ناوەڕاست: کەناڵەکان (45 کەناڵ بە تەواوی ماونەتەوە) -->
     <div class="scrollable-content" id="scrollableContent">
         <div class="channels-container" id="channelsList">
 
-            <!-- کەناڵەکان -->
-            
             <div class="card" data-category="news" data-name="rudaw tv ڕووداو" tabindex="0" onfocus="handleChannelFocus('https://live.rudaw.net/hls/rudaw-tv/master.m3u8', 'news', this)" onclick="handleChannelClick(this, 'https://live.rudaw.net/hls/rudaw-tv/master.m3u8')">
                 <div class="card-header">
                     <div class="channel-info">
@@ -1229,7 +1227,7 @@
         });
     }
 
-    // فەرمانی نوێ بۆ کاتی فوکەس (Preview بێ دەنگ)
+    // کاتی فوکەسکردن لەسەر کارت (بۆ باری Landscape)
     function handleChannelFocus(url, category, cardElement) {
         if (window.matchMedia("(orientation: landscape)").matches) {
             currentPreviewUrl = url;
@@ -1244,13 +1242,12 @@
 
             const video = document.getElementById('videoPlayer');
             if (video) {
-                video.muted = true;
                 loadVideoSource(url, video);
             }
         }
     }
 
-    // فەرمانی نوێ بۆ کاتی کلیک (Fullscreen لەگەڵ دەنگ)
+    // کاتی کلیک کردن (کۆنترۆڵکردنی ExoPlayer و Fullscreen)
     function handleChannelClick(cardElement, url) {
         const targetUrl = url || currentPreviewUrl;
         const video = document.getElementById('videoPlayer');
@@ -1306,11 +1303,13 @@
         });
     }
 
-    // لۆجیکی نوێی بارکردنی ڤیدیۆ (پشتیوانی HLS و MPEG-TS و لایڤەکان)
+    // 🛠️ لۆجیکی نوێ و فریاگوزاری بۆ کارپێکردنی هەموو کەناڵەکان لە شاشە بچوکەکەدا
     function loadVideoSource(url, videoElement) {
-        // سڕینەوە و پاککردنەوەی پلەیەرەکانی پێشوو
+        if (!url || !videoElement) return;
+
+        // ١. پاککردنەوەی هەموو پلەیەر و هەوڵەکانی پێشوو
         if (hlsInstance) {
-            hlsInstance.destroy();
+            try { hlsInstance.destroy(); } catch(e){}
             hlsInstance = null;
         }
         if (mpegtsPlayer) {
@@ -1319,40 +1318,55 @@
                 mpegtsPlayer.unload();
                 mpegtsPlayer.detachMediaElement();
                 mpegtsPlayer.destroy();
-            } catch(e) {}
+            } catch(e){}
             mpegtsPlayer = null;
         }
 
-        if (!url) return;
+        // بێدەنگکردن بۆ دڵنیابوون لە Autoplay
+        videoElement.muted = true;
+        videoElement.pause();
 
-        const isM3U8 = url.includes('.m3u8');
-
-        if (isM3U8) {
-            if (Hls.isSupported()) {
-                hlsInstance = new Hls({
-                    enableWorker: true,
-                    lowLatencyMode: true
-                });
-                hlsInstance.loadSource(url);
-                hlsInstance.attachMedia(videoElement);
-                hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-                    videoElement.play().catch(function(e) {
-                        console.log("Autoplay blocked:", e);
-                    });
-                });
-            } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-                videoElement.src = url;
-                videoElement.play().catch(function(e) {
-                    console.log("Autoplay blocked:", e);
-                });
-            } else {
-                videoElement.src = url;
-                videoElement.play().catch(function(e) {
-                    console.log("Autoplay blocked:", e);
-                });
+        // فەنکشنی فریاگوزاری بۆ لێدانی ڕاستەوخۆ کاتێک JS Blocked دەبێت بەهۆی CORS
+        function tryDirectSrc() {
+            videoElement.src = url;
+            let p = videoElement.play();
+            if (p !== undefined) {
+                p.catch(err => console.log("Direct play catch:", err));
             }
-        } else if (typeof mpegts !== 'undefined' && mpegts.isSupported()) {
-            // بەکارهێنانی mpegts.js بۆ کەناڵەکانی .ts و سێرڤەرەکان
+        }
+
+        const isM3U8 = url.toLowerCase().includes('.m3u8');
+        const isTS = url.toLowerCase().includes('.ts') || url.includes(':8080') || url.includes(':80');
+
+        // ٢. تاقیکردنەوەی HLS
+        if (isM3U8 && typeof Hls !== 'undefined' && Hls.isSupported()) {
+            hlsInstance = new Hls({
+                enableWorker: true,
+                lowLatencyMode: true,
+                maxBufferLength: 10
+            });
+            
+            hlsInstance.loadSource(url);
+            hlsInstance.attachMedia(videoElement);
+            
+            hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
+                let p = videoElement.play();
+                if (p !== undefined) { p.catch(e => console.log(e)); }
+            });
+
+            // کاتێک CORS یان تێکچوون ڕوویدا، ڕاستەوخۆ دەیداتە خودی تاگی ڤیدیۆکە
+            hlsInstance.on(Hls.Events.ERROR, function(event, data) {
+                if (data.fatal) {
+                    if (hlsInstance) {
+                        try { hlsInstance.destroy(); } catch(e){}
+                        hlsInstance = null;
+                    }
+                    tryDirectSrc();
+                }
+            });
+        } 
+        // ٣. تاقیکردنەوەی MPEGTS بۆ ڕەوتەکانی .ts
+        else if (isTS && typeof mpegts !== 'undefined' && mpegts.isSupported()) {
             try {
                 mpegtsPlayer = mpegts.createPlayer({
                     type: 'mse',
@@ -1364,21 +1378,27 @@
                 });
                 mpegtsPlayer.attachMediaElement(videoElement);
                 mpegtsPlayer.load();
-                mpegtsPlayer.play().catch(function(e) {
-                    console.log("Autoplay blocked:", e);
+                let p = mpegtsPlayer.play();
+                if (p !== undefined) {
+                    p.catch(e => {
+                        tryDirectSrc();
+                    });
+                }
+
+                mpegtsPlayer.on(mpegts.Events.ERROR, function() {
+                    if (mpegtsPlayer) {
+                        try { mpegtsPlayer.destroy(); } catch(e){}
+                        mpegtsPlayer = null;
+                    }
+                    tryDirectSrc();
                 });
-            } catch(err) {
-                console.log("mpegts error, fallback to direct src:", err);
-                videoElement.src = url;
-                videoElement.play().catch(function(e) {
-                    console.log("Autoplay blocked:", e);
-                });
+            } catch(e) {
+                tryDirectSrc();
             }
-        } else {
-            videoElement.src = url;
-            videoElement.play().catch(function(e) {
-                console.log("Autoplay blocked:", e);
-            });
+        } 
+        // ٤. ئەگەر هیچکامیان نەبوو، یەکسەر بە شێوەی ڕاستەوخۆ دایبێنە
+        else {
+            tryDirectSrc();
         }
     }
 </script>
