@@ -9,7 +9,6 @@
     <meta http-equiv="Expires" content="0" />
 
     <title>REBAZ TV</title>
-    <!-- کتێبخانەکانی HLS و MPEG-TS بۆ کارپێکردنی هەموو جۆرە لینکەکان -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/mpegts.js@latest/dist/mpegts.js"></script>
     <style>
@@ -26,9 +25,6 @@
             overflow: hidden;
         }
 
-        /* ==========================================================================
-           📱 دیزاینی باری درێژ (MOBILE / PORTRAIT) - تەواو ڕەسەن و دەستکارینەکراو
-           ========================================================================== */
         .fixed-top-section {
             position: fixed;
             top: 0;
@@ -288,16 +284,12 @@
             white-space: nowrap;
         }
 
-        /* 📱 لە باری درێژدا شوێنە نویـییەکانی TV بشارەوە */
         @media (orientation: portrait) {
             .tv-header, .tv-player-panel, .tv-category-header {
                 display: none !important;
             }
         }
 
-        /* ==========================================================================
-           📺 دیزاینی تایبەت بۆ باری پان (ANDROID TV / LANDSCAPE) - ڕێک وەک وێنەکە
-           ========================================================================== */
         @media (orientation: landscape) {
             body {
                 background-color: #171622 !important;
@@ -309,7 +301,6 @@
                 overflow: hidden !important;
             }
 
-            /* بارگەی سەرەوە (TV Header Bar) */
             .tv-header {
                 display: flex !important;
                 align-items: center;
@@ -368,7 +359,6 @@
                 color: #ccc;
             }
 
-            /* نەخشەی گشتی ٣ ستوونی TV */
             .tv-main-layout {
                 display: flex !important;
                 flex-direction: row !important;
@@ -377,7 +367,6 @@
                 position: relative;
             }
 
-            /* 1️⃣ ستوونی ڕاست: پۆلەکان (Categories) */
             .fixed-top-section {
                 position: relative !important;
                 top: 0 !important;
@@ -436,7 +425,6 @@
                 font-weight: bold !important;
             }
 
-            /* 2️⃣ ستوونی ناوەڕاست: لیستی کەناڵەکان */
             .scrollable-content {
                 position: relative !important;
                 top: 0 !important;
@@ -458,7 +446,6 @@
                 padding-bottom: 20px !important;
             }
 
-            /* کەناڵ بە شێوازی ڕیزێکی تەنک وەک IPTV App */
             .card {
                 background: #232132 !important;
                 border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -491,7 +478,6 @@
 
             .play-link-btn, .cat-tag { display: none !important; }
 
-            /* 3️⃣ ستوونی چەپ: شاشەی پەخش و زانیاری */
             .tv-player-panel {
                 display: flex !important;
                 flex-direction: column !important;
@@ -544,7 +530,6 @@
 </head>
 <body>
 
-<!-- 📺 بارگەی سەرەوەی تایبەت بە TV (تەنها لە باری پاندا دەردەکەوێت) -->
 <div class="tv-header">
     <div class="tv-title">
         <span style="font-size: 18px;">‹</span> REBAZ TV
@@ -561,23 +546,18 @@
 </div>
 
 <div class="tv-main-layout">
-
-    <!-- 1️⃣ ستوونی پۆلەکان -->
     <div class="fixed-top-section">
         <div class="search-box" id="searchBoxContainer">
             <span style="color: #aaa; margin-left: 10px; font-size: 18px;">🔍</span>
             <input type="text" id="searchInput" placeholder="گەڕان بۆ کەناڵ..." onkeyup="searchChannels()">
         </div>
-
         <div class="vip-card" id="vipCardContainer">
             <h2>REBAZ TV</h2>
             <div class="ticker-wrapper">
                 <span class="ticker-text">اللّهُمَّ صَلِّ عَلَىٰ مُحَمَّد وَعَلَىٰ آلِ مُحَمَّد</span>
             </div>
         </div>
-
         <div class="tv-category-header">گەڕان لە پۆلەکاندا...</div>
-
         <div class="categories-container" id="categoriesBar">
             <button class="cat-btn active" onclick="filterCategory('news', this)">هەواڵ</button>
             <button class="cat-btn" onclick="filterCategory('kurdish', this)">کوردی ناوخۆیی</button>
@@ -588,12 +568,12 @@
         </div>
     </div>
 
-    <!-- 2️⃣ ستوونی ناوەڕاست: کەناڵەکان -->
     <div class="scrollable-content" id="scrollableContent">
         <div class="channels-container" id="channelsList">
 
-            <!-- کەناڵی هەواڵ / ڕووداو -->
-            <div class="card" data-category="news" data-name="rudaw tv ڕووداو" onclick="playChannelFromCard(this)">
+            <!-- کەناڵەکان -->
+            <!-- تێبینی: من tabindex="0" و onfocus زیادکرا بۆ پریڤیو -->
+            <div class="card" data-category="news" data-name="rudaw tv ڕووداو" tabindex="0" onfocus="playChannel('https://live.rudaw.net/hls/rudaw-tv/master.m3u8', 'news', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -606,13 +586,12 @@
                 </div>
             </div>
 
-            <!-- کەناڵی هەواڵ ئاڤا -->
-            <div class="card" data-category="news" data-name="ئاڤا نیوز ava news" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="news" data-name="ئاڤا نیوز ava news" tabindex="0" onfocus="playChannel('http://hlspackager.akamaized.net/live/DB/AVA_TV/HLS/AVA_TV.m3u8', 'news', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
                             <span class="cat-tag">NEWS</span>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/AVAMedialogo.jpg/1280px-AVAMedialogo.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail" alt="Logo">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/AVAMedialogo.jpg/1280px-AVAMedialogo.jpg" alt="Logo">
                         </div>
                         <h3>AVA TV</h3>
                     </div>
@@ -620,8 +599,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی هەواڵ / ئێن ئاڕتی نیوز -->
-            <div class="card" data-category="news" data-name="ئێن ئاڕتی نیوز nrt news" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="news" data-name="ئێن ئاڕتی نیوز nrt news" tabindex="0" onfocus="playChannel('https://live20.bozztv.com/giatv/giatv-nrt/nrt/chunks.m3u8', 'news', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -634,8 +612,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی هەواڵ / کوردستان 24 -->
-            <div class="card" data-category="news" data-name="کوردستان 24 k24 news" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="news" data-name="کوردستان 24 k24 news" tabindex="0" onfocus="playChannel('https://d1x82nydcxndze.cloudfront.net/live/index.m3u8', 'news', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -648,8 +625,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی هەواڵ / کەناڵ 8 -->
-            <div class="card" data-category="news" data-name="کەناڵ 8 channel 8" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="news" data-name="کەناڵ 8 channel 8" tabindex="0" onfocus="playChannel('https://live.channel8.com/Channel8-Kurdish/index.m3u8', 'news', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -662,8 +638,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی هەواڵ / کوردسات نیوز -->
-            <div class="card" data-category="news" data-name="کوردسات نیوز kurdsat news" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="news" data-name="کوردسات نیوز kurdsat news" tabindex="0" onfocus="playChannel('https://hlspackager.akamaized.net/live/DB/KURDSAT_NEWS/HLS/KURDSAT_NEWS.m3u8', 'news', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -676,8 +651,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی هەواڵ / کوردسات -->
-            <div class="card" data-category="news" data-name="کوردسات kurdsat" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="news" data-name="کوردسات kurdsat" tabindex="0" onfocus="playChannel('https://hlspackager.akamaized.net/live/DB/KURDSAT_HD/HLS/KURDSAT_HD-avc1_2500000=10002.m3u8', 'news', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -690,8 +664,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی هەواڵ / کوردستان تیڤی -->
-            <div class="card" data-category="news" data-name="کوردستان تیڤی kurdistan tv" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="news" data-name="کوردستان تیڤی kurdistan tv" tabindex="0" onfocus="playChannel('https://5a3ed7a72ed4b.streamlock.net/live/SMIL:myStream.smil/chunklist.m3u8', 'news', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -704,8 +677,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی هەواڵ / گەلی کوردستان -->
-            <div class="card" data-category="news" data-name="گەلی کوردستان gali kurdistan" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="news" data-name="گەلی کوردستان gali kurdistan" tabindex="0" onfocus="playChannel('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/324582.ts', 'news', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -718,8 +690,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی هەواڵ / کەرکوک -->
-            <div class="card" data-category="news" data-name="کەرکوک kirkuk" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="news" data-name="کەرکوک kirkuk" tabindex="0" onfocus="playChannel('https://live.kirkuklive.live/hls/stream/index.m3u8', 'news', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -732,8 +703,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی هەواڵ / پەیام -->
-            <div class="card" data-category="news" data-name="پەیام payam" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="news" data-name="پەیام payam" tabindex="0" onfocus="playChannel('https://media2.streambrothers.com:1936/8218/8218/playlist.m3u8', 'news', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -746,8 +716,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی هەواڵ / سپێدە -->
-            <div class="card" data-category="news" data-name="سپێدە speda" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="news" data-name="سپێدە speda" tabindex="0" onfocus="playChannel('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/324587.ts', 'news', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -760,8 +729,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی کوردی ناوخۆیی / واڵا چەمچەماڵ -->
-            <div class="card" data-category="kurdish" data-name="واڵا تیڤی wala tv" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="kurdish" data-name="واڵا تیڤی wala tv" tabindex="0" onfocus="playChannel('https://cdn.karwan.tv/wallatv/index.m3u8', 'kurdish', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -774,8 +742,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی کوردی ناوخۆیی / سۆران ئینتەرتامێنت -->
-            <div class="card" data-category="kurdish" data-name="سۆران ئینتەر تامێنت  soran entrtainment" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="kurdish" data-name="سۆران ئینتەر تامێنت  soran entrtainment" tabindex="0" onfocus="playChannel('http://avrstream.com:1935/live/SoranEntertainment/tracks-v1a1/mono.m3u8', 'kurdish', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -788,11 +755,9 @@
                 </div>
             </div>
 
-            <!-- =================== سەردێڕی Alwan Sport =================== -->
             <div class="section-title-alwan" data-category="sport">Alwan Sport 4K & HD</div>
 
-            <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 1 -->
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418111', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -805,8 +770,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 2 -->
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418114', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -819,8 +783,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 3 -->
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418117', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -833,8 +796,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 4 -->
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418120', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -847,8 +809,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 5 -->
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418123', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -861,8 +822,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 6 -->
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418126', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -875,8 +835,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 1 HD -->
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="playChannel('http://line.8kultradnscloud.ru:80/24nn6nw3tx/me6z58cu5m/1859092', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -889,8 +848,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 2 HD -->
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418115', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -903,8 +861,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 3 HD -->
-            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418118', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -917,11 +874,9 @@
                 </div>
             </div>
 
-            <!-- =================== سەردێڕی Bein Sport =================== -->
             <div class="section-title-bein" data-category="sport">Bein Sport</div>
 
-            <!-- کەناڵی وەرزشی / بی ان سبۆرت UHD -->
-            <div class="card" data-category="sport" data-name="بی ان سپۆرت bein sport uhd" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="بی ان سپۆرت bein sport uhd" tabindex="0" onfocus="playChannel('http://96235-sand.tx-4kott.com:80/live/2493f21902/6b9f460f66/2034168.m3u8', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -934,8 +889,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / بی ان سبۆرت اخبارية -->
-            <div class="card" data-category="sport" data-name="beinsport news بی ان اخبارية سبۆرت" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="beinsport news بی ان اخبارية سبۆرت" tabindex="0" onfocus="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142770', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -948,8 +902,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / بی ان سبۆرت 1 -->
-            <div class="card" data-category="sport" data-name="beinsport 1 بی ان سبۆرت" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="beinsport 1 بی ان سبۆرت" tabindex="0" onfocus="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142774', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -962,8 +915,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / بی ان سبۆرت 2 -->
-            <div class="card" data-category="sport" data-name="beinsport 2 بی ان سبۆرت" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="beinsport 2 بی ان سبۆرت" tabindex="0" onfocus="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142775', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -976,8 +928,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / بی ان سبۆرت 3 -->
-            <div class="card" data-category="sport" data-name="beinsport 3 بی ان سبۆرت" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="beinsport 3 بی ان سبۆرت" tabindex="0" onfocus="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142776', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -990,8 +941,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / بی ان سبۆرت 4 -->
-            <div class="card" data-category="sport" data-name="beinsport 4 بی ان سبۆرت" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="beinsport 4 بی ان سبۆرت" tabindex="0" onfocus="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142777', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1004,8 +954,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / بی ان سبۆرت 5 -->
-            <div class="card" data-category="sport" data-name="beinsport 5 بی ان سبۆرت" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="beinsport 5 بی ان سبۆرت" tabindex="0" onfocus="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142778', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1018,8 +967,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / بی ان سبۆرت 6 -->
-            <div class="card" data-category="sport" data-name="beinsport 6 بی ان سبۆرت" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="beinsport 6 بی ان سبۆرت" tabindex="0" onfocus="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142779', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1032,11 +980,9 @@
                 </div>
             </div>
 
-            <!-- =================== سەردێڕی Kurdish Sports =================== -->
             <div class="section-title-kurdish-sports" data-category="sport">Kurdish Sports</div>
 
-            <!-- کەناڵی وەرزشی / ئاڤا سپۆرت -->
-            <div class="card" data-category="sport" data-name="ئاڤا سپۆرت ava sport" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="ئاڤا سپۆرت ava sport" tabindex="0" onfocus="playChannel('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/1858987.ts', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1049,8 +995,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / ئێن ئاڕتی سپۆرت -->
-            <div class="card" data-category="sport" data-name="ئێن ئاڕتی سپۆرت nrt sport" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="ئێن ئاڕتی سپۆرت nrt sport" tabindex="0" onfocus="playChannel('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/1858985.ts', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1063,8 +1008,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی وەرزشی / ئەستێرە سپۆرت -->
-            <div class="card" data-category="sport" data-name="ئەستێرە سپۆرت" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="sport" data-name="ئەستێرە سپۆرت" tabindex="0" onfocus="playChannel('http://sans7.org:88/02095188864772/jsmuKOEvzgSTt0M/190026', 'sport', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1077,8 +1021,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی دۆکومێنتاری ڕەنگ دۆکومێنتاری -->
-            <div class="card" data-category="documentary" data-name="ڕەنگ دۆکومێنتاری reng documentary" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="documentary" data-name="ڕەنگ دۆکومێنتاری reng documentary" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/429814', 'documentary', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1091,8 +1034,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی دۆکومێنتاری فۆرئێڤەر -->
-            <div class="card" data-category="documentary" data-name="فۆر ئێڤەر دۆکومێنتاری forever documentary" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="documentary" data-name="فۆر ئێڤەر دۆکومێنتاری forever documentary" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/429876', 'documentary', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1105,8 +1047,7 @@
                 </div>
             </div>
             
-            <!-- کەناڵی دۆکومێنتاری ئەستێرە دۆکومێنتاری -->
-            <div class="card" data-category="documentary" data-name="ئەستێرە دۆکومێنتاری astera documentary" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="documentary" data-name="ئەستێرە دۆکومێنتاری astera documentary" tabindex="0" onfocus="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/16729', 'documentary', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1119,8 +1060,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی دۆکومێنتاری کوردستان 24 دۆکومێنتاری -->
-            <div class="card" data-category="documentary" data-name="کوردستان 24 دۆکومێنتاری k24 documentary" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="documentary" data-name="کوردستان 24 دۆکومێنتاری k24 documentary" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/429650', 'documentary', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1133,8 +1073,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی دۆکومێنتاری شنە دۆکومێنتاری -->
-            <div class="card" data-category="documentary" data-name="شنە دۆکومێنتاری shna documentary" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="documentary" data-name="شنە دۆکومێنتاری shna documentary" tabindex="0" onfocus="playChannel('https://lbgo.bozztv.com/ssh101/ssh101/shna12345/chunks.m3u8', 'documentary', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1147,8 +1086,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی دۆکومێنتاری سیما دۆکومێنتاری -->
-            <div class="card" data-category="documentary" data-name="سیما دۆکومێنتاری sima documentary" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="documentary" data-name="سیما دۆکومێنتاری sima documentary" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/429828', 'documentary', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1161,8 +1099,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی دۆکومێنتاری ئێم ئێم ئێن دۆکومێنتاری -->
-            <div class="card" data-category="documentary" data-name="ئێم ئێم ئێن دۆکومێنتاری" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="documentary" data-name="ئێم ئێم ئێن دۆکومێنتاری" tabindex="0" onfocus="playChannel('http://xlion.net:8080/15034094901029/18800196589372/429769', 'documentary', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1175,8 +1112,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی منداڵان ئافەرین -->
-            <div class="card" data-category="kids" data-name="ئافەرین afarin" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="kids" data-name="ئافەرین afarin" tabindex="0" onfocus="playChannel('https://5dcabf026b188.streamlock.net/afarinTV/livestream/playlist.m3u8', 'kids', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1189,7 +1125,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="kids" data-name="ئافەرین afarin" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="kids" data-name="ئافەرین afarin" tabindex="0" onfocus="playChannel('https://65f16f0fdfc51.streamlock.net/afarinTV/livestream/playlist.m3u8', 'kids', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1202,7 +1138,7 @@
                 </div>
             </div>
 
-            <div class="card" data-category="kids" data-name="ئۆن کیدز one kids" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="kids" data-name="ئۆن کیدز one kids" tabindex="0" onfocus="playChannel('https://lbgo.bozztv.com/ssh101/ssh101/onekids4k/chunks.m3u8', 'kids', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1215,8 +1151,7 @@
                 </div>
             </div>
 
-            <!-- کەناڵی ئاینی واڵا قورئان -->
-            <div class="card" data-category="islamic" data-name="واڵا قورئان wala quran" onclick="playChannelFromCard(this)">
+            <div class="card" data-category="islamic" data-name="واڵا قورئان wala quran" tabindex="0" onfocus="playChannel('https://cdn.karwan.tv/WALAQURAN/index.m3u8', 'islamic', null, true)" onclick="playChannelFromCard(this)">
                 <div class="card-header">
                     <div class="channel-info">
                         <div class="logo-wrapper">
@@ -1232,13 +1167,12 @@
         </div>
     </div>
 
-    <!-- 3️⃣ ستوونی چەپ: شاشەی پەخش و زانیاری دیزاین باری پان (TV) -->
     <div class="tv-player-panel">
         <div class="player-container" id="playerContainer">
             <div id="watermarkLogo" class="watermark-logo">REBAZ | TV</div>
             <video id="videoPlayer" controls autoplay></video>
         </div>
-        <div class="tv-channel-title" id="tvChannelNameDisplay">1. RUDAW TV</div>
+        <div class="tv-channel-title" id="tvChannelNameDisplay">REBAZ TV</div>
         
         <div class="tv-action-bar">
             <div class="tv-action-btn">
@@ -1252,7 +1186,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <script>
@@ -1272,7 +1205,6 @@
         });
     }
 
-    /* کلیک کردنی تەواوی کارتەکە لە شاشەی پاندا (TV) */
     function playChannelFromCard(cardElement) {
         let playBtn = cardElement.querySelector('.play-link-btn');
         if (playBtn) {
@@ -1280,39 +1212,36 @@
         }
     }
 
-    function playChannel(url, category, btnElement) {
+    // گۆڕانکاری لەم بەشە کراوە بۆ ئەوەی پریڤیو (isPreview) زیاد بکرێت
+    function playChannel(url, category, btnElement, isPreview = false) {
         var playerContainer = document.getElementById('playerContainer');
         var scrollableContent = document.getElementById('scrollableContent');
         var video = document.getElementById('videoPlayer');
         var watermarkLogo = document.getElementById('watermarkLogo');
 
-        // دیاری کردنی کارتی چالاک
         document.querySelectorAll('.card').forEach(card => card.classList.remove('active-channel'));
         
         let selectedCard = btnElement ? btnElement.closest('.card') : null;
         if (selectedCard) selectedCard.classList.add('active-channel');
 
         let channelName = selectedCard ? (selectedCard.querySelector('h3') ? selectedCard.querySelector('h3').innerText : 'REBAZ TV') : 'REBAZ TV';
-
-        // نیشاندانی ناوی کەناڵ لە بەشی خوارەوەی شاشەی TV
         let tvDisplay = document.getElementById('tvChannelNameDisplay');
         if (tvDisplay) tvDisplay.innerText = channelName;
 
-        // 🟢 کاتێک لەناو ئەپەکەی ئەندرۆیددا کار دەکات
-        if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
-            if (window.innerWidth < 600 || window.matchMedia("(orientation: portrait)").matches) {
-                playerContainer.style.display = 'none';
-                scrollableContent.style.top = '220px';
-            }
-            if (video) { video.pause(); video.src = ""; }
-            if (window.hlsInstance) { window.hlsInstance.destroy(); window.hlsInstance = null; }
-            if (window.mpegtsPlayer) { window.mpegtsPlayer.destroy(); window.mpegtsPlayer = null; }
+        // ئەگەر پریڤیو نەبێت، کەواتە پەخشکردنی تەواوە، فول سکرین دەکەین
+        if (!isPreview) {
+            video.muted = false;
+            if (video.requestFullscreen) video.requestFullscreen();
+            else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+        } else {
+            video.muted = true; // بێدەنگ بۆ پریڤیو
+        }
 
+        if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
             AndroidBridge.playInExo(url, channelName);
             return;
         }
 
-        // 🌐 وێبی ئاسایی
         playerContainer.style.display = 'flex';
         if (window.innerWidth < 600 || window.matchMedia("(orientation: portrait)").matches) {
             scrollableContent.style.top = '410px';
