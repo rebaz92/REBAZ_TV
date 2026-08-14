@@ -26,7 +26,7 @@
             overflow: hidden;
         }
 
-        /* بەشی سەرەوەی جێگیر */
+        /* بەشی سەرەوەی جێگیر بۆ مۆبایل */
         .fixed-top-section {
             position: fixed;
             top: 0;
@@ -204,46 +204,33 @@
             padding-bottom: 30px;
         }
         
-        .section-title-alwan {
+        .section-title-alwan, .section-title-bein, .section-title-kurdish-sports {
             display: inline-block;
             color: #ffffff;
             font-size: 15px;
             font-weight: bold;
             margin: 12px 5px 6px 5px;
-            border: 1px solid #00ff66;
             padding: 4px 12px;
-            background: rgba(0, 255, 102, 0.15);
             border-radius: 20px;
-            box-shadow: 0 2px 8px rgba(0,255,102,0.2);
             text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .section-title-alwan {
+            border: 1px solid #00ff66;
+            background: rgba(0, 255, 102, 0.15);
+            box-shadow: 0 2px 8px rgba(0,255,102,0.2);
         }
 
         .section-title-bein {
-            display: inline-block;
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: bold;
-            margin: 12px 5px 6px 5px;
             border: 1px solid #b800e6;
-            padding: 4px 12px;
             background: rgba(184, 0, 230, 0.15);
-            border-radius: 20px;
             box-shadow: 0 2px 8px rgba(184,0,230,0.2);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
         .section-title-kurdish-sports {
-            display: inline-block;
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: bold;
-            margin: 12px 5px 6px 5px;
             border: 1px solid #ff7700;
-            padding: 4px 12px;
             background: rgba(255, 119, 0, 0.15);
-            border-radius: 20px;
             box-shadow: 0 2px 8px rgba(255,119,0,0.2);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
         .card {
@@ -256,18 +243,9 @@
         }
 
         @keyframes softRedGlow {
-            0% {
-                border-color: #ff3333;
-                box-shadow: 0 0 8px rgba(255, 51, 51, 0.4), inset 0 0 5px rgba(255, 51, 51, 0.2);
-            }
-            50% {
-                border-color: #ff8080;
-                box-shadow: 0 0 16px rgba(255, 51, 51, 0.8), inset 0 0 10px rgba(255, 51, 51, 0.4);
-            }
-            100% {
-                border-color: #ff3333;
-                box-shadow: 0 0 8px rgba(255, 51, 51, 0.4), inset 0 0 5px rgba(255, 51, 51, 0.2);
-            }
+            0% { border-color: #ff3333; box-shadow: 0 0 8px rgba(255, 51, 51, 0.4), inset 0 0 5px rgba(255, 51, 51, 0.2); }
+            50% { border-color: #ff8080; box-shadow: 0 0 16px rgba(255, 51, 51, 0.8), inset 0 0 10px rgba(255, 51, 51, 0.4); }
+            100% { border-color: #ff3333; box-shadow: 0 0 8px rgba(255, 51, 51, 0.4), inset 0 0 5px rgba(255, 51, 51, 0.2); }
         }
 
         .card.active-channel {
@@ -338,6 +316,104 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.4);
             white-space: nowrap;
         }
+
+        /* -------------------------------------------------------------
+           دیزاینی باری پانی (Landscape / Smart TV) بە بێ تێکدانی مۆبایل 
+           ------------------------------------------------------------- */
+        #tvChannelName { display: none; }
+
+        @media (orientation: landscape) and (min-width: 768px) {
+            .fixed-top-section {
+                display: contents; /* وادەکات بەشەکان ڕاستەوخۆ بچنە ناو Grid بێ تێکدانی HTML */
+            }
+            body {
+                display: grid;
+                /* دابەشکردن بۆ 3 بەش (RTL): پاکێجەکان (ڕاست)، کەناڵەکان (ناوەڕاست)، پلەیەر (چەپ) */
+                grid-template-columns: 200px 320px 1fr; 
+                grid-template-rows: 70px 1fr;
+                height: 100vh;
+                padding: 15px;
+                box-sizing: border-box;
+                gap: 20px;
+                overflow: hidden;
+            }
+            
+            #searchBoxContainer {
+                grid-column: 1 / -1;
+                grid-row: 1;
+                max-width: 400px;
+                justify-self: start;
+                margin-top: 5px;
+            }
+
+            #vipCardContainer {
+                display: none; /* لەسەر تیڤی ئەم بەشە دیار نامێنێت بۆ هەبوونی بۆشایی زۆرتر */
+            }
+
+            #categoriesBar {
+                grid-column: 1;
+                grid-row: 2;
+                flex-direction: column;
+                gap: 15px;
+                overflow-y: auto;
+                padding: 10px 5px;
+            }
+
+            .cat-btn {
+                width: 100%;
+                text-align: right;
+                padding: 15px 20px;
+                font-size: 16px;
+                border-radius: 12px;
+                transition: transform 0.2s;
+            }
+
+            #scrollableContent {
+                grid-column: 2;
+                grid-row: 2;
+                position: static;
+                height: 100%;
+                padding: 0 10px;
+            }
+
+            #playerContainer {
+                grid-column: 3;
+                grid-row: 2;
+                position: static;
+                display: flex !important; /* شاشەکە هەمیشە پیشان دەدرێت لە تیڤی */
+                flex-direction: column;
+                height: 100%;
+                background: transparent;
+                border: none;
+                box-shadow: none;
+            }
+
+            #videoPlayer {
+                height: calc(100% - 60px);
+                border: 2px solid #333;
+                border-radius: 15px;
+                background-color: #000;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            }
+
+            #tvChannelName {
+                display: block !important;
+                text-align: center;
+                font-size: 26px;
+                font-weight: bold;
+                color: #fff;
+                margin-top: 15px;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            }
+
+            /* ستایلی فۆکەس بۆ کۆنترۆڵی تیڤی */
+            .tv-focused {
+                outline: 3px solid #ffcc00 !important;
+                box-shadow: 0 0 20px #ffcc00 !important;
+                transform: scale(1.05) !important;
+                z-index: 100;
+            }
+        }
     </style>
 </head>
 <body>
@@ -359,6 +435,7 @@
     <div class="player-container" id="playerContainer">
         <div id="watermarkLogo" class="watermark-logo">REBAZ | TV</div>
         <video id="videoPlayer" controls autoplay></video>
+        <div id="tvChannelName">REBAZ TV</div> <!-- ناوی کەناڵ بۆ سەر تیڤی -->
     </div>
 
     <div class="categories-container" id="categoriesBar">
@@ -1037,10 +1114,29 @@
 
 <script>
     let currentCategory = 'news';
+    
+    // گۆڕاوەکان بۆ کۆنترۆڵی تیڤی
+    let isTV = false;
+    let activeColumn = 0; // 0 = Category, 1 = Channels
+    let activeCategoryIndex = 0;
+    let activeChannelIndex = 0;
 
     window.onload = function() {
+        checkTVLayout();
         updateVisibility();
+        
+        // دەستپێکردنی فۆکەس بۆ تیڤی
+        if (isTV) {
+            const categories = document.querySelectorAll('.cat-btn');
+            if(categories.length > 0) categories[0].classList.add('tv-focused');
+        }
     };
+
+    window.addEventListener('resize', checkTVLayout);
+
+    function checkTVLayout() {
+        isTV = window.innerWidth >= 768 && window.matchMedia("(orientation: landscape)").matches;
+    }
 
     function updateVisibility() {
         document.querySelectorAll('.card, .section-title-alwan, .section-title-bein, .section-title-kurdish-sports').forEach(item => {
@@ -1052,28 +1148,60 @@
         });
     }
 
+    // لۆژیکی پەخشکردن بە ڕێگەی کۆنترۆڵ یان وێب
+    function playChannelWebOnly(url, category, cardElement) {
+        var video = document.getElementById('videoPlayer');
+        var watermarkLogo = document.getElementById('watermarkLogo');
+        var tvName = document.getElementById('tvChannelName');
+        
+        document.querySelectorAll('.card').forEach(card => card.classList.remove('active-channel'));
+        if (cardElement) {
+            cardElement.classList.add('active-channel');
+            if(tvName) tvName.innerText = cardElement.querySelector('h3').innerText;
+        }
+
+        if (category === 'sport') watermarkLogo.style.display = 'block';
+        else watermarkLogo.style.display = 'none';
+
+        if (window.hlsInstance) { window.hlsInstance.destroy(); window.hlsInstance = null; }
+        if (window.mpegtsPlayer) { window.mpegtsPlayer.destroy(); window.mpegtsPlayer = null; }
+
+        if (url.includes('.ts') && typeof mpegts !== 'undefined' && mpegts.isSupported()) {
+            var mpegtsPlayer = mpegts.createPlayer({ type: 'mse', isLive: true, url: url });
+            window.mpegtsPlayer = mpegtsPlayer;
+            mpegtsPlayer.attachMediaElement(video);
+            mpegtsPlayer.load();
+            mpegtsPlayer.play().catch(e => console.log("Direct TS error", e));
+        } 
+        else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+            var hls = new Hls({ maxBufferLength: 30, maxMaxBufferLength: 60, liveSyncDurationCount: 3, lowLatencyMode: true });
+            window.hlsInstance = hls;
+            hls.loadSource(url);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() { video.play().catch(e => console.log("Auto-play blocked")); });
+        } else if (video && video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = url;
+            video.addEventListener('loadedmetadata', function() { video.play().catch(e => {}); });
+        }
+    }
+
     function playChannel(url, category, btnElement) {
         var playerContainer = document.getElementById('playerContainer');
         var scrollableContent = document.getElementById('scrollableContent');
         var video = document.getElementById('videoPlayer');
-        var watermarkLogo = document.getElementById('watermarkLogo');
 
-        // دیاری کردنی کارتی چالاک
-        document.querySelectorAll('.card').forEach(card => {
-            card.classList.remove('active-channel');
-        });
-        
-        let selectedCard = btnElement ? btnElement.closest('.card') : null;
-        if (selectedCard) {
-            selectedCard.classList.add('active-channel');
+        // ئەگەر تیڤی بێت و کلیکی کرد, با یەکسەر ببێتە فۆول سکرین
+        if (isTV) {
+            playChannelWebOnly(url, category, btnElement ? btnElement.closest('.card') : null);
+            if (video.requestFullscreen) video.requestFullscreen();
+            else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+            return;
         }
 
-        let channelName = selectedCard ? (selectedCard.querySelector('h3') ? selectedCard.querySelector('h3').innerText : 'REBAZ TV') : 'REBAZ TV';
-
-        // 🟢 پشکنین: ئەگەر لەناو ئەپەکەی ئەندرۆید (AndroidBridge / ExoPlayer) کرایەوە
+        // 🟢 پشکنین بۆ ئەپڵیکەیشنی ئەندرۆید (تەنیا بۆ مۆبایل)
         if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
+            let channelName = btnElement ? (btnElement.closest('.card').querySelector('h3').innerText) : 'REBAZ TV';
             playerContainer.style.display = 'none';
-            // ڕێکخستنی شوێنی لیستەکە تا نەنوسپێت بە پۆلەکانەوە (220px)
             scrollableContent.style.top = '220px';
             
             if (video) { video.pause(); video.src = ""; }
@@ -1084,76 +1212,10 @@
             return;
         }
 
-        // 🌐 ئەگەر لەسەر وێبی ئاسایی ئیش بپڕێنێتەوە
+        // 🌐 بۆ وێبی مۆبایلی ئاسایی
         playerContainer.style.display = 'flex';
         scrollableContent.style.top = '410px';
-
-        if (category === 'sport') {
-            watermarkLogo.style.display = 'block';
-        } else {
-            watermarkLogo.style.display = 'none';
-        }
-
-        if (window.hlsInstance) {
-            window.hlsInstance.destroy();
-            window.hlsInstance = null;
-        }
-        if (window.mpegtsPlayer) {
-            window.mpegtsPlayer.destroy();
-            window.mpegtsPlayer = null;
-        }
-
-        // بۆ کارپێکردنی راستەوخۆی لینکەکانی .ts
-        if (url.includes('.ts') && typeof mpegts !== 'undefined' && mpegts.isSupported()) {
-            var mpegtsPlayer = mpegts.createPlayer({
-                type: 'mse',
-                isLive: true,
-                url: url
-            });
-            window.mpegtsPlayer = mpegtsPlayer;
-            mpegtsPlayer.attachMediaElement(video);
-            mpegtsPlayer.load();
-            mpegtsPlayer.play().catch(e => console.log("Direct TS play error", e));
-        } 
-        else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-            var hls = new Hls({
-                maxBufferLength: 30,
-                maxMaxBufferLength: 60,
-                liveSyncDurationCount: 3,
-                lowLatencyMode: true
-            });
-            
-            window.hlsInstance = hls;
-            hls.loadSource(url);
-            hls.attachMedia(video);
-            
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play().catch(e => console.log("Auto-play blocked"));
-            });
-
-            hls.on(Hls.Events.ERROR, function(event, data) {
-                if (data.fatal) {
-                    switch(data.type) {
-                        case Hls.ErrorTypes.NETWORK_ERROR:
-                            hls.startLoad();
-                            break;
-                        case Hls.ErrorTypes.MEDIA_ERROR:
-                            hls.recoverMediaError();
-                            break;
-                        default:
-                            hls.destroy();
-                            playChannel(url, category, btnElement);
-                            break;
-                    }
-                }
-            });
-
-        } else if (video && video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = url;
-            video.addEventListener('loadedmetadata', function() {
-                video.play();
-            });
-        }
+        playChannelWebOnly(url, category, btnElement ? btnElement.closest('.card') : null);
     }
 
     document.getElementById('videoPlayer').addEventListener('stalled', function() {
@@ -1188,6 +1250,104 @@
         document.querySelectorAll('.section-title-alwan, .section-title-bein, .section-title-kurdish-sports').forEach(title => {
             title.style.display = query ? 'none' : (title.getAttribute('data-category') === currentCategory ? 'inline-block' : 'none');
         });
+    }
+
+    // ----------------------------------------------------------------------
+    // لۆژیکی کۆنترۆڵکردن بە دوگمەکانی سەر شاشەی تەلەفزیۆن (Smart TV Remote)
+    // ----------------------------------------------------------------------
+    window.addEventListener('keydown', function(e) {
+        if (!isTV) return; // کارناکات لەسەر مۆبایل
+
+        const categories = document.querySelectorAll('.cat-btn');
+        const visibleChannels = Array.from(document.querySelectorAll('.card')).filter(c => c.style.display !== 'none');
+
+        switch(e.key) {
+            case 'ArrowRight':
+            case 'Right': // بۆ تیڤییە کۆنەکان
+                if (activeColumn === 1) {
+                    activeColumn = 0;
+                    updateTVFocus(categories, visibleChannels);
+                }
+                break;
+            case 'ArrowLeft':
+            case 'Left':
+                if (activeColumn === 0 && visibleChannels.length > 0) {
+                    activeColumn = 1;
+                    activeChannelIndex = 0;
+                    updateTVFocus(categories, visibleChannels);
+                    previewTVChannel(visibleChannels);
+                }
+                break;
+            case 'ArrowDown':
+            case 'Down':
+                e.preventDefault();
+                if (activeColumn === 0) {
+                    activeCategoryIndex = Math.min(activeCategoryIndex + 1, categories.length - 1);
+                    categories[activeCategoryIndex].click(); // گۆڕینی پاکێج
+                    activeChannelIndex = 0; // سفرکردنەوەی کەناڵ
+                    updateTVFocus(categories, visibleChannels);
+                } else if (activeColumn === 1) {
+                    activeChannelIndex = Math.min(activeChannelIndex + 1, visibleChannels.length - 1);
+                    updateTVFocus(categories, visibleChannels);
+                    previewTVChannel(visibleChannels); // ڕاستەوخۆ کەناڵەکە پەخش بکە لە Preview
+                }
+                break;
+            case 'ArrowUp':
+            case 'Up':
+                e.preventDefault();
+                if (activeColumn === 0) {
+                    activeCategoryIndex = Math.max(activeCategoryIndex - 1, 0);
+                    categories[activeCategoryIndex].click();
+                    activeChannelIndex = 0;
+                    updateTVFocus(categories, visibleChannels);
+                } else if (activeColumn === 1) {
+                    activeChannelIndex = Math.max(activeChannelIndex - 1, 0);
+                    updateTVFocus(categories, visibleChannels);
+                    previewTVChannel(visibleChannels);
+                }
+                break;
+            case 'Enter':
+            case 'OK':
+                if (activeColumn === 1 && visibleChannels.length > 0) {
+                    const video = document.getElementById('videoPlayer');
+                    if (video.requestFullscreen) {
+                        video.requestFullscreen();
+                    } else if (video.webkitRequestFullscreen) {
+                        video.webkitRequestFullscreen();
+                    }
+                }
+                break;
+        }
+    });
+
+    function updateTVFocus(cats, chans) {
+        cats.forEach((c, idx) => {
+            c.classList.toggle('tv-focused', activeColumn === 0 && idx === activeCategoryIndex);
+        });
+        chans.forEach((c, idx) => {
+            c.classList.toggle('tv-focused', activeColumn === 1 && idx === activeChannelIndex);
+            if (activeColumn === 1 && idx === activeChannelIndex) {
+                c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+        if (activeColumn === 0 && cats[activeCategoryIndex]) {
+            cats[activeCategoryIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    function previewTVChannel(chans) {
+        if (activeChannelIndex >= 0 && activeChannelIndex < chans.length) {
+            const card = chans[activeChannelIndex];
+            const btn = card.querySelector('.play-link-btn');
+            if (btn) {
+                const clickAttr = btn.getAttribute('onclick');
+                const urlMatch = clickAttr.match(/'([^']+)'/);
+                const catMatch = clickAttr.match(/, '([^']+)'/);
+                if (urlMatch) {
+                    playChannelWebOnly(urlMatch[1], catMatch ? catMatch[1] : 'news', card);
+                }
+            }
+        }
     }
 </script>
 
