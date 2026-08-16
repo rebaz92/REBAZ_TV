@@ -9,6 +9,7 @@
     <meta http-equiv="Expires" content="0" />
 
     <title>REBAZ TV</title>
+    <!-- کتێبخانەکانی HLS و MPEG-TS بۆ کارپێکردنی هەموو جۆرە لینکەکان -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/mpegts.js@latest/dist/mpegts.js"></script>
     <style>
@@ -25,6 +26,7 @@
             overflow: hidden;
         }
 
+        /* بەشی سەرەوەی جێگیر */
         .fixed-top-section {
             position: fixed;
             top: 0;
@@ -68,6 +70,7 @@
             margin-bottom: 8px;
         }
 
+        /* دیزاینی وێنەی لۆگۆی سەرەوە */
         .vip-card .header-logo {
             max-width: 80%;
             max-height: 55px;
@@ -84,6 +87,7 @@
             font-weight: bold;
         }
 
+        /* چوارگۆچە و جێگیرکردنی نوسینەکە بێ جووڵە */
         .ticker-wrapper {
             width: 85%;
             max-width: 280px;
@@ -104,6 +108,7 @@
             font-weight: bold;
         }
 
+        /* شاشەی پەخشی وێب */
         .player-container {
             position: relative;
             width: 100%;
@@ -119,6 +124,7 @@
             justify-content: center;
         }
 
+        /* لۆگۆی سەر شاشە بە قەبارەی بچووک و پشتینەی سەوز */
         .watermark-logo {
             position: absolute;
             top: 6px;
@@ -173,6 +179,7 @@
             box-shadow: 0 4px 10px rgba(0,102,255,0.4);
         }
         
+        /* لیستی کەناڵەکان - چاککردنی شوێنی دەستپێک بۆ 220px */
         .scrollable-content {
             position: absolute;
             top: 220px; 
@@ -197,19 +204,102 @@
             padding-bottom: 30px;
         }
         
-        .section-title-alwan { display: inline-block; color: #ffffff; font-size: 15px; font-weight: bold; margin: 12px 5px 6px 5px; border: 1px solid #00ff66; padding: 4px 12px; background: rgba(0, 255, 102, 0.15); border-radius: 20px; box-shadow: 0 2px 8px rgba(0,255,102,0.2); text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
-        .section-title-bein { display: inline-block; color: #ffffff; font-size: 15px; font-weight: bold; margin: 12px 5px 6px 5px; border: 1px solid #b800e6; padding: 4px 12px; background: rgba(184, 0, 230, 0.15); border-radius: 20px; box-shadow: 0 2px 8px rgba(184,0,230,0.2); text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
-        .section-title-kurdish-sports { display: inline-block; color: #ffffff; font-size: 15px; font-weight: bold; margin: 12px 5px 6px 5px; border: 1px solid #ff7700; padding: 4px 12px; background: rgba(255, 119, 0, 0.15); border-radius: 20px; box-shadow: 0 2px 8px rgba(255,119,0,0.2); text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+        .section-title-alwan {
+            display: inline-block;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 12px 5px 6px 5px;
+            border: 1px solid #00ff66;
+            padding: 4px 12px;
+            background: rgba(0, 255, 102, 0.15);
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,255,102,0.2);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
 
-        .card { background: linear-gradient(135deg, #1a2a3a 0%, #0d131a 100%); border: 1px solid #d4af37; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s ease; }
+        .section-title-bein {
+            display: inline-block;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 12px 5px 6px 5px;
+            border: 1px solid #b800e6;
+            padding: 4px 12px;
+            background: rgba(184, 0, 230, 0.15);
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(184,0,230,0.2);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .section-title-kurdish-sports {
+            display: inline-block;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 12px 5px 6px 5px;
+            border: 1px solid #ff7700;
+            padding: 4px 12px;
+            background: rgba(255, 119, 0, 0.15);
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(255,119,0,0.2);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .card {
+            background: linear-gradient(135deg, #1a2a3a 0%, #0d131a 100%);
+            border: 1px solid #d4af37;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        @keyframes softRedGlow {
+            0% {
+                border-color: #ff3333;
+                box-shadow: 0 0 8px rgba(255, 51, 51, 0.4), inset 0 0 5px rgba(255, 51, 51, 0.2);
+            }
+            50% {
+                border-color: #ff8080;
+                box-shadow: 0 0 16px rgba(255, 51, 51, 0.8), inset 0 0 10px rgba(255, 51, 51, 0.4);
+            }
+            100% {
+                border-color: #ff3333;
+                box-shadow: 0 0 8px rgba(255, 51, 51, 0.4), inset 0 0 5px rgba(255, 51, 51, 0.2);
+            }
+        }
+
+        .card.active-channel {
+            animation: softRedGlow 2s infinite ease-in-out;
+            border: 2px solid #ff3333;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+        }
+        .channel-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
         
-        @keyframes softRedGlow { 0% { border-color: #ff3333; box-shadow: 0 0 8px rgba(255, 51, 51, 0.4), inset 0 0 5px rgba(255, 51, 51, 0.2); } 50% { border-color: #ff8080; box-shadow: 0 0 16px rgba(255, 51, 51, 0.8), inset 0 0 10px rgba(255, 51, 51, 0.4); } 100% { border-color: #ff3333; box-shadow: 0 0 8px rgba(255, 51, 51, 0.4), inset 0 0 5px rgba(255, 51, 51, 0.2); } }
-        .card.active-channel { animation: softRedGlow 2s infinite ease-in-out; border: 2px solid #ff3333; }
-
-        .card-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; }
-        .channel-info { display: flex; align-items: center; gap: 15px; }
-        .logo-wrapper { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-        .cat-tag { font-size: 10px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; }
+        .logo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+        
+        .cat-tag {
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
         
         .card[data-category="news"] .cat-tag { color: #ff3333; }
         .card[data-category="sport"] .cat-tag { color: #00cc44; }
@@ -218,28 +308,39 @@
         .card[data-category="kids"] .cat-tag { color: #ff9900; }
         .card[data-category="islamic"] .cat-tag { color: #00ffff; }
 
-        .card-header img { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; background: #000; border: 1px solid #d4af37; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
-        .card-header h3 { margin: 0; font-size: 18px; color: #ffcc00; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
-        .play-link-btn { background: linear-gradient(135deg, #cc0000 0%, #660000 100%); color: #ffffff; border: 1px solid #ff1a1a; padding: 8px 16px; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.4); white-space: nowrap; }
-
-        /* Fullscreen Styles */
-        .full-screen-btn { position: absolute; top: 10px; left: 10px; z-index: 20; background: rgba(0,0,0,0.5); color: #fff; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
-        #fullScreenOverlay { position: fixed; inset: 0; background: #000; z-index: 9999; display: none; align-items: center; justify-content: center; }
-        #fullScreenVideo { width: 100%; height: 100%; object-fit: contain; }
-        .horizontal-switcher { position: absolute; bottom: 20px; left: 0; right: 0; display: flex; gap: 10px; padding: 15px; overflow-x: auto; background: rgba(0, 0, 0, 0.7); opacity: 0; transition: opacity 0.5s; z-index: 10000; white-space: nowrap; }
-        .horizontal-switcher.show { opacity: 1; }
-        .h-card { width: 100px; height: 80px; flex-shrink: 0; background: #222; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; cursor: pointer; text-align: center; border: 1px solid #555; }
+        .card-header img {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: #000;
+            border: 1px solid #d4af37;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .card-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #ffcc00;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        
+        .play-link-btn {
+            background: linear-gradient(135deg, #cc0000 0%, #660000 100%);
+            color: #ffffff;
+            border: 1px solid #ff1a1a;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
-
-<!-- Overlay for Fullscreen -->
-<div id="fullScreenOverlay" onclick="handleTap()">
-    <video id="fullScreenVideo" autoplay playsinline></video>
-    <div class="horizontal-switcher" id="horizontalSwitcher">
-        <!-- ئەم بەشە بە JavaScript پڕ دەکرێتەوە -->
-    </div>
-</div>
 
 <div class="fixed-top-section">
     <div class="search-box" id="searchBoxContainer">
@@ -254,10 +355,10 @@
         </div>
     </div>
 
+    <!-- شاشەی پەخشی HTML کاتێک لە وێبدا ئیش دەکات -->
     <div class="player-container" id="playerContainer">
-        <button class="full-screen-btn" onclick="enterFullScreen()">🖥️</button>
         <div id="watermarkLogo" class="watermark-logo">REBAZ | TV</div>
-        <video id="videoPlayer" controls autoplay playsinline></video>
+        <video id="videoPlayer" controls autoplay></video>
     </div>
 
     <div class="categories-container" id="categoriesBar">
@@ -272,7 +373,8 @@
 
 <div class="scrollable-content" id="scrollableContent">
     <div class="channels-container" id="channelsList">
-        <!-- کانالەکان لێرەن، دەستکاری نەکراون -->
+
+        <!-- کەناڵی هەواڵ / ڕووداو -->
         <div class="card" data-category="news" data-name="rudaw tv ڕووداو">
             <div class="card-header">
                 <div class="channel-info">
@@ -285,63 +387,660 @@
                 <a href="#" onclick="playChannel('https://live.rudaw.net/hls/rudaw-tv/master.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
             </div>
         </div>
-        <!-- ... (باقی کەناڵەکان بەهەمان شێوەی پێشوو دەمێننەوە) ... -->
-        <!-- تێبینی: من بۆ نموونە تەنها ڕووداوم دانا، بەڵام تۆ هەموو کەناڵەکانت لە جێگەی خۆیاندا بن -->
+
+        <!-- کەناڵی هەواڵ ئاڤا -->
+        <div class="card" data-category="news" data-name="ئاڤا نیوز ava news">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">NEWS</span>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/AVAMedialogo.jpg/1280px-AVAMedialogo.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail" alt="Logo">
+                    </div>
+                    <h3>AVA TV</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://hlspackager.akamaized.net/live/DB/AVA_TV/HLS/AVA_TV.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی هەواڵ / ئێن ئاڕتی نیوز -->
+        <div class="card" data-category="news" data-name="ئێن ئاڕتی نیوز nrt news">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">NEWS</span>
+                        <img src="https://cdn.aptoide.com/imgs/6/5/8/658804c9f585867dcbf51564c2f2c52c_icon.png" alt="Logo">
+                    </div>
+                    <h3>NRT News</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://live20.bozztv.com/giatv/giatv-nrt/nrt/chunks.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی هەواڵ / کوردستان 24 -->
+        <div class="card" data-category="news" data-name="کوردستان 24 k24 news">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">NEWS</span>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEHOcbPunNqhyTNTZNt51da4UL86_S1X5_zA&s" alt="Logo">
+                    </div>
+                    <h3>K24 News</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://d1x82nydcxndze.cloudfront.net/live/index.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی هەواڵ / کەناڵ 8 -->
+        <div class="card" data-category="news" data-name="کەناڵ 8 channel 8">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">NEWS</span>
+                        <img src="https://play-lh.googleusercontent.com/L2ti94G0LEg0-46J8Q-HO28H0Pge0W5O1tuaKGj2qhcrHf7U230UsCKsKTChpYZvMIDhZ-1PPEN0D2tcfgo5RQ" alt="Logo">
+                    </div>
+                    <h3>Channel 8</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://live.channel8.com/Channel8-Kurdish/index.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی هەواڵ / کوردسات نیوز -->
+        <div class="card" data-category="news" data-name="کوردسات نیوز kurdsat news">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">NEWS</span>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsbcshcrmKiHeqZuX6iApfUGL3NkFl5JiKEU_tAVrBVLzJb7xt1NZSgoAG&s=10" alt="Logo">
+                    </div>
+                    <h3>KURDsat News</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://hlspackager.akamaized.net/live/DB/KURDSAT_NEWS/HLS/KURDSAT_NEWS.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی هەواڵ / کوردسات -->
+        <div class="card" data-category="news" data-name="کوردسات kurdsat">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">NEWS</span>
+                        <img src="https://pbs.twimg.com/profile_images/1670742111363145728/bdGek4ef_400x400.png" alt="Logo">
+                    </div>
+                    <h3>KURDsat TV</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://hlspackager.akamaized.net/live/DB/KURDSAT_HD/HLS/KURDSAT_HD-avc1_2500000=10002.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی هەواڵ / کوردستان تیڤی -->
+        <div class="card" data-category="news" data-name="کوردستان تیڤی kurdistan tv">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">NEWS</span>
+                        <img src="https://play-lh.googleusercontent.com/jah1WHhM7JhnUi9hSpQYwKf2wL0f9dFfhvzfBCEo5Y_OiImKxA6Z-WypZq1gtLT0QGUKeyYEke9s6k4BiBty" alt="Logo">
+                    </div>
+                    <h3>Kurdistan TV</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://5a3ed7a72ed4b.streamlock.net/live/SMIL:myStream.smil/chunklist.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی هەواڵ / گەلی کوردستان -->
+        <div class="card" data-category="news" data-name="گەلی کوردستان gali kurdistan">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">NEWS</span>
+                        <img src="https://play-lh.googleusercontent.com/NxMXgHL_wcmBgBSSanBQPoAhUft0dz7UP3EAth9Y3rtvUR3A1tpycBa5PEYZ0-qh0o7cM7dH4IGWtr8C-NsuHQ" alt="Logo">
+                    </div>
+                    <h3>Gali Kurdistan</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/324582.ts', 'news', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی هەواڵ / کەرکوک -->
+        <div class="card" data-category="news" data-name="کەرکوک kirkuk">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">NEWS</span>
+                        <img src="https://play-lh.googleusercontent.com/z0Uu9aXx_-pjLtxUoz3qSjrDbtZ1tmNoXuLfFPsKYZjpV12H2jg8jpffsSSRprhHS4suhaMC8K-08EdlFixw" alt="Logo">
+                    </div>
+                    <h3>Kirkuk TV</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://live.kirkuklive.live/hls/stream/index.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی هەواڵ / پەیام -->
+        <div class="card" data-category="news" data-name="پەیام payam">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">NEWS</span>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvuL1pszKtwDVOktksUy3P9iAKvRAfmnjPYfH3UEuUjrZd3XE9Wg7ttLYF&s=10" alt="Logo">
+                    </div>
+                    <h3>Payam TV</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://media2.streambrothers.com:1936/8218/8218/playlist.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی هەواڵ / سپێدە -->
+        <div class="card" data-category="news" data-name="سپێدە speda">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">NEWS</span>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/Speda_TV_Logo.jpg" alt="Logo">
+                    </div>
+                    <h3>Speda TV</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/324587.ts', 'news', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+       <!-- کەناڵی کوردی ناوخۆیی / واڵا چەمچەماڵ -->
+        <div class="card" data-category="kurdish" data-name="واڵا تیڤی wala tv">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">kurdish local</span>
+                        <img src="https://imglink.cc/cdn/EAsqpKxkHG.png" alt="Wala TV">
+                    </div>
+                    <h3>Wala TV Chamchamal</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://cdn.karwan.tv/wallatv/index.m3u8', 'kurdish', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی کوردی ناوخۆیی / سۆران ئینتەرتامێنت -->
+        <div class="card" data-category="kurdish" data-name="سۆران ئینتەر تامێنت  soran entrtainment">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">kurdish local</span>
+                        <img src="https://yt3.googleusercontent.com/fnlOclpn4TPCxmCTF6NryvufnHBa6nuweGFDUoYRXf1byorWRb9ZcAJI0DNNCfY8d_t-phm1=s160-c-k-c0x00ffffff-no-rj" alt="Soran Entrtainment">
+                    </div>
+                    <h3>Soran Entrtainment</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://avrstream.com:1935/live/SoranEntertainment/tracks-v1a1/mono.m3u8', 'kurdish', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        
+        <!-- =================== سەردێڕی Alwan Sport =================== -->
+        <div class="section-title-alwan" data-category="sport">Alwan Sport 4K & HD</div>
+
+        <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 1 -->
+        <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://www.newsroom.info/Upload/libfiles/55/4/385.jpeg" alt="Alwan Sport">
+                    </div>
+                    <h3>Alwan Sport 1 4K</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418111', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 2 -->
+        <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://www.newsroom.info/Upload/libfiles/55/4/385.jpeg" alt="Alwan Sport">
+                    </div>
+                    <h3>Alwan Sport 2 4K</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418114', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 3 -->
+        <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://www.newsroom.info/Upload/libfiles/55/4/385.jpeg" alt="Alwan Sport">
+                    </div>
+                    <h3>Alwan Sport 3 4K</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418117', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 4 -->
+        <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://www.newsroom.info/Upload/libfiles/55/4/385.jpeg" alt="Alwan Sport">
+                    </div>
+                    <h3>Alwan Sport 4 4K</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418120', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 5 -->
+        <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://www.newsroom.info/Upload/libfiles/55/4/385.jpeg" alt="Alwan Sport">
+                    </div>
+                    <h3>Alwan Sport 5 4K</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418123', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 6 -->
+        <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://www.newsroom.info/Upload/libfiles/55/4/385.jpeg" alt="Alwan Sport">
+                    </div>
+                    <h3>Alwan Sport 6 4K</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418126', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 1 -->
+        <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://www.newsroom.info/Upload/libfiles/55/4/385.jpeg" alt="Alwan Sport">
+                    </div>
+                    <h3>Alwan Sport 1 HD</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://line.8kultradnscloud.ru:80/24nn6nw3tx/me6z58cu5m/1859092', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+
+        <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 2 -->
+        <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://www.newsroom.info/Upload/libfiles/55/4/385.jpeg" alt="Alwan Sport">
+                    </div>
+                    <h3>Alwan Sport 2 HD</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418115', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+
+        <!-- کەناڵی وەرزشی / ئەلوان سپۆرت 3 -->
+        <div class="card" data-category="sport" data-name="ئەلوان سپۆرت alwan sport">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://www.newsroom.info/Upload/libfiles/55/4/385.jpeg" alt="Alwan Sport">
+                    </div>
+                    <h3>Alwan Sport 3 HD</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/418118', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        
+        <!-- =================== سەردێڕی Bein Sport =================== -->
+        <div class="section-title-bein" data-category="sport">Bein Sport</div>
+
+
+        <!-- کەناڵی وەرزشی / بی ان سبۆرت UHD -->
+        <div class="card" data-category="sport" data-name="بی ان سپۆرت bein sport uhd">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://imglink.cc/cdn/5jTHrdBhBQ.webp" alt="Bein Sport">
+                    </div>
+                    <h3>Bein Sport UHD 4K</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://96235-sand.tx-4kott.com:80/live/2493f21902/6b9f460f66/2034168.m3u8', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+
+        
+        <!-- کەناڵی وەرزشی / بی ان سبۆرت اخبارية -->
+        <div class="card" data-category="sport" data-name="beinsport news بی ان اخبارية سبۆرت">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://mir-s3-cdn-cf.behance.net/projects/404/13449275.54841bbb71180.png" alt="Bein Sport">
+                    </div>
+                    <h3>Bein Sport news</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142770', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / بی ان سبۆرت 1 -->
+        <div class="card" data-category="sport" data-name="beinsport 1 بی ان سبۆرت">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://images.seeklogo.com/logo-png/48/2/bein-sports-logo-png_seeklogo-481582.png" alt="Bein Sport">
+                    </div>
+                    <h3>Bein Sport 1</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142774', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / بی ان سبۆرت 2 -->
+        <div class="card" data-category="sport" data-name="beinsport 2 بی ان سبۆرت">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://images.seeklogo.com/logo-png/48/2/bein-sports-logo-png_seeklogo-481582.png" alt="Bein Sport">
+                    </div>
+                    <h3>Bein Sport 2</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142775', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / بی ان سبۆرت 3 -->
+        <div class="card" data-category="sport" data-name="beinsport 3 بی ان سبۆرت">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://images.seeklogo.com/logo-png/48/2/bein-sports-logo-png_seeklogo-481582.png" alt="Bein Sport">
+                    </div>
+                    <h3>Bein Sport 3</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142776', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / بی ان سبۆرت 4 -->
+        <div class="card" data-category="sport" data-name="beinsport 4 بی ان سبۆرت">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://images.seeklogo.com/logo-png/48/2/bein-sports-logo-png_seeklogo-481582.png" alt="Bein Sport">
+                    </div>
+                    <h3>Bein Sport 4</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142777', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / بی ان سبۆرت 5 -->
+        <div class="card" data-category="sport" data-name="beinsport 5 بی ان سبۆرت">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://images.seeklogo.com/logo-png/48/2/bein-sports-logo-png_seeklogo-481582.png" alt="Bein Sport">
+                    </div>
+                    <h3>Bein Sport 5</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142778', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / بی ان سبۆرت 6 -->
+        <div class="card" data-category="sport" data-name="beinsport 6 بی ان سبۆرت">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://images.seeklogo.com/logo-png/48/2/bein-sports-logo-png_seeklogo-481582.png" alt="Bein Sport">
+                    </div>
+                    <h3>Bein Sport 6</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/142779', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- =================== سەردێڕی Kurdish Sports =================== -->
+        <div class="section-title-kurdish-sports" data-category="sport">Kurdish Sports</div>
+
+        <!-- کەناڵی وەرزشی / ئاڤا سپۆرت -->
+        <div class="card" data-category="sport" data-name="ئاڤا سپۆرت ava sport">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ85vdcEPqiuyvDsS96ktIyAdZz7S1rc8sRWJ3dDTkAshoHprEVacAevcA&s=10" alt="Ava Sport">
+                    </div>
+                    <h3>AVA Sport</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/1858987.ts', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / ئێن ئاڕتی سپۆرت -->
+        <div class="card" data-category="sport" data-name="ئێن ئاڕتی سپۆرت nrt sport">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSl8nHshPX09y2qUBPv6ikuK25rTFP2o3sgWWFwfcNK9T7y4TSTi3IvV4&s=10" alt="NRT Sport">
+                    </div>
+                    <h3>NRT Sport</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://line.trxdnscloud.ru:80/live/1naebx0n1p/en1cy28eqj/1858985.ts', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <!-- کەناڵی وەرزشی / ئەستێرە سپۆرت -->
+        <div class="card" data-category="sport" data-name="ئەستێرە سپۆرت">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">SPORT</span>
+                        <img src="https://yt3.googleusercontent.com/yK8Z2HsvKjxgEc3mgieHhSJ2y0HbPpM-gjLN6HVxk2hlWrbJEbzhGitU_C44_43jUgBcjdES=s900-c-k-c0x00ffffff-no-rj" alt="Astera Sport">
+                    </div>
+                    <h3>Astera Sport</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://sans7.org:88/02095188864772/jsmuKOEvzgSTt0M/190026', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+
+        
+        <!-- کەناڵی دۆکومێنتاری ڕەنگ دۆکومێنتاری -->
+        <div class="card" data-category="documentary" data-name="ڕەنگ دۆکومێنتاری reng documentary">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">Documentary</span>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf4N5nHf3k4uyPQ2kQBqzEgIu8yrQKJjv_vtU3wotJLpZLiDDJv_sQZmZb&s=10" alt="Logo">
+                    </div>
+                    <h3>Reng Documentary</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/429814', 'documentary', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+        
+
+
+        <!-- کەناڵی دۆکومێنتاری فۆرئێڤەر -->
+        <div class="card" data-category="documentary" data-name="فۆر ئێڤەر دۆکومێنتاری forever documentary">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">Documentary</span>
+                        <img src="https://imglink.cc/cdn/QUeVuN8vLi.png" alt="Logo">
+                    </div>
+                    <h3>Kurdbin-KURDsat documentary</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/429876', 'documentary', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+        
+        <!-- کەناڵی دۆکومێنتاری ئەستێرە دۆکومێنتاری -->
+        <div class="card" data-category="documentary" data-name="ئەستێرە دۆکومێنتاری astera documentary">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">Documentary</span>
+                        <img src="https://yt3.googleusercontent.com/d1DkjeucNxV3JYXSXPwF9urXB0Np3YlGi0uIdbkJ4RbsJXiawChzL5jUpbVleroxngPCRaRYeQ=s900-c-k-c0x00ffffff-no-rj" alt="Logo">
+                    </div>
+                    <h3>Astera Documentary</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://forevertv.me:8080/F9nYwbIukJU5Zw/A6XjAFurDBu3c2/16729', 'documentary', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+        
+
+        <!-- کەناڵی دۆکومێنتاری کوردستان 24 دۆکومێنتاری -->
+        <div class="card" data-category="documentary" data-name="کوردستان 24 دۆکومێنتاری k24 documentary">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">Documentary</span>
+                        <img src="https://yt3.googleusercontent.com/opbbttvUjd80w7GYRDXTpNYhKn2ZubB9e4Ve67sVUeMFP431nR3g5__Ddec1yK_VJTVVPVMmvw=s900-c-k-c0x00ffffff-no-rj" alt="Logo">
+                    </div>
+                    <h3>K24 Documentary</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/429650', 'documentary', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+
+        <!-- کەناڵی دۆکومێنتاری شنە دۆکومێنتاری -->
+        <div class="card" data-category="documentary" data-name="شنە دۆکومێنتاری shna documentary">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">Documentary</span>
+                        <img src="https://imglink.cc/cdn/O4zh3vsnLX.png" alt="Logo">
+                    </div>
+                    <h3>Shna Documentary</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://lbgo.bozztv.com/ssh101/ssh101/shna12345/chunks.m3u8', 'documentary', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        
+        <!-- کەناڵی دۆکومێنتاری سیما دۆکومێنتاری -->
+        <div class="card" data-category="documentary" data-name="سیما دۆکومێنتاری sima documentary">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">Documentary</span>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRTtwF27nlYGup8COQPwiALXtMgSO-fW-wubktSeV3F51pwTCJTjHd39Q&s=10" alt="Logo">
+                    </div>
+                    <h3>Sima Documentary</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/429828', 'documentary', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        
+        <!-- کەناڵی دۆکومێنتاری ئێم ئێم ئێن دۆکومێنتاری -->
+        <div class="card" data-category="documentary" data-name="ئێم ئێم ئێن دۆکومێنتاری">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">Documentary</span>
+                        <img src="https://imglink.cc/cdn/tbDqC9x9w4.png" alt="Logo">
+                    </div>
+                    <h3>MMN Documentary</h3>
+                </div>
+                <a href="#" onclick="playChannel('http://xlion.net:8080/15034094901029/18800196589372/429769', 'documentary', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+        
+
+        
+        
+        <!-- کەناڵی منداڵان ئافەرین -->
+        <div class="card" data-category="kids" data-name="ئافەرین afarin">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">KIDS</span>
+                        <img src="https://tv.sarcheshmeh.us/index_files/channels/baxchaiafarin.png" alt="Logo">
+                    </div>
+                    <h3>Afarin Baxcha</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://5dcabf026b188.streamlock.net/afarinTV/livestream/playlist.m3u8', 'kids', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        <div class="card" data-category="kids" data-name="ئافەرین afarin">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">KIDS</span>
+                        <img src="https://m.media-amazon.com/images/I/418LGWKdk3L._UXNaN_FMjpg_QL85_.jpg" alt="Logo">
+                    </div>
+                    <h3>Afarin Kids</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://65f16f0fdfc51.streamlock.net/afarinTV/livestream/playlist.m3u8', 'kids', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+        
+        <div class="card" data-category="kids" data-name="ئۆن کیدز one kids">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">KIDS</span>
+                        <img src="https://imglink.cc/cdn/OE0EhNtYEU.jpg" alt="Logo">
+                    </div>
+                    <h3>One Kids</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://lbgo.bozztv.com/ssh101/ssh101/onekids4k/chunks.m3u8', 'kids', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
+
+        
+        <!-- کەناڵی ئاینی واڵا قورئان -->
+        <div class="card" data-category="islamic" data-name="واڵا قورئان wala quran">
+            <div class="card-header">
+                <div class="channel-info">
+                    <div class="logo-wrapper">
+                        <span class="cat-tag">islamic</span>
+                        <img src="https://imglink.cc/cdn/MDWYxhlwiK.jpg" alt="Wala Quran">
+                    </div>
+                    <h3>Wala Quran</h3>
+                </div>
+                <a href="#" onclick="playChannel('https://cdn.karwan.tv/WALAQURAN/index.m3u8', 'islamic', this); return false;" class="play-link-btn">پەخش</a>
+            </div>
+        </div>
+
     </div>
 </div>
 
 <script>
     let currentCategory = 'news';
-    let currentVideoUrl = '';
-    let hideTimeout;
 
-    // دروستکردنی لیستەی کەناڵەکان بۆ Fullscreen
-    function populateSwitcher() {
-        const switcher = document.getElementById('horizontalSwitcher');
-        switcher.innerHTML = '';
-        document.querySelectorAll('.card').forEach(card => {
-            const name = card.querySelector('h3').innerText;
-            const url = card.querySelector('a').getAttribute('onclick').match(/'([^']+)'/)[1];
-            const div = document.createElement('div');
-            div.className = 'h-card';
-            div.innerText = name;
-            div.onclick = () => {
-                playChannelFullScreen(url);
-            };
-            switcher.appendChild(div);
-        });
-    }
-
-    function enterFullScreen() {
-        const overlay = document.getElementById('fullScreenOverlay');
-        const fsVideo = document.getElementById('fullScreenVideo');
-        const mainVideo = document.getElementById('videoPlayer');
-        
-        fsVideo.src = mainVideo.currentSrc || currentVideoUrl;
-        overlay.style.display = 'flex';
-        populateSwitcher();
-        
-        // ئەگەر دەکرێت بە سیستەم full screen ببێت
-        if (overlay.requestFullscreen) overlay.requestFullscreen();
-    }
-
-    function handleTap() {
-        const switcher = document.getElementById('horizontalSwitcher');
-        switcher.classList.add('show');
-        clearTimeout(hideTimeout);
-        hideTimeout = setTimeout(() => {
-            switcher.classList.remove('show');
-        }, 3000);
-    }
-
-    function playChannelFullScreen(url) {
-        const fsVideo = document.getElementById('fullScreenVideo');
-        fsVideo.src = url;
-        fsVideo.play();
-    }
-
-    // لۆجیکی کۆنی تۆ (وەک خۆی)
-    window.onload = function() { updateVisibility(); };
+    window.onload = function() {
+        updateVisibility();
+    };
 
     function updateVisibility() {
         document.querySelectorAll('.card, .section-title-alwan, .section-title-bein, .section-title-kurdish-sports').forEach(item => {
@@ -354,53 +1053,119 @@
     }
 
     function playChannel(url, category, btnElement) {
-        currentVideoUrl = url;
         var playerContainer = document.getElementById('playerContainer');
         var scrollableContent = document.getElementById('scrollableContent');
         var video = document.getElementById('videoPlayer');
         var watermarkLogo = document.getElementById('watermarkLogo');
 
-        document.querySelectorAll('.card').forEach(card => card.classList.remove('active-channel'));
+        // دیاری کردنی کارتی چالاک
+        document.querySelectorAll('.card').forEach(card => {
+            card.classList.remove('active-channel');
+        });
+        
         let selectedCard = btnElement ? btnElement.closest('.card') : null;
-        if (selectedCard) selectedCard.classList.add('active-channel');
+        if (selectedCard) {
+            selectedCard.classList.add('active-channel');
+        }
 
         let channelName = selectedCard ? (selectedCard.querySelector('h3') ? selectedCard.querySelector('h3').innerText : 'REBAZ TV') : 'REBAZ TV';
 
+        // 🟢 پشکنین: ئەگەر لەناو ئەپەکەی ئەندرۆید (AndroidBridge / ExoPlayer) کرایەوە
         if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
             playerContainer.style.display = 'none';
+            // ڕێکخستنی شوێنی لیستەکە تا نەنوسپێت بە پۆلەکانەوە (220px)
             scrollableContent.style.top = '220px';
+            
             if (video) { video.pause(); video.src = ""; }
+            if (window.hlsInstance) { window.hlsInstance.destroy(); window.hlsInstance = null; }
+            if (window.mpegtsPlayer) { window.mpegtsPlayer.destroy(); window.mpegtsPlayer = null; }
+
             AndroidBridge.playInExo(url, channelName);
             return;
         }
 
+        // 🌐 ئەگەر لەسەر وێبی ئاسایی ئیش بپڕێنێتەوە
         playerContainer.style.display = 'flex';
         scrollableContent.style.top = '410px';
-        watermarkLogo.style.display = (category === 'sport') ? 'block' : 'none';
 
-        if (window.hlsInstance) { window.hlsInstance.destroy(); window.hlsInstance = null; }
-        if (window.mpegtsPlayer) { window.mpegtsPlayer.destroy(); window.mpegtsPlayer = null; }
+        if (category === 'sport') {
+            watermarkLogo.style.display = 'block';
+        } else {
+            watermarkLogo.style.display = 'none';
+        }
 
+        if (window.hlsInstance) {
+            window.hlsInstance.destroy();
+            window.hlsInstance = null;
+        }
+        if (window.mpegtsPlayer) {
+            window.mpegtsPlayer.destroy();
+            window.mpegtsPlayer = null;
+        }
+
+        // بۆ کارپێکردنی راستەوخۆی لینکەکانی .ts
         if (url.includes('.ts') && typeof mpegts !== 'undefined' && mpegts.isSupported()) {
-            var mpegtsPlayer = mpegts.createPlayer({ type: 'mse', isLive: true, url: url });
+            var mpegtsPlayer = mpegts.createPlayer({
+                type: 'mse',
+                isLive: true,
+                url: url
+            });
             window.mpegtsPlayer = mpegtsPlayer;
             mpegtsPlayer.attachMediaElement(video);
             mpegtsPlayer.load();
-            mpegtsPlayer.play().catch(e => console.log(e));
-        } else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-            var hls = new Hls();
+            mpegtsPlayer.play().catch(e => console.log("Direct TS play error", e));
+        } 
+        else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+            var hls = new Hls({
+                maxBufferLength: 30,
+                maxMaxBufferLength: 60,
+                liveSyncDurationCount: 3,
+                lowLatencyMode: true
+            });
+            
             window.hlsInstance = hls;
             hls.loadSource(url);
             hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() { video.play(); });
+            
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play().catch(e => console.log("Auto-play blocked"));
+            });
+
+            hls.on(Hls.Events.ERROR, function(event, data) {
+                if (data.fatal) {
+                    switch(data.type) {
+                        case Hls.ErrorTypes.NETWORK_ERROR:
+                            hls.startLoad();
+                            break;
+                        case Hls.ErrorTypes.MEDIA_ERROR:
+                            hls.recoverMediaError();
+                            break;
+                        default:
+                            hls.destroy();
+                            playChannel(url, category, btnElement);
+                            break;
+                    }
+                }
+            });
+
+        } else if (video && video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = url;
+            video.addEventListener('loadedmetadata', function() {
+                video.play();
+            });
         }
     }
+
+    document.getElementById('videoPlayer').addEventListener('stalled', function() {
+        this.play().catch(e => {});
+    });
 
     function filterCategory(category, btn) {
         currentCategory = category;
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById('searchInput').value = '';
+
         updateVisibility();
     }
 
@@ -409,8 +1174,17 @@
         document.querySelectorAll('.card').forEach(card => {
             let channelName = card.getAttribute('data-name').toLowerCase();
             let cardCat = card.getAttribute('data-category');
-            card.style.display = (channelName.includes(query) && cardCat === currentCategory) ? 'block' : 'none';
+            
+            let matchesSearch = channelName.includes(query);
+            let matchesCategory = (cardCat === currentCategory);
+
+            if (matchesSearch && matchesCategory) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
         });
+        
         document.querySelectorAll('.section-title-alwan, .section-title-bein, .section-title-kurdish-sports').forEach(title => {
             title.style.display = query ? 'none' : (title.getAttribute('data-category') === currentCategory ? 'inline-block' : 'none');
         });
@@ -418,4 +1192,4 @@
 </script>
 
 </body>
-</html>
+    </html>
