@@ -3,444 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />   
-    <meta http-equiv="Expires" content="0" />
-
     <title>REBAZ TV</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/mpegts.js@latest/dist/mpegts.js"></script>
     <style>
-        body {
-            background-image: url('https://i.pinimg.com/236x/3a/91/0f/3a910f5a86e47610668ad580e0401715.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Tahoma, sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        /* دۆخی فول سکرین - کاتێک لیستە دێت */
-        body.fullscreen-mode .fixed-top-section, 
-        body.fullscreen-mode .categories-container { display: none !important; }
-        
-        body.fullscreen-mode .player-container { 
-            height: 100vh !important; 
-            border-radius: 0 !important; 
-            margin: 0 !important;
-            z-index: 1;
-        }
-
-        body.fullscreen-mode .scrollable-content {
-            position: absolute;
-            bottom: 0;
-            top: 50% !important; /* لیستەکە لە نیوەی خوارەوە دەردەکەوێت */
-            height: 50%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 1001;
-            padding-top: 20px;
-        }
-
-        .fixed-top-section {
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
-            background-color: transparent;
-            z-index: 1000;
-            padding: 8px 10px 0 10px;
-            max-width: 400px;
-            margin: 0 auto;
-            transition: all 0.3s ease;
-        }
-
-        .search-box {
-            background-color: #1e1e1e;
-            border-radius: 30px;
-            padding: 8px 15px;
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-            border: 1px solid #333;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-        .search-box input {
-            background: transparent;
-            border: none;
-            color: #fff;
-            width: 100%;
-            outline: none;
-            font-size: 14px;
-            text-align: right;
-            font-family: Tahoma, sans-serif;
-        }
-
-        .vip-card {
-            background: linear-gradient(135deg, #1a2a3a 0%, #0d131a 100%);
-            border: 1px solid #d4af37;
-            border-radius: 15px;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            margin-bottom: 8px;
-        }
-
-        .vip-card .header-logo {
-            max-width: 80%;
-            max-height: 55px;
-            height: auto;
-            display: block;
-            margin: 0 auto 6px auto;
-            object-fit: contain;
-        }
-
-        .vip-card p {
-            color: #ccc;
-            margin: 0;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .ticker-wrapper {
-            width: 85%;
-            max-width: 280px;
-            margin: 6px auto;
-            overflow: hidden;
-            white-space: nowrap;
-            box-sizing: border-box;
-            border: 1px solid #d4af37;
-            border-radius: 8px;
-            padding: 4px 10px;
-            background-color: rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-        .ticker-text {
-            display: inline-block;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .player-container {
-            position: relative;
-            width: 100%;
-            height: 180px;
-            background-color: #000000;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 8px;
-            border: 1px solid #d4af37;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
-            display: none; 
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .watermark-logo {
-            position: absolute;
-            top: 6px;
-            right: 10px;
-            background-color: #008000;
-            color: #ffffff;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-            border: 1px solid #d4af37;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.7);
-            z-index: 10;
-            display: none;
-            pointer-events: none;
-        }
-
-        .player-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            outline: none;
-        }
-
-        .categories-container {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            margin-bottom: 8px;
-            scrollbar-width: none;
-        }
-        .categories-container::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .cat-btn {
-            background: linear-gradient(135deg, #1a2a3a 0%, #0d131a 100%);
-            color: #ffffff;
-            border: 1px solid #d4af37;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            white-space: nowrap;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-        }
-        .cat-btn.active {
-            background-color: #0044cc;
-            border-color: #0066ff;
-            box-shadow: 0 4px 10px rgba(0,102,255,0.4);
-        }
-        
-        .scrollable-content {
-            position: absolute;
-            top: 220px; 
-            bottom: 0;
-            right: 0;
-            left: 0;
-            overflow-y: auto;
-            padding: 10px;
-            scrollbar-width: none;
-            transition: top 0.3s ease;
-        }
-        .scrollable-content::-webkit-scrollbar {
-            display: none;
-        }
-
-        .channels-container {
-            display: flex;
-            flex-direction: column;
-            gap: 22px;
-            max-width: 400px;
-            margin: 0 auto;
-            padding-bottom: 30px;
-        }
-        
-        .section-title-alwan, .section-title-bein, .section-title-kurdish-sports {
-            display: inline-block;
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: bold;
-            margin: 12px 5px 6px 5px;
-            border: 1px solid #00ff66;
-            padding: 4px 12px;
-            background: rgba(0, 255, 102, 0.15);
-            border-radius: 20px;
-            box-shadow: 0 2px 8px rgba(0,255,102,0.2);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-        }
-        .section-title-bein { border: 1px solid #b800e6; background: rgba(184, 0, 230, 0.15); }
-        .section-title-kurdish-sports { border: 1px solid #ff7700; background: rgba(255, 119, 0, 0.15); }
-
-        .card {
-            background: linear-gradient(135deg, #1a2a3a 0%, #0d131a 100%);
-            border: 1px solid #d4af37;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
-        }
-
-        @keyframes softRedGlow {
-            0% { border-color: #ff3333; box-shadow: 0 0 8px rgba(255, 51, 51, 0.4), inset 0 0 5px rgba(255, 51, 51, 0.2); }
-            50% { border-color: #ff8080; box-shadow: 0 0 16px rgba(255, 51, 51, 0.8), inset 0 0 10px rgba(255, 51, 51, 0.4); }
-            100% { border-color: #ff3333; box-shadow: 0 0 8px rgba(255, 51, 51, 0.4), inset 0 0 5px rgba(255, 51, 51, 0.2); }
-        }
-
-        .card.active-channel {
-            animation: softRedGlow 2s infinite ease-in-out;
-            border: 2px solid #ff3333;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 15px;
-        }
-        .channel-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .logo-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-        }
-        
-        .cat-tag {
-            font-size: 10px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        
-        .card[data-category="news"] .cat-tag { color: #ff3333; }
-        .card[data-category="sport"] .cat-tag { color: #00cc44; }
-        .card[data-category="kurdish"] .cat-tag { color: #b800e6; }
-        .card[data-category="documentary"] .cat-tag { color: #b800e6; }
-        .card[data-category="kids"] .cat-tag { color: #ff9900; }
-        .card[data-category="islamic"] .cat-tag { color: #00ffff; }
-
-        .card-header img {
-            width: 55px;
-            height: 55px;
-            border-radius: 12px;
-            object-fit: cover;
-            background: #000;
-            border: 1px solid #d4af37;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
-        .card-header h3 {
-            margin: 0;
-            font-size: 18px;
-            color: #ffcc00;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-        }
-        
-        .play-link-btn {
-            background: linear-gradient(135deg, #cc0000 0%, #660000 100%);
-            color: #ffffff;
-            border: 1px solid #ff1a1a;
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-            white-space: nowrap;
-        }
+        /* CSS هەمان شێوەی پێشوو */
+        body { background-color: #121212; color: #fff; font-family: Tahoma, sans-serif; margin: 0; overflow: hidden; }
+        .fullscreen-mode .fixed-top-section, .fullscreen-mode .categories-container { display: none !important; }
+        .fullscreen-mode .player-container { height: 100vh !important; margin: 0 !important; border-radius: 0 !important; }
+        .fixed-top-section { position: fixed; top: 0; right: 0; left: 0; background: #121212; z-index: 1000; padding: 10px; }
+        .player-container { position: relative; width: 100%; height: 200px; background: #000; display: none; margin-bottom: 10px; }
+        .player-container video { width: 100%; height: 100%; }
+        .categories-container { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; }
+        .cat-btn { padding: 8px 15px; border-radius: 20px; border: 1px solid #d4af37; background: #1a2a3a; color: white; cursor: pointer; }
+        .cat-btn.active { background: #0044cc; }
+        .scrollable-content { position: absolute; top: 320px; bottom: 0; right: 0; left: 0; overflow-y: auto; padding: 10px; }
+        .card { background: #1a2a3a; margin-bottom: 15px; padding: 10px; border-radius: 15px; border: 1px solid #d4af37; }
+        .card h3 { margin: 0; font-size: 16px; color: #ffcc00; }
+        .play-link-btn { background: red; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; display: inline-block; margin-top: 5px; }
     </style>
 </head>
 <body>
 
 <div class="fixed-top-section">
-    <div class="search-box" id="searchBoxContainer">
-        <span style="color: #aaa; margin-left: 10px; font-size: 18px;">🔍</span>
-        <input type="text" id="searchInput" placeholder="گەڕان بۆ کەناڵ..." onkeyup="searchChannels()">
-    </div>
-
-    <div class="vip-card" id="vipCardContainer">
-        <img src="https://imglink.cc/cdn/u4Kyu4xK3Z.png" alt="REBAZ TV" class="header-logo">
-        <div class="ticker-wrapper">
-            <span class="ticker-text">اللّهُمَّ صَلِّ عَلَىٰ مُحَمَّد وَعَلَىٰ آلِ مُحَمَّد</span>
-        </div>
-    </div>
-
+    <input type="text" id="searchInput" placeholder="گەڕان بۆ کەناڵ..." onkeyup="searchChannels()" style="width: 100%; padding: 10px; border-radius: 10px;">
+    
     <div class="player-container" id="playerContainer" onclick="toggleOverlay()">
-        <div id="watermarkLogo" class="watermark-logo">REBAZ | TV</div>
         <video id="videoPlayer" controls autoplay></video>
     </div>
 
     <div class="categories-container" id="categoriesBar">
         <button class="cat-btn active" onclick="filterCategory('news', this)">هەواڵ</button>
-        <button class="cat-btn" onclick="filterCategory('kurdish', this)">کوردی ناوخۆیی</button>
         <button class="cat-btn" onclick="filterCategory('sport', this)">وەرزش</button>
-        <button class="cat-btn" onclick="filterCategory('documentary', this)">دۆکومێنتاری</button>
-        <button class="cat-btn" onclick="filterCategory('kids', this)">منداڵان</button>
-        <button class="cat-btn" onclick="filterCategory('islamic', this)">ئاینی</button>
+        <button class="cat-btn" onclick="filterCategory('kurdish', this)">کوردی</button>
     </div>
 </div>
 
 <div class="scrollable-content" id="scrollableContent">
     <div class="channels-container" id="channelsList">
-        <!-- هەمان ناوەڕۆکی پێشوو (گۆڕانکاری نەکراوە) -->
-        <div class="card" data-category="news" data-name="rudaw tv ڕووداو">
-            <div class="card-header">
-                <div class="channel-info">
-                    <div class="logo-wrapper">
-                        <span class="cat-tag">NEWS</span>
-                        <img src="https://photos.smugmug.com/Rudaw-logo/i-7WVWZvk/0/KpP92MzbzGV2SX3ftc2J6RdbjN27V7GGc6hhgG2FZ/L/unnamed-L.png" alt="Rudaw">
-                    </div>
-                    <h3>RUDAW TV</h3>
-                </div>
-                <a href="#" onclick="playChannel('https://live.rudaw.net/hls/rudaw-tv/master.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
-            </div>
+        
+        <!-- لێرە هەموو کەناڵەکانت دابنێ -->
+        <div class="card" data-category="news" data-name="rudaw tv">
+            <h3>RUDAW TV</h3>
+            <a href="#" onclick="playChannel('https://live.rudaw.net/hls/rudaw-tv/master.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
         </div>
-        <!-- ... لیستەی کەناڵەکان لێرە دەمێنێتەوە ... -->
+
+        <div class="card" data-category="news" data-name="kurdistan 24">
+            <h3>KURDISTAN 24</h3>
+            <a href="#" onclick="playChannel('https://k24-origin.akamaized.net/hls/live/2000000/k24/master.m3u8', 'news', this); return false;" class="play-link-btn">پەخش</a>
+        </div>
+
+        <div class="card" data-category="sport" data-name="kurdish sport">
+            <h3>KURDISH SPORT</h3>
+            <a href="#" onclick="playChannel('لینکەکەت_لێرە_دابنێ', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+        </div>
+
+        <!-- دەتوانیت کەناڵەکانی تر بەم شێوەیە زیاد بکەیت -->
+
     </div>
 </div>
 
 <script>
     let currentCategory = 'news';
 
-    // کارپێکردنی دۆخی فول سکرین بە کلیک
-    function toggleOverlay() {
-        const body = document.body;
-        body.classList.toggle('fullscreen-mode');
-    }
-
-    window.onload = function() {
-        updateVisibility();
-    };
-
-    function updateVisibility() {
-        document.querySelectorAll('.card, .section-title-alwan, .section-title-bein, .section-title-kurdish-sports').forEach(item => {
-            if (item.getAttribute('data-category') === currentCategory) {
-                item.style.display = item.classList.contains('section-title-alwan') || item.classList.contains('section-title-bein') || item.classList.contains('section-title-kurdish-sports') ? 'inline-block' : 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
+    function toggleOverlay() { document.body.classList.toggle('fullscreen-mode'); }
 
     function playChannel(url, category, btnElement) {
         var playerContainer = document.getElementById('playerContainer');
-        var scrollableContent = document.getElementById('scrollableContent');
         var video = document.getElementById('videoPlayer');
-        var watermarkLogo = document.getElementById('watermarkLogo');
-
-        // دیاری کردنی کارتی چالاک
-        document.querySelectorAll('.card').forEach(card => {
-            card.classList.remove('active-channel');
-        });
-        
-        let selectedCard = btnElement ? btnElement.closest('.card') : null;
-        if (selectedCard) {
-            selectedCard.classList.add('active-channel');
-        }
-
-        let channelName = selectedCard ? (selectedCard.querySelector('h3') ? selectedCard.querySelector('h3').innerText : 'REBAZ TV') : 'REBAZ TV';
-
-        if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
-            AndroidBridge.playInExo(url, channelName);
-            return;
-        }
-
         playerContainer.style.display = 'flex';
-        scrollableContent.style.top = '410px';
-
-        if (category === 'sport') {
-            watermarkLogo.style.display = 'block';
-        } else {
-            watermarkLogo.style.display = 'none';
-        }
-
-        if (window.hlsInstance) { window.hlsInstance.destroy(); window.hlsInstance = null; }
-        if (window.mpegtsPlayer) { window.mpegtsPlayer.destroy(); window.mpegtsPlayer = null; }
-
-        if (url.includes('.ts') && typeof mpegts !== 'undefined' && mpegts.isSupported()) {
-            var mpegtsPlayer = mpegts.createPlayer({ type: 'mse', isLive: true, url: url });
-            window.mpegtsPlayer = mpegtsPlayer;
-            mpegtsPlayer.attachMediaElement(video);
-            mpegtsPlayer.load();
-            mpegtsPlayer.play().catch(e => console.log("Direct TS play error", e));
-        } 
-        else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-            var hls = new Hls({ maxBufferLength: 30, liveSyncDurationCount: 3, lowLatencyMode: true });
+        
+        if (window.hlsInstance) window.hlsInstance.destroy();
+        
+        if (Hls.isSupported()) {
+            var hls = new Hls();
             window.hlsInstance = hls;
             hls.loadSource(url);
             hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() { video.play().catch(e => console.log("Auto-play blocked")); });
+            hls.on(Hls.Events.MANIFEST_PARSED, function() { video.play(); });
         }
     }
 
@@ -448,26 +88,22 @@
         currentCategory = category;
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById('searchInput').value = '';
-        updateVisibility();
-        // ئەگەر لە دۆخی فول سکرین بێت با بەردەوام بێت
-        document.body.classList.remove('fullscreen-mode');
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.display = (card.getAttribute('data-category') === category) ? 'block' : 'none';
+        });
     }
 
     function searchChannels() {
         let query = document.getElementById('searchInput').value.toLowerCase();
         document.querySelectorAll('.card').forEach(card => {
-            let channelName = card.getAttribute('data-name').toLowerCase();
-            let cardCat = card.getAttribute('data-category');
-            let matchesSearch = channelName.includes(query);
-            let matchesCategory = (cardCat === currentCategory);
-            card.style.display = (matchesSearch && matchesCategory) ? 'block' : 'none';
-        });
-        
-        document.querySelectorAll('.section-title-alwan, .section-title-bein, .section-title-kurdish-sports').forEach(title => {
-            title.style.display = query ? 'none' : (title.getAttribute('data-category') === currentCategory ? 'inline-block' : 'none');
+            let name = card.getAttribute('data-name').toLowerCase();
+            let cat = card.getAttribute('data-category');
+            card.style.display = (name.includes(query) && cat === currentCategory) ? 'block' : 'none';
         });
     }
+    
+    // کاراکردنی فیلتەر لە یەکەمجاردا
+    filterCategory('news', document.querySelector('.cat-btn'));
 </script>
 
 </body>
