@@ -35,7 +35,7 @@
             background-color: transparent;
             z-index: 1000;
             padding: 8px 10px 0 10px;
-            max-width: 400px;
+            max-width: 420px;
             margin: 0 auto;
         }
 
@@ -195,78 +195,80 @@
             display: none;
         }
 
+        /* 🟢 ڕێکخستنی کارتی کەناڵەکان بە شێوازی Grid (3 ستوونی وەک وێنەکە) */
         .channels-container {
-            display: flex;
-            flex-direction: column;
-            gap: 22px;
-            max-width: 400px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 420px;
             margin: 0 auto;
             padding-bottom: 30px;
         }
         
-        .section-title-alwan {
+        .section-title-alwan,
+        .section-title-bein,
+        .section-title-kurdish-sports {
+            grid-column: 1 / -1;
+            justify-self: center;
             display: inline-block;
             color: #ffffff;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
-            margin: 12px 5px 6px 5px;
-            border: 1px solid #00ff66;
-            padding: 4px 12px;
-            background: rgba(0, 255, 102, 0.15);
+            margin: 10px 0 5px 0;
             border-radius: 20px;
-            box-shadow: 0 2px 8px rgba(0,255,102,0.2);
+            padding: 4px 14px;
             text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            text-align: center;
+        }
+
+        .section-title-alwan {
+            border: 1px solid #00ff66;
+            background: rgba(0, 255, 102, 0.15);
+            box-shadow: 0 2px 8px rgba(0,255,102,0.2);
         }
 
         .section-title-bein {
-            display: inline-block;
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: bold;
-            margin: 12px 5px 6px 5px;
             border: 1px solid #b800e6;
-            padding: 4px 12px;
             background: rgba(184, 0, 230, 0.15);
-            border-radius: 20px;
             box-shadow: 0 2px 8px rgba(184,0,230,0.2);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
         .section-title-kurdish-sports {
-            display: inline-block;
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: bold;
-            margin: 12px 5px 6px 5px;
             border: 1px solid #ff7700;
-            padding: 4px 12px;
             background: rgba(255, 119, 0, 0.15);
-            border-radius: 20px;
             box-shadow: 0 2px 8px rgba(255,119,0,0.2);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
+        /* 🟢 دیزاینی کارتەکان وەک وێنەکە (Square Card / Poster Tile) */
         .card {
-            background: linear-gradient(135deg, #1a2a3a 0%, #0d131a 100%);
+            background: linear-gradient(145deg, #1e2d3d 0%, #0a1017 100%);
             border: 1px solid #d4af37;
-            border-radius: 20px;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+            transition: all 0.2s ease;
+            position: relative;
+            aspect-ratio: 1 / 1.15;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:active {
+            transform: scale(0.96);
         }
 
         @keyframes softRedGlow {
             0% {
                 border-color: #ff3333;
-                box-shadow: 0 0 8px rgba(255, 51, 51, 0.4), inset 0 0 5px rgba(255, 51, 51, 0.2);
+                box-shadow: 0 0 8px rgba(255, 51, 51, 0.5), inset 0 0 5px rgba(255, 51, 51, 0.3);
             }
             50% {
                 border-color: #ff8080;
-                box-shadow: 0 0 16px rgba(255, 51, 51, 0.8), inset 0 0 10px rgba(255, 51, 51, 0.4);
+                box-shadow: 0 0 16px rgba(255, 51, 51, 0.9), inset 0 0 10px rgba(255, 51, 51, 0.5);
             }
             100% {
                 border-color: #ff3333;
-                box-shadow: 0 0 8px rgba(255, 51, 51, 0.4), inset 0 0 5px rgba(255, 51, 51, 0.2);
+                box-shadow: 0 0 8px rgba(255, 51, 51, 0.5), inset 0 0 5px rgba(255, 51, 51, 0.3);
             }
         }
 
@@ -277,28 +279,50 @@
 
         .card-header {
             display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            position: relative;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 15px;
         }
+
         .channel-info {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 15px;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            gap: 0;
         }
         
         .logo-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3px;
+            justify-content: center;
+            width: 100%;
+            height: 75%;
+            position: relative;
+            padding: 6px 6px 0 6px;
+            box-sizing: border-box;
         }
         
         .cat-tag {
-            font-size: 10px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 8px;
             font-weight: bold;
             letter-spacing: 0.5px;
             text-transform: uppercase;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 1px 4px;
+            border-radius: 4px;
+            z-index: 2;
         }
         
         .card[data-category="news"] .cat-tag { color: #ff3333; }
@@ -309,34 +333,46 @@
         .card[data-category="islamic"] .cat-tag { color: #00ffff; }
 
         .card-header img {
-            width: 55px;
-            height: 55px;
-            border-radius: 12px;
-            object-fit: cover;
-            background: #000;
-            border: 1px solid #d4af37;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            width: 100%;
+            height: 100%;
+            max-height: 80px;
+            border-radius: 10px;
+            object-fit: contain;
+            background: transparent;
+            border: none;
+            box-shadow: none;
         }
+
+        /* 🟢 ناوی کەناڵەکە لە بەشی خوارەوەی کارتەکە ڕێک وەک وێنەکە */
         .card-header h3 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
             margin: 0;
-            font-size: 18px;
-            color: #ffcc00;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            font-size: 11px;
+            font-weight: bold;
+            color: #ffffff;
+            text-align: center;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.75) 70%, rgba(0,0,0,0) 100%);
+            padding: 12px 3px 6px 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            z-index: 2;
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
         }
         
+        /* 🟢 داپۆشینی تەواوی کارتەکە بە دوگمەی پەخش تا بە داگرتنی هەر شوێنێکی کارتەکە ئیش بکات */
         .play-link-btn {
-            background: linear-gradient(135deg, #cc0000 0%, #660000 100%);
-            color: #ffffff;
-            border: 1px solid #ff1a1a;
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: bold;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 10;
             cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-            white-space: nowrap;
+            display: block;
         }
     </style>
 </head>
@@ -1392,7 +1428,11 @@
     function updateVisibility() {
         document.querySelectorAll('.card, .section-title-alwan, .section-title-bein, .section-title-kurdish-sports').forEach(item => {
             if (item.getAttribute('data-category') === currentCategory) {
-                item.style.display = item.classList.contains('section-title-alwan') || item.classList.contains('section-title-bein') || item.classList.contains('section-title-kurdish-sports') ? 'inline-block' : 'block';
+                if (item.classList.contains('section-title-alwan') || item.classList.contains('section-title-bein') || item.classList.contains('section-title-kurdish-sports')) {
+                    item.style.display = 'inline-block';
+                } else {
+                    item.style.display = 'flex';
+                }
             } else {
                 item.style.display = 'none';
             }
@@ -1526,7 +1566,7 @@
             let matchesCategory = (cardCat === currentCategory);
 
             if (matchesSearch && matchesCategory) {
-                card.style.display = 'block';
+                card.style.display = 'flex';
             } else {
                 card.style.display = 'none';
             }
@@ -1539,4 +1579,4 @@
 </script>
 
 </body>
-    </html>
+</html>
