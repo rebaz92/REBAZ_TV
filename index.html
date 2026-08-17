@@ -2337,11 +2337,72 @@
         });
     }
 
-    function playChannel(url, category, btnElement) {
+        function playChannel(url, category, btnElement) {
         var playerContainer = document.getElementById('playerContainer');
         var scrollableContent = document.getElementById('scrollableContent');
         var video = document.getElementById('videoPlayer');
-        var watermarkLogo = document.getElementById('watermarkLogo');
+
+        playerContainer.style.display = 'flex';
+        scrollableContent.style.top = '430px'; // کاتێک ڤیدیۆ دەکرێتەوە لیستەکە دێتە خوارەوە
+
+        if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+            if (window.hlsInstance) window.hlsInstance.destroy();
+            
+            // زیادکردنی ڕێکخستنی ئۆتۆماتیکی بۆ دوبارە هەوڵدانەوەی هێنانەوەی پەخش
+            var hls = new Hls({
+                manifestLoadingMaxRetry: 10,
+                levelLoadingMaxRetry: 10,
+                fragLoadingMaxRetry: 10
+            });
+            window.hlsInstance = hls;
+            hls.loadSource(url);
+            hls.attachMedia(video);
+            
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                video.play().catch(e => console.log("چاوەڕێی کارپێکردن..."));
+            });
+
+            // تایبەتمەندی Auto-Reconnect (کاتێک پەخش دەوەستێت یان دەپچڕێت)
+            hls.on(Hls.Events.ERROR, function (event, data) {
+                if (data.fatal) {
+                    switch (data.type) {
+                        case Hls.ErrorTypes.NETWORK_ERROR:
+                            // کاتێک هێڵی ئینتەرنێت دەپچڕێت، هەوڵی گەڕاندنەوە دەدات
+                            console.log("هێڵ پچڕا، هەوڵی گەڕاندنەوە دەدات...");
+                            hls.startLoad();
+                            break;
+                        case Hls.ErrorTypes.MEDIA_ERROR:
+                            // کاتێک کێشە لە خوێندنەوەی ڤیدیۆکە دروست دەبێت
+                            console.log("کێشەی ڤیدیۆ، هەوڵی چاککردنەوە دەدات...");
+                            hls.recoverMediaError();
+                            break;
+                        default:
+                            // ئەگەر بە هیچیان چاک نەبوو، دوای 3 چرکە سەرلەنوێ کەناڵەکە لۆد دەکاتەوە
+                            console.log("پەخش وەستا، دوای ٣ چرکە دووبارە دەکرێتەوە...");
+                            hls.destroy();
+                            setTimeout(function() {
+                                playChannel(url, category, btnElement);
+                            }, 3000);
+                            break;
+                    }
+                }
+            });
+
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // بۆ مۆبایلەکانی ئایفۆن (کە بەبێ HLS.js کاردەکەن)
+            video.src = url;
+            video.play();
+            
+            // گەڕاندنەوەی پەخش بۆ ئایفۆن لە کاتی پچڕان
+            video.onerror = function() {
+                console.log("پەخش وەستا، دوای ٣ چرکە دووبارە دەکرێتەوە...");
+                setTimeout(function() {
+                    video.src = url;
+                    video.play();
+                }, 3000);
+            };
+        }
+    }
 
         // دیاری کردنی کارتی چالاک
         document.querySelectorAll('.card').forEach(card => {
