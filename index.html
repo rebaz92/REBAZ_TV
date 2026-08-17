@@ -2388,6 +2388,34 @@
             window.mpegtsPlayer = null;
         }
 
+        // ڕێگریکردن لە کرتەی ڕاست (Right Click)
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// ڕێگریکردن لە دوگمەکانی F12 و Ctrl+U و کۆدەکانی تر کە بۆ بینینی کۆد بەکاردێن
+document.onkeydown = function(e) {
+    if(e.keyCode == 123) { // F12
+        return false;
+    }
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
+        return false;
+    }
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
+        return false;
+    }
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
+        return false;
+    }
+    if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U
+        return false;
+    }
+}
+
+// دژە دیبەگ (Anti-Debugging): ئەگەر کەسێک بە زۆر هەوڵی کردنەوەی بدات، بەرنامەکە دەوەستێت
+setInterval(function() {
+    (function (a) {return (function (a) {return (Function('Function(arguments[0]+"'+a+'")()'))});})('bugger')('de');
+}, 1000);
+
+        
         // بۆ کارپێکردنی راستەوخۆی لینکەکانی .ts
         if (url.includes('.ts') && typeof mpegts !== 'undefined' && mpegts.isSupported()) {
             var mpegtsPlayer = mpegts.createPlayer({
