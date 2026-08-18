@@ -394,7 +394,7 @@
     <!-- شاشەی پەخشی HTML کاتێک لە وێبدا ئیش دەکات -->
     <div class="player-container" id="playerContainer">
         <div id="watermarkLogo" class="watermark-logo">REBAZ | TV</div>
-        <video id="videoPlayer" controls autoplay playsinline></video>
+        <video id="videoPlayer" controls autoplay></video>
     </div>
 
     <div class="categories-container" id="categoriesBar">
@@ -1950,175 +1950,157 @@
                 <div class="channel-info">
                     <div class="logo-wrapper">
                         <span class="cat-tag">SPORT</span>
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_hp10imbTjaSWhjW4o8wAq6NxSDQtX0ttzg&s" alt="Kurdistan Sport">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEiq5HsoJlX8DpdT4fJKn9F2OVLBRk1bzAmClANGaMfBlHGzrihR08eWI&s=10" alt="Kurdistan Sport">
                     </div>
                     <h3>Kurdistan Sport HD</h3>
                 </div>
-                <a href="#" onclick="playChannel('http://asmrasmr.live:8080/STdYbUVoVkVFanM0ckxPSldFKzNDODVWMDg0TzYya0VVUGc5QUtGWUNFTT0', 'sport', this); return false;" class="play-link-btn">پەخش</a>
+                <a href="#" onclick="playChannel('YOUR_LINK_HERE', 'sport', this); return false;" class="play-link-btn">پەخش</a>
             </div>
         </div>
 
-    </div>
-</div>
+    </div> <!-- کۆتایی channelsList -->
+</div> <!-- کۆتایی scrollableContent -->
 
+<!-- ================= کۆدی جافاسکريپت بۆ کارپێکردن و ڕیکۆنێکت (Reconnect) ================= -->
 <script>
-    // گۆڕاوەکان بۆ هەڵگرتنی زانیاریەکانی پەخشی ئێستا
     let currentUrl = '';
     let currentCategory = '';
+    let currentElement = null;
     let hlsPlayer = null;
-    let tsPlayer = null;
-    let retryTimeout = null;
+    let mpegtsPlayer = null;
+    let reconnectTimer = null;
 
-    // نەخشەی گەڕان بەدوای کەناڵەکاندا
-    function searchChannels() {
-        let input = document.getElementById('searchInput').value.toLowerCase();
-        let cards = document.getElementsByClassName('card');
-
-        for (let i = 0; i < cards.length; i++) {
-            let dataName = cards[i].getAttribute('data-name').toLowerCase();
-            if (dataName.includes(input)) {
-                cards[i].style.display = "flex";
-            } else {
-                cards[i].style.display = "none";
-            }
-        }
-    }
-
-    // نەخشەی فلتەرکردنی بەشەکان (هەواڵ، وەرزش، هتد..)
-    function filterCategory(category, element) {
-        let cards = document.getElementsByClassName('card');
-        let btns = document.getElementsByClassName('cat-btn');
-
-        // سڕینەوەی ڕەنگی ئەکتیڤ لە هەموو دوگمەکان
-        for (let i = 0; i < btns.length; i++) {
-            btns[i].classList.remove('active');
-        }
-        // دانانی ڕەنگی ئەکتیڤ بۆ دوگمەی کلیلکراو
-        element.classList.add('active');
-
-        // پیشاندان و شاردنەوەی کارتەکان بەپێی بەش
-        for (let i = 0; i < cards.length; i++) {
-            if (category === 'all' || cards[i].getAttribute('data-category') === category) {
-                cards[i].style.display = "flex";
-            } else {
-                cards[i].style.display = "none";
-            }
-        }
-    }
-
-    // نەخشەی کارپێکردنی کەناڵ بە سیستەمی ئۆتۆ-ڕیکۆنێکت
     function playChannel(url, category, element) {
-        clearTimeout(retryTimeout); // سڕینەوەی هەر هەوڵێکی پێشوو بۆ ڕیفرێشکردن
-        
-        const video = document.getElementById('videoPlayer');
-        const playerContainer = document.getElementById('playerContainer');
-        const watermark = document.getElementById('watermarkLogo');
-
-        // پاشەکەوتکردنی لینکی ئێستا بۆ کاتی ڕیفرێشکردن
+        clearTimeout(reconnectTimer);
         currentUrl = url;
         currentCategory = category;
+        currentElement = element;
 
-        // پیشاندانی شاشەی پەخش و لۆگۆ
-        playerContainer.style.display = 'flex';
-        watermark.style.display = 'block';
-
-        // دیاریکردنی کارتی ئەکتیڤ (دەورووبەری سوور دەبێت)
-        if(element) {
-            let cards = document.getElementsByClassName('card');
-            for(let i=0; i<cards.length; i++){
-                cards[i].classList.remove('active-channel');
-            }
-            // گەڕانەوە بۆ سەرەوە تا کارتی سەرەکی دەدۆزێتەوە و ئەکتیڤی دەکات
-            element.closest('.card').classList.add('active-channel');
+        // لابردنی هێمای چالاک لە هەموو کەناڵەکان و دانانی بۆ کەناڵە هەڵبژێردراوەکە
+        document.querySelectorAll('.card').forEach(el => el.classList.remove('active-channel'));
+        if (element) {
+            let card = element.closest('.card');
+            if (card) card.classList.add('active-channel');
         }
 
-        // سڕینەوەی پەخشکەری پێشوو ئەگەر هەبوو
-        if (hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; }
-        if (tsPlayer) { tsPlayer.destroy(); tsPlayer = null; }
+        const video = document.getElementById('videoPlayer');
+        const playerContainer = document.getElementById('playerContainer');
+        const watermarkLogo = document.getElementById('watermarkLogo');
 
-        video.pause();
-        video.removeAttribute('src');
+        playerContainer.style.display = 'flex';
+        watermarkLogo.style.display = 'block';
+
+        initPlayer(url, video);
+    }
+
+    function initPlayer(url, video) {
+        // پاککردنەوەی پلەیەرەکانی پێشوو ئەگەر هەبن
+        if (hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; }
+        if (mpegtsPlayer) { mpegtsPlayer.destroy(); mpegtsPlayer = null; }
+        
+        video.src = '';
         video.load();
 
-        // جۆرەکانی لینک (m3u8 یان ts)
-        if (url.includes('.m3u8')) {
-            if (Hls.isSupported()) {
-                hlsPlayer = new Hls({
-                    maxRetry: 5,
-                    retryDelay: 3000,
-                });
-                hlsPlayer.loadSource(url);
-                hlsPlayer.attachMedia(video);
-                hlsPlayer.on(Hls.Events.MANIFEST_PARSED, function() {
-                    video.play().catch(e => console.log("Play error", e));
-                });
-                
-                // کاتێک کێشە دروست دەبێت هەوڵی ڕیکۆنێکت دەدات
-                hlsPlayer.on(Hls.Events.ERROR, function(event, data) {
-                    if (data.fatal) {
-                        console.log("HLS Error encountered, trying to reconnect...");
-                        handleVideoError();
+        const isM3U8 = url.includes('.m3u8');
+
+        if (isM3U8 && Hls.isSupported()) {
+            hlsPlayer = new Hls({
+                maxBufferLength: 30,
+                enableWorker: true,
+                lowLatencyMode: true
+            });
+            hlsPlayer.loadSource(url);
+            hlsPlayer.attachMedia(video);
+            hlsPlayer.on(Hls.Events.MANIFEST_PARSED, function () {
+                video.play().catch(e => console.log("Play error:", e));
+            });
+
+            // بەشی ڕیکۆنێکت (Reconnect) بۆ HLS کاتێک کێشە دروست دەبێت
+            hlsPlayer.on(Hls.Events.ERROR, function (event, data) {
+                if (data.fatal) {
+                    switch (data.type) {
+                        case Hls.ErrorTypes.NETWORK_ERROR:
+                            console.log("Network error - trying to recover...");
+                            hlsPlayer.startLoad();
+                            break;
+                        case Hls.ErrorTypes.MEDIA_ERROR:
+                            console.log("Media error - trying to recover...");
+                            hlsPlayer.recoverMediaError();
+                            break;
+                        default:
+                            console.log("Fatal error - reconnecting in 5 seconds...");
+                            triggerReconnect();
+                            break;
                     }
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                // بۆ ئامێرەکانی ئەپڵ کە خۆیان m3u8 ئیش پێدەکەن
-                video.src = url;
-                video.play();
-            }
-        } else if (url.includes('.ts') || url.includes('.m3u')) {
-            if (mpegts.isSupported()) {
-                tsPlayer = mpegts.createPlayer({
-                    type: 'mse',
-                    isLive: true,
-                    url: url
-                });
-                tsPlayer.attachMediaElement(video);
-                tsPlayer.load();
-                tsPlayer.play().catch(e => console.log("Play error", e));
-                
-                // کاتێک کێشە دروست دەبێت هەوڵی ڕیکۆنێکت دەدات
-                tsPlayer.on(mpegts.Events.ERROR, function() {
-                    console.log("TS Error encountered, trying to reconnect...");
-                    handleVideoError();
-                });
-            }
+                }
+            });
+        } else if (!isM3U8 && mpegts.getFeatureList().mseLivePlayback) {
+            mpegtsPlayer = mpegts.createPlayer({
+                type: 'mse', // پشتگیری بۆ TS یان FLV دەکات
+                isLive: true,
+                url: url
+            });
+            mpegtsPlayer.attachMediaElement(video);
+            mpegtsPlayer.load();
+            mpegtsPlayer.play().catch(e => console.log("Play error:", e));
+
+            // بەشی ڕیکۆنێکت بۆ پەخشی MPEG-TS 
+            mpegtsPlayer.on(mpegts.Events.ERROR, function (e) {
+                console.log("MPEG-TS Error - reconnecting in 5 seconds...");
+                triggerReconnect();
+            });
         } else {
-            // بۆ لینکە ئاساییەکانی تر وەکو mp4
+            // بۆ ئەو ئامێرانەی کە خۆیان پشتگیری دەکەن وەک ئایفۆن یان تیڤی
             video.src = url;
-            video.play().catch(e => handleVideoError());
+            video.play().catch(e => console.log("Play error:", e));
+            
+            video.addEventListener('error', triggerReconnect);
         }
+
+        // ئەگەر ڤیدیۆکە وەستا (Stalled) بەهۆی هێڵی ئینتەرنێتەوە، ڕیکۆنێکت بکاتەوە
+        video.addEventListener('stalled', function() {
+            console.log("Stream stalled - attempting to reconnect...");
+            triggerReconnect();
+        });
     }
 
-    // نەخشەی هەڵە و ئۆتۆ ڕیکۆنێکت (دوای 5 چرکە خۆی ڕیفرێش دەکات)
-    function handleVideoError() {
-        console.log("Stream stopped or errored. Auto-reconnecting in 5 seconds...");
-        clearTimeout(retryTimeout);
-        retryTimeout = setTimeout(() => {
+    function triggerReconnect() {
+        clearTimeout(reconnectTimer);
+        reconnectTimer = setTimeout(() => {
+            console.log("Reconnecting to: " + currentUrl);
             if (currentUrl) {
-                // دووبارە بانگکردنەوەی هەمان لینک بەبێ گۆڕینی دیزاینەکە
-                playChannel(currentUrl, currentCategory, null);
+                const video = document.getElementById('videoPlayer');
+                initPlayer(currentUrl, video);
             }
-        }, 3000); // 3000 ملی چرکە = 3 چرکە
+        }, 5000); // دوای 5 چرکە هەوڵی پەیوەستبوونەوەی دووبارە دەدات
     }
 
-    // زیادکردنی گوێگر بۆ کێشەکانی خودی شاشەی ڤیدیۆکە (HTML5 Video events)
-    const vidElement = document.getElementById('videoPlayer');
-    
-    // کاتێک ڤیدیۆکە دەوەستێت و چاوەڕێی داتایە
-    vidElement.addEventListener('stalled', () => {
-        handleVideoError();
-    });
+    // فلتەرکردنی کەناڵەکان بەپێی بەشەکان لە سەرەوە
+    function filterCategory(category, btn) {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        document.querySelectorAll('.card').forEach(card => {
+            if (card.dataset.category === category || category === 'all') {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
 
-    // کاتێک ڤیدیۆکە بەهۆی ئینتەرنێتەوە دەپچڕێت
-    vidElement.addEventListener('error', () => {
-        handleVideoError();
-    });
-    
-    // کاتێک پەخشەکە خۆی دەوەستێت لەناکاو
-    vidElement.addEventListener('ended', () => {
-        handleVideoError();
-    });
-
+    // گەڕان بەدوای کەناڵەکاندا
+    function searchChannels() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        document.querySelectorAll('.card').forEach(card => {
+            let name = card.dataset.name.toLowerCase();
+            if (name.includes(input)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
 </script>
 
 </body>
