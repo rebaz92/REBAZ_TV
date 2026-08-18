@@ -2420,8 +2420,11 @@
                 if (data.fatal) {
                     switch(data.type) {
                         case Hls.ErrorTypes.NETWORK_ERROR:
-                            hls.startLoad();
-                            break;
+    console.log("کێشەی هێڵ ڕووی دا، دووبارە کەناڵەکە دەکرێتەوە...");
+    hls.destroy();
+    playChannel(url, category); // یان هەر فەنکشنێک کە کەناڵەکە سەرلەنوێ دەکاتەوە
+    break;
+                        
                         case Hls.ErrorTypes.MEDIA_ERROR:
                             hls.recoverMediaError();
                             break;
