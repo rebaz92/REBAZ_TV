@@ -2474,20 +2474,33 @@
             title.style.display = query ? 'none' : (title.getAttribute('data-category') === currentCategory ? 'inline-block' : 'none');
         });
     }
-    // Auto-reconnect & Reload Script
-function initAutoReconnect() {
-    window.addEventListener('offline', () => {
-        console.log("پەیوەندی هێڵەکە پچڕا.");
-    });
+    // Auto-reconnect based on Video Error
+function initVideoReconnect() {
+    // کەمێک چاوەڕێ دەکات تا پلەیەرەکە بە تەواوی لۆد دەبێت
+    setTimeout(() => {
+        const videoElement = document.querySelector('video');
+        
+        if (videoElement) {
+            // کاتێک ڤیدیۆکە بە تەواوی کێشەی تێدەکەوێت
+            videoElement.addEventListener('error', () => {
+                console.log("پەخشی ڤیدیۆکە وەستا یان کێشەی تێکەوت، پەڕەکە ڕیلۆد دەکرێتەوە...");
+                location.reload();
+            });
 
-    window.addEventListener('online', () => {
-        console.log("پەیوەندی گەڕایەوە! ڕیلۆد دەکرێتەوە...");
-        location.reload(); 
-    });
+            // ئەگەر ڤیدیۆکە بۆ ماوەیەکی زۆر گیری کرد (ستریمەکە وەستا)
+            videoElement.addEventListener('stalled', () => {
+                console.log("ڤیدیۆکە گیری کردووە و داتا نایەت، ڕیلۆد دەکرێتەوە...");
+                location.reload();
+            });
+        } else {
+            console.log("هیچ ڤیدیۆیەک نەدۆزرایەوە بۆ چاودێریکردن.");
+        }
+    }, 3000); 
 }
 
 // کارپێکردنی فەنکشنەکە
-initAutoReconnect();
+initVideoReconnect();
+
 
 </script>
 
