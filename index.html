@@ -2474,6 +2474,21 @@
             title.style.display = query ? 'none' : (title.getAttribute('data-category') === currentCategory ? 'inline-block' : 'none');
         });
     }
+    // Auto-reconnect & Reload Script
+function initAutoReconnect() {
+    window.addEventListener('offline', () => {
+        console.log("پەیوەندی هێڵەکە پچڕا.");
+    });
+
+    window.addEventListener('online', () => {
+        console.log("پەیوەندی گەڕایەوە! ڕیلۆد دەکرێتەوە...");
+        location.reload(); 
+    });
+}
+
+// کارپێکردنی فەنکشنەکە
+initAutoReconnect();
+
 </script>
 
 </body>
