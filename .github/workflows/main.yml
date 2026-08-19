@@ -228,6 +228,9 @@ jobs:
                 ArrayList<String> options = new ArrayList<>();
                 options.add("--aout=opensles");
                 options.add("--audio-time-stretch");
+                options.add("--network-caching=5000");
+                options.add("--http-reconnect");
+                options.add("--http-user-agent=VLC/3.0.18 LibVLC/3.0.18");
                 options.add("-vvv");
                 libVLC = new LibVLC(this, options);
                 mediaPlayer = new MediaPlayer(libVLC);
@@ -247,6 +250,7 @@ jobs:
                 ws.setJavaScriptEnabled(true); 
                 ws.setDomStorageEnabled(true); 
                 ws.setCacheMode(WebSettings.LOAD_NO_CACHE);
+                ws.setUserAgentString("Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36");
                 wv.clearCache(true);
                 
                 wv.addJavascriptInterface(new Object() {
