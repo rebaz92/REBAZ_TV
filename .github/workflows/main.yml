@@ -265,8 +265,6 @@ jobs:
                                 mediaPlayer.stop();
                                 Media media = new Media(libVLC, Uri.parse(url));
                                 media.setHWDecoderEnabled(true, false);
-                                media.addOption(":http-reconnect");
-                                media.addOption(":http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
                                 mediaPlayer.setMedia(media);
                                 media.release();
                                 mediaPlayer.play();
