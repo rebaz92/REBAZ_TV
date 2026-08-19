@@ -22,7 +22,7 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
-    - name: Setup Android Project for REBAZ TV
+    - name: Setup Android Project for REBAZ TV (ExoPlayer)
       run: |
         mkdir -p app/src/main/assets
         mkdir -p app/src/main/java/com/rebaz/rebaztv
@@ -95,13 +95,16 @@ jobs:
         dependencies {
             implementation 'androidx.appcompat:appcompat:1.6.1'
             implementation 'com.google.android.material:material:1.11.0'
-            implementation 'org.videolan.android:libvlc-all:3.5.1'
+            implementation 'androidx.media3:media3-exoplayer:1.2.1'
+            implementation 'androidx.media3:media3-exoplayer-hls:1.2.1'
+            implementation 'androidx.media3:media3-ui:1.2.1'
         }
         EOF
 
         cat << 'EOF' > app/src/main/res/layout/activity_main.xml
         <?xml version="1.0" encoding="utf-8"?>
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#0A0E17">
@@ -114,10 +117,11 @@ jobs:
                 android:visibility="gone"
                 android:background="#000000">
 
-                <org.videolan.libvlc.util.VLCVideoLayout
-                    android:id="@+id/vlc_video_layout"
+                <androidx.media3.ui.PlayerView
+                    android:id="@+id/exo_player_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    app:use_controller="false"/>
 
                 <include layout="@layout/custom_exo_controls" />
             </FrameLayout>
@@ -191,18 +195,17 @@ jobs:
         import android.widget.FrameLayout; 
         import android.widget.RelativeLayout; 
         import androidx.appcompat.app.AppCompatActivity;
-        
-        import org.videolan.libvlc.LibVLC;
-        import org.videolan.libvlc.Media;
-        import org.videolan.libvlc.MediaPlayer;
-        import org.videolan.libvlc.util.VLCVideoLayout;
-        import java.util.ArrayList;
+
+        import androidx.media3.common.MediaItem;
+        import androidx.media3.datasource.DefaultHttpDataSource;
+        import androidx.media3.exoplayer.ExoPlayer;
+        import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
+        import androidx.media3.ui.PlayerView;
 
         public class MainActivity extends AppCompatActivity {
             private WebView wv;
-            private LibVLC libVLC;
-            private MediaPlayer mediaPlayer;
-            private VLCVideoLayout vlcVideoLayout;
+            private ExoPlayer player;
+            private PlayerView playerView;
             private FrameLayout playerContainer; 
             private View splashScreen;
             private boolean isFullscreen = false;
@@ -213,7 +216,7 @@ jobs:
                 setContentView(R.layout.activity_main);
 
                 playerContainer = findViewById(R.id.player_container);
-                vlcVideoLayout = findViewById(R.id.vlc_video_layout);
+                playerView = findViewById(R.id.exo_player_view);
                 wv = findViewById(R.id.main_web_view);
                 splashScreen = findViewById(R.id.splash_screen);
 
@@ -225,16 +228,20 @@ jobs:
                     }
                 }, 3000);
 
-                ArrayList<String> options = new ArrayList<>();
-                options.add("--aout=opensles");
-                options.add("--audio-time-stretch");
-                options.add("--network-caching=5000");
-                options.add("--http-reconnect");
-                options.add("--http-user-agent=VLC/3.0.18 LibVLC/3.0.18");
-                options.add("-vvv");
-                libVLC = new LibVLC(this, options);
-                mediaPlayer = new MediaPlayer(libVLC);
-                mediaPlayer.attachViews(vlcVideoLayout, null, false, false);
+                // دروستکردنی ExoPlayer لەگەڵ بەفەری بەهێز و ڕیکۆنێکتی ئۆتۆماتیکی
+                DefaultHttpDataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
+                        .setUserAgent("VLC/3.0.18 LibVLC/3.0.18")
+                        .setAllowCrossProtocolRedirects(true)
+                        .setConnectTimeoutMs(15000)
+                        .setReadTimeoutMs(15000);
+
+                DefaultMediaSourceFactory mediaSourceFactory = new DefaultMediaSourceFactory(dataSourceFactory);
+
+                player = new ExoPlayer.Builder(this)
+                        .setMediaSourceFactory(mediaSourceFactory)
+                        .build();
+
+                playerView.setPlayer(player);
 
                 View closeBtn = findViewById(R.id.custom_close_btn);
                 if (closeBtn != null) closeBtn.setOnClickListener(v -> stopAndHidePlayer());
@@ -266,12 +273,11 @@ jobs:
                                 playerContainer.setLayoutParams(params);
                                 playerContainer.setVisibility(View.VISIBLE);
                                 
-                                mediaPlayer.stop();
-                                Media media = new Media(libVLC, Uri.parse(url));
-                                media.setHWDecoderEnabled(true, false);
-                                mediaPlayer.setMedia(media);
-                                media.release();
-                                mediaPlayer.play();
+                                player.stop();
+                                MediaItem mediaItem = MediaItem.fromUri(Uri.parse(url));
+                                player.setMediaItem(mediaItem);
+                                player.prepare();
+                                player.play();
                             }
                         });
                     }
@@ -283,7 +289,7 @@ jobs:
             }
 
             private void stopAndHidePlayer() {
-                if (mediaPlayer != null) { mediaPlayer.stop(); }
+                if (player != null) { player.stop(); }
                 playerContainer.setVisibility(View.GONE);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 
@@ -319,11 +325,8 @@ jobs:
             @Override
             protected void onDestroy() {
                 super.onDestroy();
-                if (mediaPlayer != null) {
-                    mediaPlayer.release();
-                }
-                if (libVLC != null) {
-                    libVLC.release();
+                if (player != null) {
+                    player.release();
                 }
             }
         }
