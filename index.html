@@ -2313,7 +2313,13 @@
     }
 
     function playChannel(url, category, name) {
-    // ١. بڕینی تەواوەتی پلەیەری وێبەکە و بەتاڵکردنی سەرچاوەی ڤیدیۆکە
+    // ١. پیشاندانی بەشی پلەیەر لە وێبەکەدا
+    var playerContainer = document.getElementById('playerContainer');
+    if (playerContainer) {
+        playerContainer.style.display = 'block';
+    }
+
+    // ٢. ڕاگرتنی تەواوەتی پلەیەری وێبەکە تا سێرڤەر دوو داواکاری نەبینێت
     var videoElement = document.querySelector('video');
     if (videoElement) {
         videoElement.pause();
@@ -2322,18 +2328,20 @@
     }
     
     if (window.hlsInstance) {
-        window.hlsInstance.destroy();
+        try { window.hlsInstance.destroy(); } catch(e){}
     }
 
     if (window.mpegtsPlayer) {
-        window.mpegtsPlayer.destroy();
+        try { window.mpegtsPlayer.destroy(); } catch(e){}
     }
 
-    // ٢. ناردنی لینکەکە بۆ ئەپەکە و ڕاگرتنی لۆدکردنی وێبەکە
+    // ٣. ناردنی لینک بۆ ئەپەکە و بڕینی ڕاستەوخۆی کۆدەکانی خوارەوە
     if (typeof AndroidBridge !== 'undefined' && AndroidBridge) {
         AndroidBridge.playInExo(url, name);
-        return; // ئەم دێڕە ڕێگە دەگرێت لەوەی وێبگەڕەکە دووبارە لینکەکە داوا بکاتەوە
+        return;
     }
+}
+
 
         }
 
