@@ -2312,37 +2312,36 @@
         });
     }
 
-    function playChannel(url, category, name) {
-    // ١. پیشاندانی بەشی پلەیەر لە وێبەکەدا
-    var playerContainer = document.getElementById('playerContainer');
-    if (playerContainer) {
-        playerContainer.style.display = 'block';
-    }
+    function playChannel(url, category, btnElement) {
+        var playerContainer = document.getElementById('playerContainer');
+        var scrollableContent = document.getElementById('scrollableContent');
+        var video = document.getElementById('videoPlayer');
+        var watermarkLogo = document.getElementById('watermarkLogo');
 
-    // ٢. ڕاگرتنی تەواوەتی پلەیەری وێبەکە تا سێرڤەر دوو داواکاری نەبینێت
-    var videoElement = document.querySelector('video');
-    if (videoElement) {
-        videoElement.pause();
-        videoElement.removeAttribute('src');
-        videoElement.load();
-    }
-    
-    if (window.hlsInstance) {
-        try { window.hlsInstance.destroy(); } catch(e){}
-    }
+        // دیاری کردنی کارتی چالاک
+        document.querySelectorAll('.card').forEach(card => {
+            card.classList.remove('active-channel');
+        });
+        
+        let selectedCard = btnElement ? btnElement.closest('.card') : null;
+        if (selectedCard) {
+            selectedCard.classList.add('active-channel');
+        }
 
-    if (window.mpegtsPlayer) {
-        try { window.mpegtsPlayer.destroy(); } catch(e){}
-    }
+        let channelName = selectedCard ? (selectedCard.querySelector('h3') ? selectedCard.querySelector('h3').innerText : 'REBAZ TV') : 'REBAZ TV';
 
-    // ٣. ناردنی لینک بۆ ئەپەکە و بڕینی ڕاستەوخۆی کۆدەکانی خوارەوە
-    if (typeof AndroidBridge !== 'undefined' && AndroidBridge) {
-        AndroidBridge.playInExo(url, name);
-        return;
-    }
-}
+        // 🟢 پشکنین: ئەگەر لەناو ئەپەکەی ئەندرۆید (AndroidBridge / ExoPlayer) کرایەوە
+        if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
+            playerContainer.style.display = 'none';
+            // ڕێکخستنی شوێنی لیستەکە تا نەنوسپێت بە پۆلەکانەوە (220px)
+            scrollableContent.style.top = '220px';
+            
+            if (video) { video.pause(); video.src = ""; }
+            if (window.hlsInstance) { window.hlsInstance.destroy(); window.hlsInstance = null; }
+            if (window.mpegtsPlayer) { window.mpegtsPlayer.destroy(); window.mpegtsPlayer = null; }
 
-
+            AndroidBridge.playInExo(url, channelName);
+            return;
         }
 
         // 🌐 ئەگەر لەسەر وێبی ئاسایی ئیش بپڕێنێتەوە
@@ -2453,4 +2452,4 @@
 </script>
 
 </body>
-    </html>
+                </html>
