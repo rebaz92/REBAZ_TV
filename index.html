@@ -1788,7 +1788,7 @@
         </div>
 
 
-        <!-- =================== سەردێڕی Bein Sport =================== -->
+        <!-- =================== سەردێڕی Solo Sport =================== -->
         <div class="section-title-solo" data-category="sport">Solo Sports</div>
         
 
@@ -2457,7 +2457,7 @@
     };
 
     function updateVisibility() {
-        document.querySelectorAll('.card, .section-title-alwan, .section-title-bein, .section-title-kurdish-sports').forEach(item => {
+        document.querySelectorAll('.card, .section-title-alwan, .section-title-bein, .section-title-solo, .section-title-kurdish-sports').forEach(item => {
             if (item.getAttribute('data-category') === currentCategory) {
                 if (item.classList.contains('section-title-alwan') || item.classList.contains('section-title-bein') || item.classList.contains('section-title-kurdish-sports')) {
                     item.style.display = 'inline-block';
