@@ -2695,16 +2695,19 @@
         }
 
         // بۆ کارپێکردنی راستەوخۆی لینکەکانی .ts
-// .ts بۆ کارپێکردنی ڕاستەوخۆی بەستەرەکانی
+// .ts بۆ کارپێکردنی ڕاستەوخۆی بەستەرەکان// .ts بۆ کارپێکردنی ڕاستەوخۆی بەستەرەکانی
 if (url.includes('.ts') && typeof mpegts !== 'undefined') {
+    if (window.mpegtsPlayer) {
+        window.mpegtsPlayer.destroy();
+    }
     var mpegtsPlayer = mpegts.createPlayer({
         type: 'mse',
         isLive: true,
         url: url
     }, {
-        enableStashBuffer: true,          // چالاککردنی بافەر بۆ ڕێگری لە پچڕان
-        stashInitialSize: 384 * 1024,     // داونڵۆدکردنی بڕێکی باش لە سەرەتاوە
-        liveBufferLatencyChasing: false   // نەپڕتاوتن بۆ لێواری لایڤەکە تاوەکو نەوەستێت
+        enableStashBuffer: true,
+        stashInitialSize: 384 * 1024,
+        liveBufferLatencyChasing: false
     });
 
     window.mpegtsPlayer = mpegtsPlayer;
@@ -2713,17 +2716,24 @@ if (url.includes('.ts') && typeof mpegts !== 'undefined') {
     mpegtsPlayer.play().catch(e => console.error(e));
 
 } else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+    if (window.hlsInstance) {
+        window.hlsInstance.destroy();
+    }
     var hls = new Hls({
-        maxBufferLength: 30,             // بافەری ئاسایی (٣٠ چرکە)
-        maxMaxBufferLength: 60,          // زیاترین بافەر (٦٠ چرکە)
-        liveSyncDurationCount: 6,        // بردنە دواوەی لایڤەکە بە بڕی ٦ بەش (دەوروبەری ١٠ تا ١٥ چرکە دواوە)
-        lowLatencyMode: false            // کوژاندنەوەی مۆدی خێرا تاوەکو پەخشەکە بافەر بکات و نەنیشێت
+        maxBufferLength: 30,
+        maxMaxBufferLength: 60,
+        liveSyncDurationCount: 6,
+        lowLatencyMode: false
     });
 
     window.hlsInstance = hls;
     hls.loadSource(url);
     hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        video.play().catch(e => console.error(e));
+    });
 }
+
 
 
             hls.on(Hls.Events.ERROR, function(event, data) {
