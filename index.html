@@ -2695,32 +2695,36 @@
         }
 
         // بۆ کارپێکردنی راستەوخۆی لینکەکانی .ts
-        if (url.includes('.ts') && typeof mpegts !== 'undefined' && mpegts.isSupported()) {
-            var mpegtsPlayer = mpegts.createPlayer({
-                type: 'mse',
-                isLive: true,
-                url: url
-            });
-            window.mpegtsPlayer = mpegtsPlayer;
-            mpegtsPlayer.attachMediaElement(video);
-            mpegtsPlayer.load();
-            mpegtsPlayer.play().catch(e => console.log("Direct TS play error", e));
-        } 
-        else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-            var hls = new Hls({
-                maxBufferLength: 30,
-                maxMaxBufferLength: 60,
-                liveSyncDurationCount: 10,
-                lowLatencyMode: true
-            });
-            
-            window.hlsInstance = hls;
-            hls.loadSource(url);
-            hls.attachMedia(video);
-            
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play().catch(e => console.log("Auto-play blocked"));
-            });
+// .ts بۆ کارپێکردنی ڕاستەوخۆی بەستەرەکانی
+if (url.includes('.ts') && typeof mpegts !== 'undefined') {
+    var mpegtsPlayer = mpegts.createPlayer({
+        type: 'mse',
+        isLive: true,
+        url: url
+    }, {
+        enableStashBuffer: true,          // چالاککردنی بافەر بۆ ڕێگری لە پچڕان
+        stashInitialSize: 384 * 1024,     // داونڵۆدکردنی بڕێکی باش لە سەرەتاوە
+        liveBufferLatencyChasing: false   // نەپڕتاوتن بۆ لێواری لایڤەکە تاوەکو نەوەستێت
+    });
+
+    window.mpegtsPlayer = mpegtsPlayer;
+    mpegtsPlayer.attachMediaElement(video);
+    mpegtsPlayer.load();
+    mpegtsPlayer.play().catch(e => console.error(e));
+
+} else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+    var hls = new Hls({
+        maxBufferLength: 30,             // بافەری ئاسایی (٣٠ چرکە)
+        maxMaxBufferLength: 60,          // زیاترین بافەر (٦٠ چرکە)
+        liveSyncDurationCount: 6,        // بردنە دواوەی لایڤەکە بە بڕی ٦ بەش (دەوروبەری ١٠ تا ١٥ چرکە دواوە)
+        lowLatencyMode: false            // کوژاندنەوەی مۆدی خێرا تاوەکو پەخشەکە بافەر بکات و نەنیشێت
+    });
+
+    window.hlsInstance = hls;
+    hls.loadSource(url);
+    hls.attachMedia(video);
+}
+
 
             hls.on(Hls.Events.ERROR, function(event, data) {
                 if (data.fatal) {
