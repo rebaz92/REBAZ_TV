@@ -2695,46 +2695,32 @@
         }
 
         // بۆ کارپێکردنی راستەوخۆی لینکەکانی .ts
-// .ts بۆ کارپێکردنی ڕاستەوخۆی بەستەرەکان// .ts بۆ کارپێکردنی ڕاستەوخۆی بەستەرەکانی
-if (url.includes('.ts') && typeof mpegts !== 'undefined') {
-    if (window.mpegtsPlayer) {
-        window.mpegtsPlayer.destroy();
-    }
-    var mpegtsPlayer = mpegts.createPlayer({
-        type: 'mse',
-        isLive: true,
-        url: url
-    }, {
-        enableStashBuffer: true,
-        stashInitialSize: 384 * 1024,
-        liveBufferLatencyChasing: false
-    });
-
-    window.mpegtsPlayer = mpegtsPlayer;
-    mpegtsPlayer.attachMediaElement(video);
-    mpegtsPlayer.load();
-    mpegtsPlayer.play().catch(e => console.error(e));
-
-} else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-    if (window.hlsInstance) {
-        window.hlsInstance.destroy();
-    }
-    var hls = new Hls({
-        maxBufferLength: 30,
-        maxMaxBufferLength: 60,
-        liveSyncDurationCount: 6,
-        lowLatencyMode: false
-    });
-
-    window.hlsInstance = hls;
-    hls.loadSource(url);
-    hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED, function () {
-        video.play().catch(e => console.error(e));
-    });
-}
-
-
+        if (url.includes('.ts') && typeof mpegts !== 'undefined' && mpegts.isSupported()) {
+            var mpegtsPlayer = mpegts.createPlayer({
+                type: 'mse',
+                isLive: true,
+                url: url
+            });
+            window.mpegtsPlayer = mpegtsPlayer;
+            mpegtsPlayer.attachMediaElement(video);
+            mpegtsPlayer.load();
+            mpegtsPlayer.play().catch(e => console.log("Direct TS play error", e));
+        } 
+        else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+            var hls = new Hls({
+                maxBufferLength: 30,
+                maxMaxBufferLength: 60,
+                liveSyncDurationCount: 3,
+                lowLatencyMode: true
+            });
+            
+            window.hlsInstance = hls;
+            hls.loadSource(url);
+            hls.attachMedia(video);
+            
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play().catch(e => console.log("Auto-play blocked"));
+            });
 
             hls.on(Hls.Events.ERROR, function(event, data) {
                 if (data.fatal) {
