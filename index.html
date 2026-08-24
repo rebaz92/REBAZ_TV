@@ -381,7 +381,255 @@
             cursor: pointer;
             display: block;
         }
-    </style>
+    
+
+        /* ==========================================================
+           REBAZ TV — TV / LANDSCAPE MODE
+           IMPORTANT: These rules apply ONLY to wide landscape screens.
+           Mobile portrait design above is left untouched.
+           ========================================================== */
+        @media screen and (orientation: landscape) and (min-width: 900px) {
+            html, body {
+                width: 100%;
+                height: 100%;
+                min-height: 100%;
+                overflow: hidden;
+            }
+
+            body {
+                display: grid;
+                grid-template-columns: 260px minmax(330px, 390px) minmax(0, 1fr);
+                grid-template-rows: 64px minmax(0, 1fr);
+                grid-template-areas:
+                    "categories search search"
+                    "categories channels player";
+                gap: 0;
+                background-color: #050914;
+            }
+
+            /* Let the existing wrapper disappear visually; its children
+               become direct grid items. No HTML/channel data is removed. */
+            .fixed-top-section {
+                position: static;
+                top: auto;
+                right: auto;
+                left: auto;
+                max-width: none;
+                width: auto;
+                margin: 0;
+                padding: 0;
+                background: transparent;
+                z-index: auto;
+                display: contents;
+            }
+
+            /* Mobile VIP header is intentionally hidden only in TV mode. */
+            .vip-card {
+                display: none !important;
+            }
+
+            .search-box {
+                grid-area: search;
+                align-self: center;
+                justify-self: center;
+                width: min(520px, 55vw);
+                margin: 0;
+                padding: 8px 14px;
+                height: 42px;
+                box-sizing: border-box;
+                background: rgba(7, 13, 25, 0.88);
+                border: 2px solid rgba(210, 210, 220, 0.65);
+                border-radius: 24px;
+                box-shadow: 0 0 18px rgba(0,0,0,.45);
+            }
+
+            .search-box input {
+                font-size: 16px;
+            }
+
+            .categories-container {
+                grid-area: categories;
+                width: 100%;
+                height: 100vh;
+                box-sizing: border-box;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: stretch;
+                gap: 2px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                padding: 70px 10px 14px;
+                margin: 0;
+                border-right: 2px solid rgba(180, 180, 190, .35);
+                background: rgba(4, 10, 20, .78);
+            }
+
+            .cat-btn {
+                width: 100%;
+                min-height: 54px;
+                box-sizing: border-box;
+                border: 1px solid rgba(90, 130, 180, .35);
+                border-radius: 2px;
+                padding: 8px 12px;
+                text-align: right;
+                font-size: 16px;
+                background: linear-gradient(90deg, rgba(18, 37, 66, .94), rgba(9, 22, 43, .94));
+                box-shadow: inset 0 -1px rgba(255,255,255,.04);
+            }
+
+            .cat-btn.active {
+                color: #ffcc45;
+                background: linear-gradient(90deg, rgba(22, 49, 84, .98), rgba(11, 28, 52, .98));
+                border-color: rgba(70, 125, 200, .6);
+                box-shadow: inset 4px 0 #1688d8;
+            }
+
+            .scrollable-content {
+                grid-area: channels;
+                position: static;
+                width: auto;
+                height: auto;
+                min-height: 0;
+                overflow-y: auto;
+                overflow-x: hidden;
+                box-sizing: border-box;
+                padding: 8px 8px 20px;
+                margin: 0;
+                background: rgba(7, 16, 31, .72);
+                border-right: 2px solid rgba(30, 40, 58, .75);
+                border-left: 2px solid rgba(30, 40, 58, .45);
+            }
+
+            .channels-container {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                width: 100%;
+                max-width: none;
+                margin: 0;
+                padding: 0 0 20px;
+            }
+
+            /* Existing section titles remain; only their TV positioning changes. */
+            .section-title-alwan,
+            .section-title-bein,
+            .section-title-solo,
+            .section-title-kurdish-sports {
+                display: block !important;
+                width: 100%;
+                box-sizing: border-box;
+                margin: 5px 0 3px;
+                padding: 8px 10px;
+                border-radius: 3px;
+                text-align: right;
+                font-size: 15px;
+            }
+
+            .card {
+                width: 100%;
+                box-sizing: border-box;
+                border: 1px solid rgba(70, 100, 140, .35);
+                border-radius: 2px;
+                background: linear-gradient(90deg, rgba(16, 35, 61, .96), rgba(8, 20, 38, .96));
+                box-shadow: inset 0 -1px rgba(0,0,0,.55);
+            }
+
+            .card-header {
+                min-height: 56px;
+                box-sizing: border-box;
+                padding: 7px 12px;
+            }
+
+            .channel-info {
+                min-width: 0;
+                gap: 10px;
+            }
+
+            .card-header img {
+                width: 30px;
+                height: 30px;
+                border-radius: 6px;
+                border: 0;
+            }
+
+            .logo-wrapper {
+                flex-direction: row;
+                gap: 7px;
+            }
+
+            .cat-tag {
+                display: none;
+            }
+
+            .card-header h3 {
+                font-size: 16px;
+                font-weight: 500;
+                color: #f1f1f1;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .play-link-btn {
+                display: none;
+            }
+
+            /* Player occupies the complete right side like a TV interface. */
+            .player-container {
+                grid-area: player;
+                position: relative;
+                display: flex;
+                width: auto;
+                height: auto;
+                min-width: 0;
+                min-height: 0;
+                margin: 0;
+                border: 0;
+                border-radius: 0;
+                background: #000;
+                box-shadow: none;
+                overflow: hidden;
+            }
+
+            .player-container video {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                background: #000;
+            }
+
+            .watermark-logo {
+                top: 12px;
+                right: 14px;
+                font-size: 12px;
+            }
+
+            /* When no channel has been selected, keep the player area dark. */
+            .player-container[style*="display: none"] {
+                display: flex !important;
+            }
+
+            /* TV active-channel indicator */
+            .card.active-channel {
+                animation: none;
+                border: 1px solid #1688d8;
+                box-shadow: inset 4px 0 #1688d8;
+            }
+
+            /* TV scrolling is independent for categories and channel list. */
+            .categories-container::-webkit-scrollbar,
+            .scrollable-content::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            .categories-container::-webkit-scrollbar-thumb,
+            .scrollable-content::-webkit-scrollbar-thumb {
+                background: rgba(130, 150, 180, .45);
+                border-radius: 5px;
+            }
+        }
+
+</style>
 </head>
 <body>
 
@@ -2783,4 +3031,4 @@
 </script>
 
 </body>
-                </html>
+                    </html>
