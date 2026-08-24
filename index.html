@@ -2780,6 +2780,8 @@
             title.style.display = query ? 'none' : (title.getAttribute('data-category') === currentCategory ? 'inline-block' : 'none');
         });
     }
+    document.querySelectorAll('img').forEach(img => img.setAttribute('loading', 'lazy'));
+
 </script>
 
 </body>
