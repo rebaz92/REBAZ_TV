@@ -383,251 +383,123 @@
         }
     
 
-        /* ==========================================================
-           REBAZ TV — TV / LANDSCAPE MODE
-           IMPORTANT: These rules apply ONLY to wide landscape screens.
-           Mobile portrait design above is left untouched.
-           ========================================================== */
-        @media screen and (orientation: landscape) and (min-width: 900px) {
-            html, body {
-                width: 100%;
-                height: 100%;
-                min-height: 100%;
-                overflow: hidden;
-            }
+/* =========================================================
+   REBAZ TV - TV / LANDSCAPE MODE
+   Mobile/portrait styles above are intentionally untouched.
+   ========================================================= */
+@media screen and (min-width: 900px) and (orientation: landscape) {
+    html, body { width:100%; height:100%; overflow:hidden; }
+    body { background-attachment: fixed; }
 
-            body {
-                display: grid;
-                grid-template-columns: 260px minmax(330px, 390px) minmax(0, 1fr);
-                grid-template-rows: 64px minmax(0, 1fr);
-                grid-template-areas:
-                    "categories search search"
-                    "categories channels player";
-                gap: 0;
-                background-color: #050914;
-            }
+    /* Turn the existing top area into a compact TV header. */
+    .fixed-top-section {
+        position: fixed;
+        top: 0; right: 0; left: 0;
+        max-width: none;
+        width: auto;
+        height: 72px;
+        padding: 8px 18px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-sizing: border-box;
+        background: rgba(8,12,18,.96);
+        border-bottom: 1px solid rgba(212,175,55,.55);
+    }
+    .fixed-top-section .search-box {
+        width: 240px;
+        min-width: 240px;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    .fixed-top-section .vip-card {
+        flex: 1;
+        min-width: 0;
+        height: 54px;
+        margin: 0;
+        padding: 5px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        box-sizing: border-box;
+    }
+    .fixed-top-section .vip-card h2 { margin:0; font-size:22px; }
+    .fixed-top-section .vip-card .ticker-wrapper {
+        width:auto; max-width:420px; margin:0;
+    }
+    .fixed-top-section .categories-container {
+        width: auto;
+        min-width: 280px;
+        max-width: 430px;
+        margin: 0;
+        padding: 0;
+        overflow-x: auto;
+        flex-shrink: 0;
+    }
 
-            /* Let the existing wrapper disappear visually; its children
-               become direct grid items. No HTML/channel data is removed. */
-            .fixed-top-section {
-                position: static;
-                top: auto;
-                right: auto;
-                left: auto;
-                max-width: none;
-                width: auto;
-                margin: 0;
-                padding: 0;
-                background: transparent;
-                z-index: auto;
-                display: contents;
-            }
+    /* Player stays in the right side of the TV screen. */
+    .player-container {
+        position: fixed;
+        top: 86px;
+        right: 18px;
+        left: auto;
+        width: 43vw;
+        max-width: 820px;
+        height: calc(100vh - 108px);
+        margin: 0;
+        border-radius: 14px;
+        z-index: 900;
+        display: none;
+    }
+    .player-container video { width:100%; height:100%; object-fit:contain; }
 
-            /* Mobile VIP header is intentionally hidden only in TV mode. */
-            .vip-card {
-                display: none !important;
-            }
+    /* When the player is not opened, keep the TV content spacious. */
+    .scrollable-content {
+        position: fixed;
+        top: 86px !important;
+        bottom: 0;
+        right: calc(43vw + 36px);
+        left: 18px;
+        padding: 12px;
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
 
-            .search-box {
-                grid-area: search;
-                align-self: center;
-                justify-self: center;
-                width: min(520px, 55vw);
-                margin: 0;
-                padding: 8px 14px;
-                height: 42px;
-                box-sizing: border-box;
-                background: rgba(7, 13, 25, 0.88);
-                border: 2px solid rgba(210, 210, 220, 0.65);
-                border-radius: 24px;
-                box-shadow: 0 0 18px rgba(0,0,0,.45);
-            }
+    .channels-container {
+        max-width: none;
+        width: 100%;
+        margin: 0;
+        padding-bottom: 30px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(250px, 1fr));
+        gap: 12px;
+        align-content: start;
+    }
+    .channels-container .section-title-alwan,
+    .channels-container .section-title-bein,
+    .channels-container .section-title-kurdish-sports {
+        grid-column: 1 / -1;
+        width: fit-content;
+        margin: 4px 0;
+    }
+    .card { width:100%; box-sizing:border-box; }
+    .card-header { padding: 8px 12px; }
+    .card-header img { width:48px; height:48px; }
+    .card-header h3 { font-size:16px; }
+    .play-link-btn { padding:7px 13px; font-size:13px; }
 
-            .search-box input {
-                font-size: 16px;
-            }
+    /* Search/category filtering must keep working in TV mode. */
+    .categories-container .cat-btn { padding:6px 12px; }
+}
 
-            .categories-container {
-                grid-area: categories;
-                width: 100%;
-                height: 100vh;
-                box-sizing: border-box;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: stretch;
-                gap: 2px;
-                overflow-y: auto;
-                overflow-x: hidden;
-                padding: 70px 10px 14px;
-                margin: 0;
-                border-right: 2px solid rgba(180, 180, 190, .35);
-                background: rgba(4, 10, 20, .78);
-            }
-
-            .cat-btn {
-                width: 100%;
-                min-height: 54px;
-                box-sizing: border-box;
-                border: 1px solid rgba(90, 130, 180, .35);
-                border-radius: 2px;
-                padding: 8px 12px;
-                text-align: right;
-                font-size: 16px;
-                background: linear-gradient(90deg, rgba(18, 37, 66, .94), rgba(9, 22, 43, .94));
-                box-shadow: inset 0 -1px rgba(255,255,255,.04);
-            }
-
-            .cat-btn.active {
-                color: #ffcc45;
-                background: linear-gradient(90deg, rgba(22, 49, 84, .98), rgba(11, 28, 52, .98));
-                border-color: rgba(70, 125, 200, .6);
-                box-shadow: inset 4px 0 #1688d8;
-            }
-
-            .scrollable-content {
-                grid-area: channels;
-                position: static;
-                width: auto;
-                height: auto;
-                min-height: 0;
-                overflow-y: auto;
-                overflow-x: hidden;
-                box-sizing: border-box;
-                padding: 8px 8px 20px;
-                margin: 0;
-                background: rgba(7, 16, 31, .72);
-                border-right: 2px solid rgba(30, 40, 58, .75);
-                border-left: 2px solid rgba(30, 40, 58, .45);
-            }
-
-            .channels-container {
-                display: flex;
-                flex-direction: column;
-                gap: 2px;
-                width: 100%;
-                max-width: none;
-                margin: 0;
-                padding: 0 0 20px;
-            }
-
-            /* Existing section titles remain; only their TV positioning changes. */
-            .section-title-alwan,
-            .section-title-bein,
-            .section-title-solo,
-            .section-title-kurdish-sports {
-                display: block !important;
-                width: 100%;
-                box-sizing: border-box;
-                margin: 5px 0 3px;
-                padding: 8px 10px;
-                border-radius: 3px;
-                text-align: right;
-                font-size: 15px;
-            }
-
-            .card {
-                width: 100%;
-                box-sizing: border-box;
-                border: 1px solid rgba(70, 100, 140, .35);
-                border-radius: 2px;
-                background: linear-gradient(90deg, rgba(16, 35, 61, .96), rgba(8, 20, 38, .96));
-                box-shadow: inset 0 -1px rgba(0,0,0,.55);
-            }
-
-            .card-header {
-                min-height: 56px;
-                box-sizing: border-box;
-                padding: 7px 12px;
-            }
-
-            .channel-info {
-                min-width: 0;
-                gap: 10px;
-            }
-
-            .card-header img {
-                width: 30px;
-                height: 30px;
-                border-radius: 6px;
-                border: 0;
-            }
-
-            .logo-wrapper {
-                flex-direction: row;
-                gap: 7px;
-            }
-
-            .cat-tag {
-                display: none;
-            }
-
-            .card-header h3 {
-                font-size: 16px;
-                font-weight: 500;
-                color: #f1f1f1;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .play-link-btn {
-                display: none;
-            }
-
-            /* Player occupies the complete right side like a TV interface. */
-            .player-container {
-                grid-area: player;
-                position: relative;
-                display: flex;
-                width: auto;
-                height: auto;
-                min-width: 0;
-                min-height: 0;
-                margin: 0;
-                border: 0;
-                border-radius: 0;
-                background: #000;
-                box-shadow: none;
-                overflow: hidden;
-            }
-
-            .player-container video {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-                background: #000;
-            }
-
-            .watermark-logo {
-                top: 12px;
-                right: 14px;
-                font-size: 12px;
-            }
-
-            /* When no channel has been selected, keep the player area dark. */
-            .player-container[style*="display: none"] {
-                display: flex !important;
-            }
-
-            /* TV active-channel indicator */
-            .card.active-channel {
-                animation: none;
-                border: 1px solid #1688d8;
-                box-shadow: inset 4px 0 #1688d8;
-            }
-
-            /* TV scrolling is independent for categories and channel list. */
-            .categories-container::-webkit-scrollbar,
-            .scrollable-content::-webkit-scrollbar {
-                width: 5px;
-            }
-
-            .categories-container::-webkit-scrollbar-thumb,
-            .scrollable-content::-webkit-scrollbar-thumb {
-                background: rgba(130, 150, 180, .45);
-                border-radius: 5px;
-            }
-        }
+/* Extra-wide TVs: give the player a little more room. */
+@media screen and (min-width: 1400px) and (orientation: landscape) {
+    .player-container { width: 46vw; }
+    .scrollable-content { right: calc(46vw + 36px); }
+    .channels-container { grid-template-columns: repeat(3, minmax(250px, 1fr)); }
+}
 
 </style>
 </head>
@@ -3031,4 +2903,4 @@
 </script>
 
 </body>
-                    </html>
+            </html>
