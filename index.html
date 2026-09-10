@@ -2703,114 +2703,87 @@
             }
         });
     }
-
+    
     function playChannel(url, category, btnElement) {
         var playerContainer = document.getElementById('playerContainer');
         var scrollableContent = document.getElementById('scrollableContent');
         var video = document.getElementById('videoPlayer');
         var watermarkLogo = document.getElementById('watermarkLogo');
 
-        // دیاری کردنی کارتی چالاک
-        document.querySelectorAll('.card').forEach(card => {
+        // دیاری کردنی کارتی چالاک //
+        document.querySelectorAll('.card').forEach(function(card) {
+            card.classList.remove('active');
+            // بۆ دڵنیایی زیاتر لە لابردنی چوارچێوەکە ئەگەر کلاسێکی ترت هەبێت
             card.classList.remove('active-channel');
         });
-        
+
         let selectedCard = btnElement ? btnElement.closest('.card') : null;
         if (selectedCard) {
+            selectedCard.classList.add('active');
             selectedCard.classList.add('active-channel');
         }
 
-        let channelName = selectedCard ? (selectedCard.querySelector('h3') ? selectedCard.querySelector('h3').innerText : 'REBAZ TV') : 'REBAZ TV';
+        let channelName = selectedCard ? selectedCard.querySelector('h3').innerText : 'کەناڵ';
 
-        // 🟢 پشکنین: ئەگەر لەناو ئەپەکەی ئەندرۆید (AndroidBridge / ExoPlayer) کرایەوە
-        if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
-            playerContainer.style.display = 'none';
-            // ڕێکخستنی شوێنی لیستەکە تا نەنوسپێت بە پۆلەکانەوە (220px)
-            scrollableContent.style.top = '220px';
-            
-            if (video) { video.pause(); video.src = ""; }
-            if (window.hlsInstance) { window.hlsInstance.destroy(); window.hlsInstance = null; }
-            if (window.mpegtsPlayer) { window.mpegtsPlayer.destroy(); window.mpegtsPlayer = null; }
-
-            AndroidBridge.playInExo(url, channelName);
-            return;
+        // 🟢 ئەگەر لەناو ئەپەکەی ئەندرۆید بێت
+        if (typeof AndroidBridge !== 'undefined') {
+            if (playerContainer) playerContainer.style.display = 'none';
+            AndroidBridge.playStream(url, channelName);
+            return; // لێرە دەوەستێت و ناچێتە سەر پلەیەری وێب
         }
 
-        // 🌐 ئەگەر لەسەر وێبی ئاسایی ئیش بپڕێنێتەوە
-        playerContainer.style.display = 'flex';
-        scrollableContent.style.top = '410px';
+        // 🔵 ئەگەر لەناو وێبگەڕ بێت (پلەیەری ئاسایی)
+        if (playerContainer) playerContainer.style.display = 'flex';
+        if (watermarkLogo) watermarkLogo.style.display = 'block';
+        if (scrollableContent) scrollableContent.style.top = '410px';
 
-        if (category === 'sport') {
-            watermarkLogo.style.display = 'block';
-        } else {
-            watermarkLogo.style.display = 'none';
+        // وەستاندنی پلەیەرەکانی پێشوو بۆ ئەوەی تێکەڵ نەبن
+        if (window.hlsPlayer) { window.hlsPlayer.destroy(); window.hlsPlayer = null; }
+        if (window.mpegPlayer) { window.mpegPlayer.destroy(); window.mpegPlayer = null; }
+        if (video) {
+            video.pause();
+            video.removeAttribute('src');
+            video.load();
         }
 
-        if (window.hlsInstance) {
-            window.hlsInstance.destroy();
-            window.hlsInstance = null;
-        }
-        if (window.mpegtsPlayer) {
-            window.mpegtsPlayer.destroy();
-            window.mpegtsPlayer = null;
-        }
-
-        // بۆ کارپێکردنی راستەوخۆی لینکەکانی .ts
-        if (url.includes('.ts') && typeof mpegts !== 'undefined' && mpegts.isSupported()) {
-            var mpegtsPlayer = mpegts.createPlayer({
-                type: 'mse',
-                isLive: true,
-                url: url
-            });
-            window.mpegtsPlayer = mpegtsPlayer;
-            mpegtsPlayer.attachMediaElement(video);
-            mpegtsPlayer.load();
-            mpegtsPlayer.play().catch(e => console.log("Direct TS play error", e));
+        // پشکنین بۆ جۆری لینکەکە
+        let isHls = url.includes('.m3u8');
+        
+        // کارپێکردنی لینکەکە بە شێوازێکی زیرەک بۆ کەمکردنەوەی پچڕان
+        if (isHls) {
+            if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+                window.hlsPlayer = new Hls({
+                    maxBufferLength: 30,
+                    liveSyncDurationCount: 3,
+                    enableWorker: true
+                });
+                window.hlsPlayer.loadSource(url);
+                window.hlsPlayer.attachMedia(video);
+                window.hlsPlayer.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(e => {}));
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                video.play().catch(e => {});
+            }
         } 
-        else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-            var hls = new Hls({
-                maxBufferLength: 30,
-                maxMaxBufferLength: 60,
-                liveSyncDurationCount: 6,
-                lowLatencyMode: true
+        // ئەگەر پاشگرەکەی ts بوو، یان هیچ پاشگرێکی نەبوو (وەک لینکەکانی تۆ)
+        else if (typeof mpegts !== 'undefined' && mpegts.isSupported()) {
+            window.mpegPlayer = mpegts.createPlayer({
+                type: 'mse', // جۆری پلەیەر بۆ فایلەکانی IPTV
+                url: url,
+                isLive: true
+            }, {
+                enableStashBuffer: false, // ڕێگری دەکات لە کۆبوونەوەی داتا و وەستان
+                liveBufferLatencyChasing: true, // هەوڵ دەدات دواکەوتن نەهێڵێت
+                liveBufferLatencyMaxLatency: 3 
             });
-            
-            window.hlsInstance = hls;
-            hls.loadSource(url);
-            hls.attachMedia(video);
-            
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play().catch(e => console.log("Auto-play blocked"));
-            });
-
-            hls.on(Hls.Events.ERROR, function(event, data) {
-                if (data.fatal) {
-                    switch(data.type) {
-                        case Hls.ErrorTypes.NETWORK_ERROR:
-                            hls.startLoad();
-                            break;
-                        case Hls.ErrorTypes.MEDIA_ERROR:
-                            hls.recoverMediaError();
-                            break;
-                        default:
-                            hls.destroy();
-                            playChannel(url, category, btnElement);
-                            break;
-                    }
-                }
-            });
-
-        } else if (video && video.canPlayType('application/vnd.apple.mpegurl')) {
+            window.mpegPlayer.attachMediaElement(video);
+            window.mpegPlayer.load();
+            window.mpegPlayer.play().catch(e => {});
+        } else {
             video.src = url;
-            video.addEventListener('loadedmetadata', function() {
-                video.play();
-            });
+            video.play().catch(e => {});
         }
     }
-
-    document.getElementById('videoPlayer').addEventListener('stalled', function() {
-        this.play().catch(e => {});
-    });
 
     function filterCategory(category, btn) {
         currentCategory = category;
