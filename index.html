@@ -2821,6 +2821,37 @@
         updateVisibility();
     }
 
+    // دڵنیابە لەوەی 'myVideo' ناوی ئەو ID یەیە کە بۆ تاگی <video> بەکارتهێناوە
+var videoElement = document.getElementById('myVideo');
+
+// کاتێک پەخشەکە بەهۆی کێشەیەکەوە دەوەستێت
+videoElement.addEventListener('error', function(e) {
+    // پاش ٣ چرکە هەوڵی پێکردنەوە دەدات بۆ ئەوەی زۆر لۆد نەخاتە سەر سێرڤەر
+    setTimeout(function() {
+        videoElement.load();
+        videoElement.play();
+    }, 3000);
+});
+
+// کاتێک پەخشەکە بەهۆی خاوی ئینتەرنێتەوە جام دەبێت
+videoElement.addEventListener('stalled', function(e) {
+     videoElement.load();
+     videoElement.play();
+});
+
+    document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        // کاتێک لە ئەپەکە دەچیتە دەرەوە، با ڤیدیۆکە بوەستێت
+        videoElement.pause();
+    } else {
+        // کاتێک دەگەڕێیتەوە بۆ ناو ئەپەکە، با دەست پێبکاتەوە
+        // کەمێک دواخستنمان داناوە بۆ ئەوەی شاشەکە بە تەواوی ئامادە بێت
+        setTimeout(function() {
+            videoElement.play();
+        }, 500); 
+    }
+});
+
     function searchChannels() {
         let query = document.getElementById('searchInput').value.toLowerCase();
         document.querySelectorAll('.card').forEach(card => {
