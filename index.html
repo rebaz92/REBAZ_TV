@@ -2820,35 +2820,27 @@
 
         updateVisibility();
     }
-
-    // دڵنیابە لەوەی 'myVideo' ناوی ئەو ID یەیە کە بۆ تاگی <video> بەکارتهێناوە
-var videoElement = document.getElementById('myVideo');
-
-// کاتێک پەخشەکە بەهۆی کێشەیەکەوە دەوەستێت
-videoElement.addEventListener('error', function(e) {
-    // پاش ٣ چرکە هەوڵی پێکردنەوە دەدات بۆ ئەوەی زۆر لۆد نەخاتە سەر سێرڤەر
-    setTimeout(function() {
-        videoElement.load();
-        videoElement.play();
-    }, 3000);
-});
-
-// کاتێک پەخشەکە بەهۆی خاوی ئینتەرنێتەوە جام دەبێت
-videoElement.addEventListener('stalled', function(e) {
-     videoElement.load();
-     videoElement.play();
-});
-
-    document.addEventListener("visibilitychange", function() {
-    if (document.hidden) {
-        // کاتێک لە ئەپەکە دەچیتە دەرەوە، با ڤیدیۆکە بوەستێت
-        videoElement.pause();
-    } else {
-        // کاتێک دەگەڕێیتەوە بۆ ناو ئەپەکە، با دەست پێبکاتەوە
-        // کەمێک دواخستنمان داناوە بۆ ئەوەی شاشەکە بە تەواوی ئامادە بێت
-        setTimeout(function() {
-            videoElement.play();
-        }, 500); 
+    
+// چاودێریکردنی ئیرۆرەکانی hls.js
+hls.on(Hls.Events.ERROR, function (event, data) {
+    if (data.fatal) {
+        switch (data.type) {
+            case Hls.ErrorTypes.NETWORK_ERROR:
+                // کاتێک ئینتەرنێت یان سێرڤەر بڕا، سەرلەنوێ هەوڵی لۆدکردنەوە دەدات
+                console.log("پەیوەندی پچڕا، هەوڵدانەوە بۆ کۆنێکتبوون...");
+                hls.startLoad();
+                break;
+            case Hls.ErrorTypes.MEDIA_ERROR:
+                // کاتێک فۆرماتی ڤیدیۆکە یان فریمی کەناڵەکە جام بوو
+                console.log("کێشە لە میدیا دروستبوو، چاککردنەوە...");
+                hls.recoverMediaError();
+                break;
+            default:
+                // ئەگەر ئیرۆرەکە بەمانە چاک نەبوو، سەرلەنوێ پلەیەرەکە ڕێکدەخاتەوە
+                hls.destroy();
+                initPlayer(); // ئەو فەنکشنەی کە hls ئینیشیالایز دەکاتەوە
+                break;
+        }
     }
 });
 
