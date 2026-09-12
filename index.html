@@ -2725,9 +2725,14 @@
         // 🟢 پشکنین: ئەگەر لەناو ئەپەکەی ئەندرۆید (AndroidBridge / ExoPlayer) کرایەوە
         if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
             playerContainer.style.display = 'none';
-            // شاردنەوەی خانەی لۆگۆکە کاتێک کەناڵێک دەکرێتەوە
+        // ١. شاردنەوەی لۆگۆ و دەرخستنی پلەیەر
         var vipCard = document.querySelector('.vip-card');
         if (vipCard) vipCard.style.display = 'none';
+        if (playerContainer) playerContainer.style.display = 'flex';
+  
+        // ٢. هێنانی لیستی کەناڵەکان بۆ سەرەوە (کەمکردنەوەی بۆشاییەکە لە 410px بۆ 240px)
+        if (scrollableContent) scrollableContent.style.top = '240px';
+
 
             // ڕێکخستنی شوێنی لیستەکە تا نەنوسپێت بە پۆلەکانەوە (220px)
             scrollableContent.style.top = '220px';
