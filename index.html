@@ -2828,6 +2828,25 @@
         updateVisibility();
     }
 
+    function closePlayer() {
+    var playerContainer = document.getElementById('playerContainer');
+    var scrollableContent = document.getElementById('scrollableContent');
+    var vipCard = document.querySelector('.vip-card');
+    var video = document.getElementById('videoPlayer');
+
+    // وەستاندنی ڤیدیۆکە
+    if (video) { video.pause(); video.src = ""; }
+    if (window.hlsPlayer) { window.hlsPlayer.destroy(); window.hlsPlayer = null; }
+    if (window.mpegPlayer) { window.mpegPlayer.destroy(); window.mpegPlayer = null; }
+
+    // شاردنەوەی پلەیەر و دەربڕینەوەی لۆگۆ
+    if (playerContainer) playerContainer.style.display = 'none';
+    if (vipCard) vipCard.style.display = 'block';
+
+    // گەڕاندنەوەی لیستی کەناڵەکان بۆ شوێنی سەرەتایی خۆیان
+    if (scrollableContent) scrollableContent.style.top = '230px';
+}
+
     function searchChannels() {
         let query = document.getElementById('searchInput').value.toLowerCase();
         document.querySelectorAll('.card').forEach(card => {
