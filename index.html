@@ -2781,37 +2781,28 @@
         let channelName = selectedCard ? (selectedCard.querySelector('h3') ? selectedCard.querySelector('h3').innerText : 'REBAZ TV') : 'REBAZ TV';
 
 var watermark = document.getElementById('customWatermark') || document.getElementById('watermarkLogo');
-
-// دەتوانیت بە پیتی گەورەش ناوی کەناڵەکان لێرەدا بنووسیت:
-var channelLogos = {
-    "Rebaz Sport 1": "https://imglink.cc/cdn/jIaeQu5wUx.png",
-    "Rebaz Sport 2": "لینکی_وێنەی_کەناڵی_٢",
-    "Rebaz Sport 3": "لینکی_وێنەی_کەناڵی_٣"
-};
+var watermark = document.getElementById('customWatermark') || document.getElementById('watermarkLogo');
 
 if (watermark) {
-    var foundLogo = null;
+    var activeName = (typeof channelName !== 'undefined' && channelName) ? channelName.toString().toLowerCase() : "";
 
-    if (channelName) {
-        var currentName = channelName.toString().trim().toLowerCase();
-
-        // پشکنین بۆ دۆزینەوەی لۆگۆکە بەبێ گوێدانە پیتی گەورە و بچووک
-        for (var key in channelLogos) {
-            if (key.trim().toLowerCase() === currentName) {
-                foundLogo = channelLogos[key];
-                break;
-            }
-        }
-    }
-
-    if (foundLogo) {
-        watermark.src = foundLogo;
+    if (activeName.includes("sport 1")) {
+        watermark.src = "https://imglink.cc/cdn/jIaeQu5wUx.png";
         watermark.style.display = 'block';
-        watermark.style.zIndex = '9999';
+        watermark.style.zIndex = '99999';
+    } else if (activeName.includes("sport 2")) {
+        watermark.src = "https://imglink.cc/cdn/jIaeQu5wUx.png"; // لینکی لۆگۆی کەناڵی 2 دابنێ
+        watermark.style.display = 'block';
+        watermark.style.zIndex = '99999';
+    } else if (activeName.includes("sport 3")) {
+        watermark.src = "https://imglink.cc/cdn/jIaeQu5wUx.png"; // لینکی لۆگۆی کەناڵی 3 دابنێ
+        watermark.style.display = 'block';
+        watermark.style.zIndex = '99999';
     } else {
         watermark.style.display = 'none';
     }
 }
+
 
 
         // 🟢 پشکنین: ئەگەر لەناو ئەپەکەی ئەندرۆید (AndroidBridge / ExoPlayer) کرایەوە
