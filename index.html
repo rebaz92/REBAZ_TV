@@ -2765,22 +2765,23 @@
         }
 
         let channelName = selectedCard ? (selectedCard.querySelector('h3') ? selectedCard.querySelector('h3').innerText : 'REBAZ TV') : 'REBAZ TV';
-        // لە هێڵی 2768 بپەیستی بکە:
-
-        var watermark = document.getElementById('customWatermark');
 
         var channelLogos = {
         "Rebaz Sport 1": "https://imglink.cc/cdn/jIaeQu5wUx.png",
-        "Rebaz Sport 2": "لینکی_وێنەی_لۆگۆی_کەناڵی_٢",
-        "Rebaz Sport 3": "لینکی_وێنەی_لۆگۆی_کەناڵی_٣"
+        "Rebaz Sport 2": "لینکی_وێنەی_کەناڵی_٢",
+        "Rebaz Sport 3": "لینکی_وێنەی_کەناڵی_٣"
 };
 
-if (watermark) {
-    if (channelLogos[channelName]) {
-        watermark.src = channelLogos[channelName];
-        watermark.style.display = 'block';
-    } else {
-        watermark.style.display = 'none';
+        if (watermark) {
+        // پاککردنەوەی ناوی کەناڵەکە لە بۆشایی زێدە و بچووککردنەوەی پیتەکان
+        var cleanName = channelName ? channelName.toString().trim().toLowerCase() : "";
+
+        if (channelLogos[cleanName]) {
+          watermark.src = channelLogos[cleanName];
+          watermark.style.display = 'block';
+          watermark.style.zIndex = '9999';
+       } else {
+          watermark.style.display = 'none';
     }
 }
 
