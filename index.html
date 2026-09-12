@@ -139,6 +139,20 @@
            box-shadow: none;
      }
 
+        .player-container {
+           position: relative; /* زۆر گرنگە تا لۆگۆکە ڕێک بکەوێتە سەر ڤیدیۆکە */
+           width: 100%;
+     }
+
+        .watermark-logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 70px;         /* قەبارەی لۆگۆکە */
+            height: auto;
+            z-index: 99999;      /* بۆ ئەوەی بکەوێتە سەرەوەی ڤیدیۆکە */
+            pointer-events: none;
+        }
 
         .player-container video {
             width: 100%;
