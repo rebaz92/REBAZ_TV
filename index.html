@@ -2725,14 +2725,15 @@
         // 🟢 پشکنین: ئەگەر لەناو ئەپەکەی ئەندرۆید (AndroidBridge / ExoPlayer) کرایەوە
         if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
             playerContainer.style.display = 'none';
-        // ١. شاردنەوەی لۆگۆ و دەرخستنی پلەیەر
+        // ١. شاردنەوەی لۆگۆی REBAZ TV
         var vipCard = document.querySelector('.vip-card');
         if (vipCard) vipCard.style.display = 'none';
-        if (playerContainer) playerContainer.style.display = 'flex';
-  
-        // ٢. هێنانی لیستی کەناڵەکان بۆ سەرەوە (کەمکردنەوەی بۆشاییەکە لە 410px بۆ 240px)
-        if (scrollableContent) scrollableContent.style.top = '240px';
 
+        // ٢. دەرخستنی پلەیەرەکە
+        if (playerContainer) playerContainer.style.display = 'flex';
+
+        // ٣. هێنانی لیستی پۆلەکان و کەناڵەکان ڕێک بۆ ژێر پلەیەرەکە
+        if (scrollableContent) scrollableContent.style.top = '230px';
 
             // ڕێکخستنی شوێنی لیستەکە تا نەنوسپێت بە پۆلەکانەوە (220px)
             scrollableContent.style.top = '220px';
