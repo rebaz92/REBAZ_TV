@@ -2766,24 +2766,39 @@
 
         let channelName = selectedCard ? (selectedCard.querySelector('h3') ? selectedCard.querySelector('h3').innerText : 'REBAZ TV') : 'REBAZ TV';
 
-        var channelLogos = {
-        "Rebaz Sport 1": "https://imglink.cc/cdn/jIaeQu5wUx.png",
-        "Rebaz Sport 2": "لینکی_وێنەی_کەناڵی_٢",
-        "Rebaz Sport 3": "لینکی_وێنەی_کەناڵی_٣"
+var watermark = document.getElementById('customWatermark') || document.getElementById('watermarkLogo');
+
+// دەتوانیت بە پیتی گەورەش ناوی کەناڵەکان لێرەدا بنووسیت:
+var channelLogos = {
+    "Rebaz Sport 1": "https://imglink.cc/cdn/jIaeQu5wUx.png",
+    "Rebaz Sport 2": "لینکی_وێنەی_کەناڵی_٢",
+    "Rebaz Sport 3": "لینکی_وێنەی_کەناڵی_٣"
 };
 
-        if (watermark) {
-        // پاککردنەوەی ناوی کەناڵەکە لە بۆشایی زێدە و بچووککردنەوەی پیتەکان
-        var cleanName = channelName ? channelName.toString().trim().toLowerCase() : "";
+if (watermark) {
+    var foundLogo = null;
 
-        if (channelLogos[cleanName]) {
-          watermark.src = channelLogos[cleanName];
-          watermark.style.display = 'block';
-          watermark.style.zIndex = '9999';
-       } else {
-          watermark.style.display = 'none';
+    if (channelName) {
+        var currentName = channelName.toString().trim().toLowerCase();
+
+        // پشکنین بۆ دۆزینەوەی لۆگۆکە بەبێ گوێدانە پیتی گەورە و بچووک
+        for (var key in channelLogos) {
+            if (key.trim().toLowerCase() === currentName) {
+                foundLogo = channelLogos[key];
+                break;
+            }
+        }
+    }
+
+    if (foundLogo) {
+        watermark.src = foundLogo;
+        watermark.style.display = 'block';
+        watermark.style.zIndex = '9999';
+    } else {
+        watermark.style.display = 'none';
     }
 }
+
 
         // 🟢 پشکنین: ئەگەر لەناو ئەپەکەی ئەندرۆید (AndroidBridge / ExoPlayer) کرایەوە
         if (typeof AndroidBridge !== 'undefined' && AndroidBridge.playInExo) {
