@@ -123,25 +123,22 @@
             align-items: center;
             justify-content: center;
         }
+        
 
-        /* لۆگۆی سەر شاشە بە قەبارەی بچووک و پشتینەی سەوز */
         .watermark-logo {
-            position: absolute;
-            top: 6px;
-            right: 10px;
-            background-color: #008000;
-            color: #ffffff;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-            border: 1px solid #d4af37;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.7);
-            z-index: 10;
-            display: none;
-            pointer-events: none;
-        }
+           position: absolute;
+           top: 6px;
+           right: 10px;
+           width: 70px;          /* قەبارەی لۆگۆکە */
+           height: auto;
+           z-index: 10;
+           display: none;        /* بە شاراوەیی دەمێنێتەوە تا JS چالاکی دەکات */
+           pointer-events: none;
+           background: transparent;
+           border: none;
+           box-shadow: none;
+     }
+
 
         .player-container video {
             width: 100%;
