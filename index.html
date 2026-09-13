@@ -2805,23 +2805,23 @@ if (watermark) {
             mpegtsPlayer.play().catch(e => console.log("Direct TS play error", e));
         } 
         else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
-                    var hls = new Hls({
-            maxBufferLength: 60,           // زیادکردنی بەفەر بۆ ئەوەی بەرگەی پچڕان بگرێت
-            maxMaxBufferLength: 120,       
-            liveSyncDurationCount: 3,
-            enableWorker: true,
-            lowLatencyMode: false          // کوژاندنەوەی ئەمە زۆر گرنگە بۆ IPTV تا جام نەکات
+            var hls = new Hls({
+                maxBufferLength: 60,           // زیادکردنی بەفەر بۆ ئەوەی بەرگەی پچڕان بگرێت
+                maxMaxBufferLength: 120,       
+                liveSyncDurationCount: 3,
+                enableWorker: true,
+                lowLatencyMode: false          // کوژاندنەوەی ئەمە زۆر گرنگە بۆ IPTV تا جام نەکات
         });
 
-        window.hlsInstance = hls;
-        hls.loadSource(url);
-        hls.attachMedia(video);
+            window.hlsInstance = hls;
+            hls.loadSource(url);
+            hls.attachMedia(video);
 
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
             video.play().catch(function(e) { console.log("Play error:", e); });
         });
 
-        hls.on(Hls.Events.ERROR, function (event, data) {
+            hls.on(Hls.Events.ERROR, function (event, data) {
             if (data.fatal) {
                 switch (data.type) {
                     case Hls.ErrorTypes.NETWORK_ERROR:
@@ -2842,7 +2842,7 @@ if (watermark) {
                             playChannel(url, category, btnElement);
                         }, 5000); 
                         break;
-                }
+                  }
             }
         });
 
