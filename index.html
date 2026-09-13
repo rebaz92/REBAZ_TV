@@ -2806,46 +2806,34 @@ if (watermark) {
         } 
         else if (typeof Hls !== 'undefined' && Hls.isSupported()) {
             var hls = new Hls({
-                maxBufferLength: 60,           // زیادکردنی بەفەر بۆ ئەوەی بەرگەی پچڕان بگرێت
-                maxMaxBufferLength: 120,       
-                liveSyncDurationCount: 3,
-                enableWorker: true,
-                lowLatencyMode: false          // کوژاندنەوەی ئەمە زۆر گرنگە بۆ IPTV تا جام نەکات
-        });
-
+                maxBufferLength: 30,
+                maxMaxBufferLength: 60,
+                liveSyncDurationCount: 6,
+                lowLatencyMode: true
+            });
+            
             window.hlsInstance = hls;
             hls.loadSource(url);
             hls.attachMedia(video);
-
+            
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
-            video.play().catch(function(e) { console.log("Play error:", e); });
-        });
+                video.play().catch(e => console.log("Auto-play blocked"));
+            });
 
-            hls.on(Hls.Events.ERROR, function (event, data) {
-            if (data.fatal) {
-                switch (data.type) {
-                    case Hls.ErrorTypes.NETWORK_ERROR:
-                        console.log("پچڕانی نێتوێرک، هەوڵی چاککردنەوە...");
-                        hls.startLoad();
-                        break;
-                    case Hls.ErrorTypes.MEDIA_ERROR:
-                        console.log("تێکچوونی ڤیدیۆ، هەوڵی ڕیکۆڤەری...");
-                        hls.recoverMediaError();
-                        break;
-                    default:
-                        // کاتێک سێرڤەرەکە بەتەواوی دەپچڕێت، پلەیەرەکە دەسڕینەوە
-                        hls.destroy();
-                        console.log("هەڵەی گەورە! دوای 5 چرکە خۆی ڕیکۆنێکت دەکاتەوە...");
-                        
-                        // 5 چرکە چاوەڕێ دەکات ئینجا کەناڵەکە لێدەداتەوە بۆ ئەوەی شاشەکە جام نەکات
-                        setTimeout(function() {
+            hls.on(Hls.Events.ERROR, function(event, data) {
+                if (data.fatal) {
+                    switch(data.type) {
+                        case Hls.ErrorTypes.NETWORK_ERROR:
+                            hls.startLoad();
+                            break;
+                        case Hls.ErrorTypes.MEDIA_ERROR:
+                            hls.recoverMediaError();
+                            break;
+                        default:
+                            hls.destroy();
                             playChannel(url, category, btnElement);
-                        }, 5000); 
-                        break;
-                  }
-            }
-        });
-
+                            break;
+                    }
                 }
             });
 
@@ -2895,4 +2883,4 @@ if (watermark) {
 </script>
 
 </body>
-                        </html>
+                    </html>
